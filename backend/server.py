@@ -8,6 +8,12 @@ def index():
     return jsonify(msg='whote??', name='./')
 
 
+# voorbeeld route
+@app.route('/members')
+def members():
+    return {"members": ["Member 1", "Member 2", "Member 3"]}
+
+
 @app.route('/home')
 def home():
     return jsonify(msg='This is our home page')
@@ -17,4 +23,6 @@ def home():
 def error():
     return 'Go back to our homepage'
 
-app.run()
+
+if __name__ == "__main__":
+    app.run(debug=True)
