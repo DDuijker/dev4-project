@@ -10,7 +10,11 @@ def index():
 
 @app.route('/home')
 def home():
-    return 'This is our home page'
+    return jsonify(msg='This is our home page')
 
+
+@app.errorhandler(404)
+def error():
+    return 'Go back to our homepage'
 
 app.run()

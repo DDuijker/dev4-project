@@ -1,0 +1,19 @@
+@import url(http://fonts.cdnfonts.com/css/federo);
+
+body {
+    margin: 0;
+}
+
+#navbar {
+    background-color: #BBA591;
+    display: flex;
+    align-items: center;
+}
+
+#navbar--text {
+    color: #FFEDDC;
+    font-size: 32px;
+    font-family: 'Federo', sans-serif;
+    margin-left: 20px;
+    filter: drop-shadow(0px 3px 4px black);
+}
