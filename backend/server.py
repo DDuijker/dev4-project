@@ -21,7 +21,7 @@ def home():
 
 @app.errorhandler(404)
 def error():
-    return 'Go back to our homepage'
+    return 'Go back to our home'
 
 
 if __name__ == "__main__":
