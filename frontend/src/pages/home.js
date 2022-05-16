@@ -10,9 +10,9 @@ export default function Home() {
     <div>
       <div className={"banner"}>
         <h1 className={"banner--header"}>We love good food.</h1>
-        <button className={"banner--button"} onClick={changeRouter}>
-          Check ons menu
-        </button>
+        <Link className={"banner--button"} to="/menu">
+          Go see our menu
+        </Link>
       </div>
       <div className={"about-us"}>
         <h3 className={"about-us--header-text"}>Over ons:</h3>
