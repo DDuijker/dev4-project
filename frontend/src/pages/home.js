@@ -3,18 +3,12 @@ import "../css/home.css"
 import {Link, Route, Routes, useHistory} from 'react-router-dom'
 export default function Home() {
 
-    function changeRouter() {
-        return (
-            <Link to={"http://localhost:3000/menu"}/>
-        )
-    }
-
 
     return (
         <div>
             <div className={"banner"}>
                 <h1 className={"banner--header"}>We love good food.</h1>
-                <button className={"banner--button"} onClick={changeRouter}>Check ons menu</button>
+                <Link className={"banner--button"} to="/menu">Go see our menu</Link>
             </div>
             <div className={"about-us"}>
                 <h3 className={"about-us--header-text"}>Over ons:</h3>
