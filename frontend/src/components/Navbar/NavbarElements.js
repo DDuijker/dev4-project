@@ -8,7 +8,7 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   padding: 0.2rem calc((100vw - 1000px) / 18);
- 
+
 `;
 
 export const NavLink = styled(Link)`
