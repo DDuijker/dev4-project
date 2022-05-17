@@ -1,0 +1,16 @@
+.menukaart{
+display: flex;
+}
+
+.menubox{
+    padding-right: 4%;
+    padding-left:4%;
+}
+
+h1{
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+}
