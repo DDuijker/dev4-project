@@ -17,7 +17,8 @@ export default function Menu() {
 
   return (
     <div>
-      <h1>Menu</h1>
+      <h1 className={"menutitle"}>Ons Menu</h1>
+      <p className={"menutitle2"}>Onze gerechten</p>
       <div className={"menukaart"}>
         <div className={"menubox"}>
           <h2>Voorgerecht</h2>
@@ -31,6 +32,7 @@ export default function Menu() {
             <li>Tartaar</li>
           </ul>
         </div>
+
         <div className={"menubox"}>
           <h2>Hoofdgerecht</h2>
           <ul>
@@ -49,6 +51,7 @@ export default function Menu() {
             <li>Brisket</li>
           </ul>
         </div>
+
         <div className={"menubox"}>
           <h2>Nagerecht</h2>
           <ul>
@@ -59,6 +62,7 @@ export default function Menu() {
             <li>Fruit</li>
           </ul>
         </div>
+
         <div className={"menubox"}>
           <h2>Bijgerecht</h2>
           <ul>
@@ -68,6 +72,7 @@ export default function Menu() {
             <li>Geroosterde groente</li>
           </ul>
         </div>
+
         <div className={"menubox"}>
           <h2>Dranken</h2>
           <ul>
