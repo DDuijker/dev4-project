@@ -48,3 +48,41 @@
     font-size: small;
 }
 
+.medewerkers--info {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.contact-card {
+    flex-basis: 225px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 13px;
+    padding-bottom: 20px;
+    background-color: white;
+}
+
+.contact-card > h3 {
+    margin-bottom: 0.1pt;
+    margin-top: 2%;
+}
+.contact-card > h4 {
+    margin-bottom: 10pt;
+    margin-top: 2%;
+}
+.contact-card > p {
+    margin-bottom: 0.1pt;
+    margin-top: 2%;
+}
+
+.contact-card > img {
+    width: 100%;
+    height: auto;
+    align-self: center;
+    border-radius: 5px;
+    object-fit: cover;
+}
