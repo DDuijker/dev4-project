@@ -12,9 +12,11 @@ export default function Home() {
     <div>
       <div className={"banner"}>
         <h1 className={"banner--header"}>We love good food.</h1>
-        <Link className={"banner--button"} to="/menu">
-          Go see our menu
-        </Link>
+        <div className={"div--button"}>
+          <Link className={"banner--button"} to="/menu">
+            Go see our menu
+          </Link>{" "}
+        </div>
       </div>
       <div className={"about-us"}>
         <h2 className={"about-us--header-text"}>Over ons:</h2>
