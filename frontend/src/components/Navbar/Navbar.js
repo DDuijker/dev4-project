@@ -12,16 +12,16 @@ const Navbar = () => {
                     <NavLink className={"btn-2"} to="/home">
                         Home
                     </NavLink>
-                    <NavLink className={"btn-2"}to="/gallery">
+                    <NavLink className={"btn-2"} to="/gallery">
                         Gallery
                     </NavLink>
-                    <NavLink className={"btn-2"}to="/menu">
+                    <NavLink className={"btn-2"} to="/menu">
                         Menu
                     </NavLink>
-                    <NavLink className={"btn-2"}to="/reservation">
+                    <NavLink className={"btn-2"} to="/reservation">
                         Reservation
                     </NavLink>
-                    <NavLink className={"btn-2"}to="/login">
+                    <NavLink className={"btn-2"} to="/login">
                         Login
                     </NavLink>
                 </NavMenu>
