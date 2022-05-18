@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/home.css";
 import {Link} from "react-router-dom";
-import MedewerkerData from "../components/medewerkerData";
+import MedewerkerData from "../components/staffData";
 
 export default function Home() {
 
