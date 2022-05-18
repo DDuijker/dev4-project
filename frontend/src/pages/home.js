@@ -26,9 +26,6 @@ export default function Home() {
         </p>
         <h3>Dit zijn wij:</h3>
           <MedewerkerData/>
-          <h2 className={"adress"}>
-              Adres: Marktplein 2, Amsterdam, Nederland
-          </h2>
       </div>
     </div>
   );
