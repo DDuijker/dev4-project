@@ -9,6 +9,7 @@ body {
     display: flex;
     padding-right: 5%;
     align-items: center;
+    height: 60px;
 }
 
 #navbar--text {

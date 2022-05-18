@@ -11,7 +11,7 @@ body {
   font-weight: 300;
 }
 .menubox{
-    border-radius: 5%;
+  /*   border-radius: 5%;
     box-shadow: 10%;
     position: relative;
     text-align: center;
@@ -23,7 +23,16 @@ body {
     margin-top: 10%;
     padding: 10%;
     height: 10%;
-    width: 100%;
+    width: 100%; */
+    flex-basis: 225px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 13px;
+    padding-bottom: 20px;
+    background-color: white;
+    margin-bottom: 20px;
     
 }
 
