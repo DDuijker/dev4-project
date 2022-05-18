@@ -14,7 +14,7 @@ export default function Home() {
         <h1 className={"banner--header"}>We love good food.</h1>
       </div>
       <Link className={"banner--button"} to="/menu">
-        <button className={"deButton"}type="button">
+        <button className={"btn-2"}type="button">
           Menu
      </button>
         </Link>
