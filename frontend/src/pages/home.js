@@ -1,12 +1,9 @@
 import React from "react";
 import "../css/home.css";
-import { Link, Route, Routes, useHistory } from "react-router-dom";
+import {Link} from "react-router-dom";
 import MedewerkerData from "../components/medewerkerData";
 
 export default function Home() {
-  function changeRouter() {
-    return <Link to={"http://localhost:3000/menu"} />;
-  }
 
   return (
     <div>
@@ -28,10 +25,10 @@ export default function Home() {
           of dineren.
         </p>
         <h3>Dit zijn wij:</h3>
-        <MedewerkerData />
-        <h2 className={"adress"}>
-          Adres: Marktplein 2, Amsterdam, Netherlands
-        </h2>
+          <MedewerkerData/>
+          <h2 className={"adress"}>
+              Adres: Marktplein 2, Amsterdam, Nederland
+          </h2>
       </div>
     </div>
   );

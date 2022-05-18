@@ -1,5 +1,4 @@
 import React from "react";
-/*import medewerkerData from "./pages/medewerkerData";*/
 
 export default function Medewerker(props) {
   console.log(props);
