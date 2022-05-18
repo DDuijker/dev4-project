@@ -12,10 +12,12 @@ export default function Home() {
     <div>
       <div className={"banner"}>
         <h1 className={"banner--header"}>We love good food.</h1>
-        <Link className={"banner--button"} to="/menu">
-          Go see our menu
-        </Link>
       </div>
+      <Link className={"banner--button"} to="/menu">
+        <button className={"deButton"}type="button">
+          Menu
+     </button>
+        </Link>
       <div className={"about-us"}>
         <h2 className={"about-us--header-text"}>Over ons:</h2>
         <p className={"about-us--text"}>
