@@ -11,35 +11,23 @@ body {
   font-weight: 300;
 }
 .menubox{
-  /*   border-radius: 5%;
-    box-shadow: 10%;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #5E6F8B ;
-    margin-top: 10%;
-    padding: 10%;
-    height: 10%;
-    width: 100%; */
     flex-basis: 225px;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     padding: 13px;
-    padding-bottom: 20px;
+    padding-bottom: 7%;
     background-color: white;
-    margin-bottom: 20px;
+    margin-bottom: 20%;
+    
 }
 
 .menukaart{
 text-align: center;
-font-size: 200%;
+font-size: 140%;
 padding-top: 1%;
-padding-bottom: 30%;
+padding-bottom: 40%;
 padding-left: 20%;
 padding-right: 20%; 
 
@@ -47,7 +35,7 @@ padding-right: 20%;
 
 .menutitle{
     text-align: center;
-    font-size: 300%;
+    font-size: 270%;
     padding-top: 1%;
     text-decoration: underline;
 }
@@ -60,4 +48,6 @@ padding-right: 20%;
 
 ul{
     list-style-type: none;
+    padding:0px;
+    margin:0px auto;
 }
