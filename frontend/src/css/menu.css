@@ -9,6 +9,7 @@
 body {
   font-family: "Signika Negative", sans-serif;
   font-weight: 300;
+  color: #2D384C;
 }
 .menubox{
     flex-basis: 225px;
@@ -19,7 +20,7 @@ body {
     padding: 13px;
     padding-bottom: 7%;
     background-color: white;
-    margin-bottom: 20%;
+    margin-bottom: 10%;
     
 }
 
