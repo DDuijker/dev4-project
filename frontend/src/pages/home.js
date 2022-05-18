@@ -25,7 +25,7 @@ export default function Home() {
           enorme keuze aan dranken U bent van harte welkom om te komen lunchen
           of dineren.
         </p>
-        <h3>Medewerkers:</h3>
+        <h3>Dit zijn wij:</h3>
         <MedewerkerData />
         <h2 className={"adress"}>
           Adres: Marktplein 2, Amsterdam, Netherlands

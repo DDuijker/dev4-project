@@ -86,3 +86,7 @@
     border-radius: 5px;
     object-fit: cover;
 }
+
+.about-us--text {
+    margin-bottom: 55px;
+}
