@@ -1,0 +1,33 @@
+
+.text, .text--description, .text--header {
+    margin: 0;
+    display: grid;
+    justify-content: center;
+}
+
+.text--header {
+    margin-top: 20px;
+}
+
+.text--description {
+    margin-bottom: 20px;
+}
+
+.form {
+    display: grid;
+    justify-items: center;
+}
+
+.form--upper {
+    display: grid;
+
+}
+
+.form--lower {
+    display: grid;
+
+}
+
+.form--submit {
+
+}
