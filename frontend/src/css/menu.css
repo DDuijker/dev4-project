@@ -9,7 +9,8 @@
 }
 
 body {
-    font-family: "Signika Negative", sans-serif;
+    /*font-family: "Signika Negative", sans-serif;*/
+    font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     color: #2D384C;
 }

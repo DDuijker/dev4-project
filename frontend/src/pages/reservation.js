@@ -2,6 +2,16 @@ import React from "react";
 import "../css/reservation.css"
 
 export default function Reservation() {
+    //TODO: check if the form is filled
+    //TODO: make sure that a customer can't select a date in the past
+    //TODO: make sure someone is first logged in
+    //TODO: insert icons at the end of the submit
+
+    function submit() {
+        alert("Reservering geplaatst!")
+        //post the reservation
+    }
+
     return (<div>
         <div className={"text"}>
             <h1 className={"text--header"}>Reserveren</h1>
@@ -19,18 +29,27 @@ export default function Reservation() {
                 <label>
                     Locatie:
                 </label>
-                <input type="dropdown" name="location" placeholder="binnen"/>
+                <select className={"dropdown"}>
+                    <option value={"binnen"}>Binnen</option>
+                    <option value={"buiten"}>Buiten</option>
+                </select>
                 <label>
                     Verdieping:
                 </label>
-                <input type="dropdown" name="verdieping" placeholder="1"/>
+                <select className={"dropdown"}>
+                    <option value={"1"}>1e verdieping</option>
+                    <option value={"2"}>2e verdieping</option>
+                </select>
                 <label>
                     Type stoel:
                 </label>
-                <input type="dropdown" name="stoel" placeholder="bank"/>
+                <select className={"dropdown"}>
+                    <option value={"stoel"}>Stoel</option>
+                    <option value={"bank"}>Bank</option>
+                </select>
             </div>
             <div className={"form--submit"}>
-                <input type="submit" value=" Plaats reservering"/>
+                <input type="submit" value=" Plaats reservering" onClick={submit}/>
             </div>
         </form>
     </div>)
