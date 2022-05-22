@@ -7,6 +7,8 @@
 
 .text--header {
     margin-top: 20px;
+    font-size: 270%;
+    text-decoration: underline
 }
 
 .text--description {
@@ -20,14 +22,42 @@
 
 .form--upper {
     display: grid;
+    width: 500px;
+    row-gap: 15px;
+}
 
+input {
+    border-radius: 12px;
+    padding-left: 10px;
+    height: 40px;
+    background-color: #8191AA;
+    color: rgba(225, 255, 255, 50%);
 }
 
 .form--lower {
-    display: grid;
+    justify-content: center;
+}
 
+.form--lower label {
+    row-gap: 15px;
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
 .form--submit {
+    margin: 20px;
 
+}
+
+.form--submit input {
+    background-color: #2D384C;
+    color: #FFFFFF;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 50px;
+    margin-top: 25px;
+}
+
+::placeholder {
+    color: rgba(225, 255, 255, 50%);
 }
