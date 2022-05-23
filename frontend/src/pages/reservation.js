@@ -6,6 +6,7 @@ export default function Reservation() {
     //TODO: make sure that a customer can't select a date in the past
     //TODO: make sure someone is first logged in
     //TODO: insert icons at the end of the submit
+    //TODO: send it to the backend
 
     function submit() {
         alert("Reservering geplaatst!")
@@ -13,7 +14,7 @@ export default function Reservation() {
     }
 
     return (<div>
-        <div className={"text"}>
+        <div className={"reservation-text"}>
             <h1 className={"text--header"}>Reserveren</h1>
             <p className={"text--description"}>Reserveer nu een tafel!</p>
         </div>

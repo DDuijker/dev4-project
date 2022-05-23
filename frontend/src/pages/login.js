@@ -5,7 +5,7 @@ import '../css/login.css'
 export default function Login() {
     return (
         <div>
-            <h1 className={"text"}>Login</h1>
+            <h1 className={"text-login"}>Login</h1>
             <form className={"login"}>
                 <div className={"input"}>
                     <label className={"label"}>E-mail: </label>

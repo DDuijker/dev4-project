@@ -1,10 +1,10 @@
-.login {
+.register {
     display: grid;
     justify-content: center;
     text-align: center;
 }
 
-.text-login {
+.text-registration {
     margin-top: 20px;
     font-size: 270%;
     text-decoration: underline;
@@ -27,22 +27,14 @@
     justify-items: center;
 }
 
-.no-account, .login-button {
+.register-button {
     color: #FFFFFF;
     padding-left: 20px;
     padding-right: 20px;
     margin-top: 25px;
     border-radius: 20px;
     align-items: center;
-}
-
-.login-button {
-    background-color: #2D384C;
+    background-color: #293e54;
     height: 40px;
-    align-items: center;
 }
 
-.no-account {
-    background-color: #8C6E52;
-    text-decoration: underline;
-}
