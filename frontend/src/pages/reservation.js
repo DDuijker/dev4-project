@@ -13,7 +13,7 @@ export default function Reservation() {
     }
 
     return (<div>
-        <div className={"text"}>
+        <div className={"reservation-text"}>
             <h1 className={"text--header"}>Reserveren</h1>
             <p className={"text--description"}>Reserveer nu een tafel!</p>
         </div>
