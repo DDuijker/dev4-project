@@ -22,7 +22,7 @@ function App() {
         <div className={"wrapper"}>
             <Router>
                 <div className={"page-header"}>
-                    <Navbar medewerker={true}/>
+                    <Navbar medewerker={false}/>
                 </div>
                 <div className={"page-body"}>
                     <Routes>
