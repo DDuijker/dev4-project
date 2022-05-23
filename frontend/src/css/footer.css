@@ -1,12 +1,15 @@
 
 .footer {
     background-color: #2D384C;
-    height: 80px;
+    height: 60px;
     color: white;
     text-align: center;
     padding-top: 2px;
-    position: fixed;
     width: 100%;
     bottom: 0;
     margin-top: 20px;
+}
+
+.footerText {
+    font-size: 70%;
 }
