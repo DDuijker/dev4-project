@@ -3,7 +3,7 @@ body {
     font-family: 'DM Sans', sans-serif;
 }
 
-.text, .text--description, .text--header {
+.reservation-text, .text--description, .text--header {
     margin: 0;
     display: grid;
     justify-content: center;
