@@ -2,10 +2,13 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
+db_name = './database/restaurant.db'
 
+
+# routes
 @app.route('/')
 def index():
-    return jsonify(msg='whote??', name='./')
+    return "Home"
 
 
 # voorbeeld route
