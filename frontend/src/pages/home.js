@@ -1,20 +1,16 @@
 import React from "react";
 import "../css/home.css";
-import { Link, Route, Routes, useHistory } from "react-router-dom";
-import MedewerkerData from "../components/medewerkerData";
+import { Link } from "react-router-dom";
+import MedewerkerData from "../components/staffData";
 
 export default function Home() {
-  function changeRouter() {
-    return <Link to={"http://localhost:3000/menu"} />;
-  }
-
   return (
     <div>
       <div className={"banner"}>
         <h1 className={"banner--header"}>We love good food.</h1>
       </div>
       <Link className={"banner--button"} to="/menu">
-        <button className={"deButton"} type="button">
+        <button className={"btn-2"} type="button">
           Menu
         </button>
       </Link>
@@ -29,9 +25,6 @@ export default function Home() {
         </p>
         <h3>Dit zijn wij:</h3>
         <MedewerkerData />
-        <h2 className={"adress"}>
-          Adres: Marktplein 2, Amsterdam, Netherlands
-        </h2>
       </div>
     </div>
   );

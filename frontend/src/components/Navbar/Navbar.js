@@ -9,19 +9,19 @@ const Navbar = () => {
             <Nav id={"navbar"}>
                 <h1 id={"navbar--text"}>GitPub</h1>
                 <NavMenu>
-                    <NavLink to="/home">
+                    <NavLink className={"btn-2"} to="/home">
                         Home
                     </NavLink>
-                    <NavLink to="/gallery">
+                    <NavLink className={"btn-2"} to="/gallery">
                         Gallery
                     </NavLink>
-                    <NavLink to="/menu">
+                    <NavLink className={"btn-2"} to="/menu">
                         Menu
                     </NavLink>
-                    <NavLink to="/reservation">
+                    <NavLink className={"btn-2"} to="/reservation">
                         Reservation
                     </NavLink>
-                    <NavLink to="/login">
+                    <NavLink className={"btn-2"} to="/login">
                         Login
                     </NavLink>
                 </NavMenu>
