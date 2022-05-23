@@ -10,12 +10,20 @@ import Reservation from './pages/reservation';
 import Login from './pages/login'
 import Footer from "./components/Footer";
 import Registration from "./pages/registration";
+import Tables from "./pages/tables";
+import Reservations from "./pages/reservations";
 
 function App() {
+
+    //TODO: als je inlogt als medewerker, zet medewerker === true.
+    //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
+
     return (
         <div className={"wrapper"}>
             <Router>
-                <div className={"page-header"}><Navbar/></div>
+                <div className={"page-header"}>
+                    <Navbar medewerker={true}/>
+                </div>
                 <div className={"page-body"}>
                     <Routes>
                         <Route path='/' exact element={<Home/>}/>
@@ -25,6 +33,8 @@ function App() {
                         <Route path='/reservation' element={<Reservation/>}/>
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/registration' element={<Registration/>}/>
+                        <Route path='/reservations' element={<Reservations/>}/>
+                        <Route path='/tables' element={<Tables/>}/>
                     </Routes>
                 </div>
             </Router>
