@@ -1,0 +1,46 @@
+.login {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+}
+
+.text {
+    margin-top: 20px;
+    font-size: 270%;
+    text-decoration: underline;
+}
+
+.input {
+    width: 200px;
+    margin: 10px;
+}
+
+.label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: grid;
+    justify-items: center;
+}
+
+.no-account, .login-button {
+    color: #FFFFFF;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 25px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.login-button {
+    background-color: #2D384C;
+    height: 40px;
+    align-items: center;
+}
+
+.no-account {
+    background-color: #8C6E52;
+    text-decoration: underline;
+}

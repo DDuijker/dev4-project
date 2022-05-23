@@ -9,6 +9,7 @@ import Menu from './pages/menu';
 import Reservation from './pages/reservation';
 import Login from './pages/login'
 import Footer from "./components/Footer";
+import Registration from "./pages/registration";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                         <Route path='/menu' element={<Menu/>}/>
                         <Route path='/reservation' element={<Reservation/>}/>
                         <Route path='/login' element={<Login/>}/>
+                        <Route path='/registration' element={<Registration/>}/>
                     </Routes>
                 </div>
             </Router>
