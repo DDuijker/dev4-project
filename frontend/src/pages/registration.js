@@ -4,6 +4,7 @@ import "../css/registration.css"
 
 export default function Registration() {
 
+
     return (
         <div>
             <h1 className={"text-registration"}>Registreer</h1>
