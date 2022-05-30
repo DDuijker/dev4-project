@@ -3,7 +3,6 @@ from flask import Flask, jsonify
 from db import DB
 
 app = Flask(__name__)
-<<<<<<< HEAD:backend/server.py
 def db_connection():
     conn = None
     try:
@@ -11,10 +10,6 @@ def db_connection():
     except sqlite3.error as e:
         print(e)
     return conn
-=======
-
-db_name = './database/restaurant.db'
->>>>>>> bf91ca7827031af0749384eab0bdf6203cd2ba90:backend/read_db.py
 
 
 # routes
