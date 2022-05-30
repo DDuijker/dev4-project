@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from database.db import DB
-from resources.user import create_user
+from user import create_user
 
 app = Flask(__name__)
 CORS(app)

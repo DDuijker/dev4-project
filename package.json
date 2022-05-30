@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "moment": "^2.29.3",
-    "react-datetime": "^3.1.1"
-  }
-}

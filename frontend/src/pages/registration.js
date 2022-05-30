@@ -1,9 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import "../css/registration.css"
+import "../css/registration.css";
+import {register} from '../connect_backend'
 
 export default function Registration() {
-
 
     return (
         <div>
@@ -31,9 +31,7 @@ export default function Registration() {
                 </div>
             </form>
             <div className={"buttons"}>
-                <Link to="/login">
-                    <button className={"register-button"}>Registreer</button>
-                </Link>
+                <button className={"register-button"} onClick={register}>Registreer</button>
             </div>
         </div>
     )
