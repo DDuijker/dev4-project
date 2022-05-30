@@ -1,20 +1,19 @@
 import React from "react";
 import "../css/home.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import MedewerkerData from "../components/staffData";
 
 export default function Home() {
-
   return (
     <div>
       <div className={"banner"}>
         <h1 className={"banner--header"}>We love good food.</h1>
       </div>
       <Link className={"banner--button"} to="/menu">
-        <button className={"btn-2"}type="button">
+        <button className={"btn-2"} type="button">
           Menu
-     </button>
-        </Link>
+        </button>
+      </Link>
       <div className={"about-us"}>
         <h2 className={"about-us--header-text"}>Over ons:</h2>
         <p className={"about-us--text"}>
@@ -25,7 +24,7 @@ export default function Home() {
           of dineren.
         </p>
         <h3>Dit zijn wij:</h3>
-          <MedewerkerData/>
+        <MedewerkerData />
       </div>
     </div>
   );

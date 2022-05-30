@@ -30,7 +30,7 @@ body {
     row-gap: 15px;
 }
 
-input, .dropdown {
+input, .dropdown, #dropdown {
     border-radius: 12px;
     padding-left: 10px;
     height: 40px;
