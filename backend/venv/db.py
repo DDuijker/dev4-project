@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3 
 
 def row_to_dict(cursor, row):
     data = {}
@@ -10,7 +10,7 @@ class DB:
     
     @classmethod
     def get_connection(cls):
-        conn = sqlite3.connect('./database/restaurant.db')
+        conn = sqlite3.connect('./backend/database/restaurant.db')
         conn.row_factory = row_to_dict
         return conn
 
