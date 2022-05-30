@@ -9,6 +9,7 @@ export default function Reservation() {
     //TODO: send it to the backend
 
     function submit() {
+
         alert("Reservering geplaatst!")
         //post the reservation
     }
@@ -20,7 +21,7 @@ export default function Reservation() {
         </div>
         <form className={"form"}>
             <div className={"form--upper"}>
-                <select className={"dropdown"}>
+                <select className={"dropdown"} >
                     <option value={1}>1 persoon</option>
                     <option value={2}>2 personen</option>
                     <option value={4}>4 personen</option>
