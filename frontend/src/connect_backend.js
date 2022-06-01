@@ -1,4 +1,4 @@
-export function register({data}) {
+export function register(data) {
     //check if form is filled
 
     // Check if passwords match
@@ -6,10 +6,8 @@ export function register({data}) {
         console.log("Wachtwoorden komen niet overeen");
     }
 
-    console.log(data)
-
     // submit data to API
-    api("/register", "POST", data).then((res) => {
+    api("register", "POST", data).then((res) => {
         if (res.message === "succes") {
             alert("user created");
         }
