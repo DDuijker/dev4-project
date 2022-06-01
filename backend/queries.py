@@ -26,8 +26,17 @@ def create_user():
 
 def get_menu():
     qry = '''
-    SELECT * FROM `menu`
+    SELECT * FROM `menu` WHERE categorie = ?
     '''
-    menu = DB.all(qry)
-    print(menu)
-    return {"message": "success", "menu": menu}, 201
+
+    voorgerecht = DB.all(qry, "1")
+    hoofdgerecht = DB.all(qry, "2")
+    nagerecht = DB.all(qry, "3")
+    bijgerecht = DB.all(qry, "4")
+    dranken = DB.all(qry, "5")
+    return {"message": "success",
+            "voorgerechten": voorgerecht,
+            "hoofdgerechten": hoofdgerecht,
+            "nagerecht": nagerecht,
+            "bijgerecht": bijgerecht,
+            "dranken": dranken}, 201
