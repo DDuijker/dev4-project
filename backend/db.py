@@ -12,7 +12,7 @@ class DB:
 
     @classmethod
     def get_connection(cls):
-        conn = sqlite3.connect('restaurant.db')
+        conn = sqlite3.connect('database/restaurant.db')
         print("DB.get_connection")
         conn.row_factory = row_to_dict
         return conn
