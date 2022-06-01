@@ -9,7 +9,7 @@ export function register({data}) {
     console.log(data)
 
     // submit data to API
-    api("register", "POST", data).then((res) => {
+    api("/register", "POST", data).then((res) => {
         if (res.message === "succes") {
             alert("user created");
         }

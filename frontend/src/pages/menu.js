@@ -12,6 +12,8 @@ export default function Menu() {
             setMenuItems(data)
         })
 
+    console.log(menuItems)
+
     return (
         <div>
             <h1 className={"menu--title"}>Ons Menu</h1>

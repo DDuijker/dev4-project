@@ -45,7 +45,7 @@ export default function Registration() {
                     <input type={"password"} name={"password2"} placeholder={"..."}/>
                 </div>
                 <div className={"input"}>
-                    <label className={"label"}>Wachtwoord: </label>
+                    <label className={"label"}>Herhaal Wachtwoord: </label>
                     <input type={"password"} name={"confirmpassword"} placeholder={"..."}/>
                 </div>
                 <div className={"buttons"}>
