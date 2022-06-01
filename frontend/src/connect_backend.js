@@ -2,7 +2,7 @@ export function register(data) {
     //check if form is filled
 
     // Check if passwords match
-    if (getValue("password2") !== getValue("confirm")) {
+    if (data.password !== data.confirmpassword) {
         console.log("Wachtwoorden komen niet overeen");
     }
 
@@ -12,14 +12,6 @@ export function register(data) {
             alert("user created");
         }
     });
-}
-
-function getValue(id) {
-    let element = document.getElementById(id);
-    if (element) {
-        return element.value;
-    }
-    return "";
 }
 
 function api(endpoint, method = "GET", data = {}) {
