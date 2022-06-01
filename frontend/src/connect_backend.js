@@ -1,25 +1,15 @@
-export function register() {
+export function register({data}) {
     //check if form is filled
 
     // Check if passwords match
-    if (getValue("password1") !== getValue("confirm")) {
+    if (getValue("password2") !== getValue("confirm")) {
         console.log("Wachtwoorden komen niet overeen");
     }
 
-    // fetch data from html
-    let register_data = {
-        firstname: getValue("firstname"),
-        infix: getValue("infix"),
-        lastname: getValue("lastname"),
-        email: getValue("email2"),
-        password: getValue("password2"),
-
-    };
-
-    console.log(register_data)
+    console.log(data)
 
     // submit data to API
-    api("register", "POST", register_data).then((res) => {
+    api("register", "POST", data).then((res) => {
         if (res.message === "succes") {
             alert("user created");
         }
