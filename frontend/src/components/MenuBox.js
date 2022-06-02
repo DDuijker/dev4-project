@@ -1,14 +1,26 @@
 import React from 'react';
+import '../css/menu.css'
+import MenuItem from "./MenuItem";
 
-function MenuBox({categorie, naam, beschrijving, prijs}) {
-    //geef de categorie mee
-    //op basis daarvan laad je een menu box in met de items
+function MenuBox({category, data}) {
+
+    // console.log(data[0].naam)
+
+    //  const dishes = data.map((dish) => {
+    //     return <MenuItem
+    //         key={dish.item_id}
+    //             name ={dish.naam}
+    //             description={dish.beschrijving}
+    //             price={dish.prijs}
+    //     />
+    // })
+
 
     return (
         <div className={"menu--box"}>
-            <h2>{categorie}</h2>
+            <h2>{category}</h2>
             <ul>
-                <li></li>
+
             </ul>
         </div>
     );

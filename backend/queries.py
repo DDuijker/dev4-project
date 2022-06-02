@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from flask_bcrypt import generate_password_hash
 from db import DB
 
@@ -34,9 +34,15 @@ def get_menu():
     nagerecht = DB.all(qry, "3")
     bijgerecht = DB.all(qry, "4")
     dranken = DB.all(qry, "5")
+
+    menu = {
+        "voorgerechten": voorgerecht,
+        "hoofdgerechten": hoofdgerecht,
+        "nagerechten": nagerecht,
+        "bijgerechten": bijgerecht,
+        "dranken": dranken
+    }
+
     return {"message": "success",
-            "voorgerechten": voorgerecht,
-            "hoofdgerechten": hoofdgerecht,
-            "nagerecht": nagerecht,
-            "bijgerecht": bijgerecht,
-            "dranken": dranken}, 201
+            "menu": menu
+            }, 201
