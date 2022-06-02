@@ -1,3 +1,4 @@
+import email
 from flask import request, jsonify
 from flask_bcrypt import generate_password_hash
 from db import DB
@@ -23,6 +24,17 @@ def create_user():
     # Return a message and the user id
     return {"message": "success", "id": user_id}, 201
 
+def get_user():
+    qry = '''
+    SELECT * FROM `gebruiker` WHERE email =  :email'''
+    args= request.form.to_dict()
+    print(args["email"])
+    email=args["email"]
+    opgehaaldeGebruiker = DB.one(qry, {'email': email})
+    print(opgehaaldeGebruiker)
+    del opgehaaldeGebruiker["wachtwoord"]
+    return (opgehaaldeGebruiker)
+
 
 def get_menu():
     qry = '''
@@ -46,3 +58,4 @@ def get_menu():
     return {"message": "success",
             "menu": menu
             }, 201
+
