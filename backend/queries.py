@@ -26,7 +26,8 @@ def create_user():
 
 def get_menu():
     qry = '''
-    SELECT * FROM `menu` WHERE categorie = ?
+    SELECT menu.naam as gerecht, beschrijving, prijs FROM menu
+    WHERE categorie = ?
     '''
 
     voorgerecht = DB.all(qry, "1")

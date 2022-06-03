@@ -4,23 +4,22 @@ import MenuItem from "./MenuItem";
 
 function MenuBox({category, data}) {
 
-    // console.log(data[0].naam)
-
-    //  const dishes = data.map((dish) => {
-    //     return <MenuItem
-    //         key={dish.item_id}
-    //             name ={dish.naam}
-    //             description={dish.beschrijving}
-    //             price={dish.prijs}
-    //     />
-    // })
+    const dishes = data.map((dish, i) => {
+        return <MenuItem
+            key={i}
+            name={dish.gerecht}
+            description={dish.beschrijving}
+            price={dish.prijs.toString}
+        />
+    })
 
 
     return (
         <div className={"menu--box"}>
             <h2>{category}</h2>
             <ul>
-
+                {/*<MenuItem name={data.gerecht} price={data.prijs} description={data.beschrijving}/>*/}
+                {dishes}
             </ul>
         </div>
     );
