@@ -35,8 +35,9 @@ def create_user():
 def get_user():
     qry = '''
     SELECT * FROM `gebruiker` WHERE email =  :email'''
-    email = request.json.get('email', None)
-    password = request.json.get('password', None)
+    args = request.form.to_dict()
+    print(args["email"])
+    email = args["email"]
     opgehaaldeGebruiker = DB.one(qry, {'email': email})
 
     if not opgehaaldeGebruiker or not check_password_hash(opgehaaldeGebruiker['wachtwoord'], password):
@@ -57,7 +58,8 @@ def get_user():
 
 def get_menu():
     qry = '''
-    SELECT * FROM `menu` WHERE categorie = ?
+    SELECT menu.naam as gerecht, beschrijving, prijs FROM menu
+    WHERE categorie = ?
     '''
 
     voorgerecht = DB.all(qry, "1")

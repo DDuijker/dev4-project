@@ -38,3 +38,7 @@
     height: 40px;
 }
 
+.not-loggedin {
+    display: grid;
+    justify-items: center;
+}
