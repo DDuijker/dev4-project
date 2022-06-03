@@ -38,8 +38,9 @@ export default function Login() {
         </form>
         <div className={"buttons"}>
           <Link to="/registration">
-            <button className={"no-account"}>Nog geen account?</button>
+              <button className={"no-account"}>Nog geen account?</button>
           </Link>
+            <button className={"medewerkerbutton"}>Ik ben een medewerker</button>
         </div>
       </div>
   );

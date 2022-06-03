@@ -22,7 +22,7 @@ function App() {
         <div className={"wrapper"}>
             <Router>
                 <div className={"page-header"}>
-                    <Navbar medewerker={false}/>
+                    <Navbar medewerker={false} loggedIn={true}/>
                 </div>
                 <div className={"page-body"}>
                     <Routes>
@@ -30,7 +30,9 @@ function App() {
                         <Route path='/home' exact element={<Home/>}/>
                         <Route path='/gallery' element={<Gallery/>}/>
                         <Route path='/menu' element={<Menu/>}/>
-                        <Route path='/reservation' element={<Reservation/>}/>
+                        {//geef mee of de gebruiker is ingelogd, anders mag ie geen reservatie maken
+                        }
+                        <Route path='/reservation' element={<Reservation loggedIn={false}/>}/>
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/reservations' element={<Reservations/>}/>

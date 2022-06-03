@@ -2,16 +2,15 @@ import React from "react";
 import "../css/reservation.css"
 import {Link} from "react-router-dom"
 
-export default function Reservation() {
+export default function Reservation({loggedIn}) {
     //TODO: if user isn't logged in you can't place a reservation
     //TODO: check if the form is filled
     //TODO: make sure that a customer can't select a date in the past
     //TODO: make sure someone is first logged in
     //TODO: insert icons at the end of the submit
     //TODO: send it to the backend
-    let userLoggedIn = false;
 
-    if (!userLoggedIn) {
+    if (!loggedIn) {
         return (
             <div className={'not-loggedin'}>
                 <h2>U moet ingelogd zijn om te kunnen reserveren</h2>
