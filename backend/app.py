@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request_finished, request_started
 from flask_cors import CORS
 from queries import (create_user, get_user, get_menu)
 import sqlite3
@@ -14,6 +14,12 @@ app.add_url_rule('/menu', None, get_menu, methods=["GET"])
 app.add_url_rule('/login', None, get_user, methods=["POST"])
 
 # app.add_url_rule('/', None, getStaff, methods=["GET"])
+
+
+def check_login():
+    if request.cookies["access_token"]:
+        print(access_token)
+
 
 def db_connection():
     conn = None

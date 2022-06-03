@@ -1,7 +1,14 @@
 import email
-from flask import request, jsonify
-from flask_bcrypt import generate_password_hash
+from flask import request, jsonify, make_response, redirect
+from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
+import jwt
+import json
+
+
+def check_login():
+    print(request.cookies.get('access_token'))
+    return 'asd'
 
 
 def create_user():
@@ -24,16 +31,28 @@ def create_user():
     # Return a message and the user id
     return {"message": "success", "id": user_id}, 201
 
+
 def get_user():
     qry = '''
     SELECT * FROM `gebruiker` WHERE email =  :email'''
-    args= request.form.to_dict()
-    print(args["email"])
-    email=args["email"]
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
     opgehaaldeGebruiker = DB.one(qry, {'email': email})
-    print(opgehaaldeGebruiker)
-    del opgehaaldeGebruiker["wachtwoord"]
-    return (opgehaaldeGebruiker)
+
+    if not opgehaaldeGebruiker or not check_password_hash(opgehaaldeGebruiker['wachtwoord'], password):
+        return 'Not found', 404
+    del opgehaaldeGebruiker['wachtwoord']
+    json_data = {'gebruiker_id': opgehaaldeGebruiker['gebruiker_id'], 'voornaam': opgehaaldeGebruiker['voornaam'],
+                 'tussenvoegsel': opgehaaldeGebruiker['tussenvoegsel'], 'achternaam': opgehaaldeGebruiker['achternaam'], 'email': opgehaaldeGebruiker['email']}
+    print(opgehaaldeGebruiker, "yeee")
+    opgehaaldeGebruiker = jsonify(opgehaaldeGebruiker)
+    print(type(json_data))
+    access_token = jwt.encode(payload=json_data,
+                              key="githubdev4keykeykeykey", algorithm="HS256")
+    resp = make_response(
+        redirect("http://localhost:3000/"))
+    resp.set_cookie('access_token', access_token, expires="never")
+    return resp, 200
 
 
 def get_menu():
@@ -54,8 +73,8 @@ def get_menu():
         "bijgerechten": bijgerecht,
         "dranken": dranken
     }
-
+    l = check_login()
+    print(l)
     return {"message": "success",
             "menu": menu
             }, 201
-

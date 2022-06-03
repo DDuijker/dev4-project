@@ -1,11 +1,7 @@
-/* import React from "react";
+import React from "react";
 
-function gallerijData() {
-  return (
-    <div className="gallerij--info">
-      <Medewerker plaatje="1" titel="binnen" foto={Chef} />
-    </div>
-  );
+function gallerijData(naam) {
+  return <div className="gallerij--info"></div>;
 }
 
-export default gallerijData; */
+export default gallerijData;
