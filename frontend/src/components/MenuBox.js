@@ -9,7 +9,7 @@ function MenuBox({category, data}) {
             key={i}
             name={dish.gerecht}
             description={dish.beschrijving}
-            price={dish.prijs.toString}
+            price={dish.prijs}
         />
     })
 
