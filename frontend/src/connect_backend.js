@@ -14,9 +14,14 @@ export function register(data) {
     });
 }
 
+export function login(data) {
+    //check email
+    //check password
+}
+
 function api(endpoint, method = "GET", data = {}) {
     const API = "http://localhost:5000/";
-    console.log("APi:" + API + endpoint)
+    console.log("APi:" + API + endpoint);
     return fetch(API + endpoint, {
         method: method,
         mode: "cors",
