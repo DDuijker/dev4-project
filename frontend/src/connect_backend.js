@@ -1,3 +1,5 @@
+//gebruik dit bestandje als je data mee moet geven aan een query in queries.py
+
 export function register(data) {
     //check if form is filled
 
