@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request_finished, request_started
+from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
 from queries import (create_user, get_user, get_menu)
 import sqlite3
@@ -18,7 +18,7 @@ app.add_url_rule('/login', None, get_user, methods=["POST"])
 
 def check_login():
     if request.cookies["access_token"]:
-        print(access_token)
+        print(request)
 
 
 def db_connection():
