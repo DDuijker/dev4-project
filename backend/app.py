@@ -37,17 +37,6 @@ def index():
     # here we can return our staff pictures and titles
     return "Home"
 
-
-# This is a query to get the menu
-@app.route('/ourmenu')
-def menu():
-    db_connection()
-    qry = 'SELECT * FROM menu'
-    menukaart = DB.all(qry)
-    # menukaart = conn.execute(qry)
-    return jsonify(menukaart)
-
-
 @app.errorhandler(404)
 def error():
     return 'Go back to our home'

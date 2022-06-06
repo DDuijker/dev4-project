@@ -17,12 +17,19 @@ function App() {
 
     //TODO: als je inlogt als medewerker, zet medewerker === true.
     //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
+    const [userLogged, setUserLogged] = React.useState(false)
+
+    function setIngelogd(boolean) {
+        setUserLogged(boolean)
+    }
+
+    const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
     return (
         <div className={"wrapper"}>
             <Router>
                 <div className={"page-header"}>
-                    <Navbar medewerker={false} loggedIn={true}/>
+                    <Navbar medewerker={medewerkerIngelogd} loggedIn={userLogged}/>
                 </div>
                 <div className={"page-body"}>
                     <Routes>
@@ -32,8 +39,8 @@ function App() {
                         <Route path='/menu' element={<Menu/>}/>
                         {//geef mee of de gebruiker is ingelogd, anders mag ie geen reservatie maken
                         }
-                        <Route path='/reservation' element={<Reservation loggedIn={false}/>}/>
-                        <Route path='/login' element={<Login/>}/>
+                        <Route path='/reservation' element={<Reservation loggedIn={userLogged}/>}/>
+                        <Route path='/login' element={<Login setLogin={setIngelogd}/>}/>
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/reservations' element={<Reservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>

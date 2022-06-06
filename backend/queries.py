@@ -44,16 +44,18 @@ def get_user():
         return 'Not found', 404
     del opgehaaldeGebruiker['wachtwoord']
     json_data = {'gebruiker_id': opgehaaldeGebruiker['gebruiker_id'], 'voornaam': opgehaaldeGebruiker['voornaam'],
-                 'tussenvoegsel': opgehaaldeGebruiker['tussenvoegsel'], 'achternaam': opgehaaldeGebruiker['achternaam'], 'email': opgehaaldeGebruiker['email']}
+                 'tussenvoegsel': opgehaaldeGebruiker['tussenvoegsel'], 'achternaam': opgehaaldeGebruiker['achternaam'],
+                 'email': opgehaaldeGebruiker['email']}
     print(opgehaaldeGebruiker, "yeee")
-    opgehaaldeGebruiker = jsonify(opgehaaldeGebruiker)
+    jsonify(opgehaaldeGebruiker)
     print(type(json_data))
     access_token = jwt.encode(payload=json_data,
                               key="githubdev4keykeykeykey", algorithm="HS256")
     resp = make_response(
         redirect("http://localhost:3000/"))
     resp.set_cookie('access_token', access_token, expires="never")
-    return resp, 200
+    return {"message": "success",
+            "response": resp}, 200
 
 
 def get_menu():

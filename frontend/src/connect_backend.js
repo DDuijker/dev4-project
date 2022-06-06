@@ -5,20 +5,27 @@ export function register(data) {
 
     // Check if passwords match
     if (data.password !== data.confirmpassword) {
-        console.log("Wachtwoorden komen niet overeen");
+        alert("Wachtwoorden komen niet overeen");
     }
 
     // submit data to API
     api("register", "POST", data).then((res) => {
-        if (res.message === "succes") {
+        if (res.message === "success") {
             alert("user created");
         }
     });
 }
 
-export function login(data) {
+export function login(data, setLogin) {
     //check email
     //check password
+    api('login', "GET", data).then((res) => {
+        if (res.message == "success") {
+            alert("u bent ingelogd")
+            //change header to login
+            setLogin(true)
+        }
+    })
 }
 
 function api(endpoint, method = "GET", data = {}) {

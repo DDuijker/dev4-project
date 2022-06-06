@@ -4,17 +4,18 @@ import "../css/login.css";
 import {login} from "../connect_backend";
 
 
-export default function Login() {
-  function handleSubmit(event) {
-    //get the data
-    event.preventDefault();
-    let data = {
-      email: event.target.email.value,
-      password: event.target.password.value,
-    };
-    console.log(data);
-    login(data);
-  }
+export default function Login({setLogin}) {
+    function handleSubmit(event) {
+        //get the data
+        event.preventDefault();
+        let data = {
+            email: event.target.email.value,
+            password: event.target.password.value,
+        };
+        console.log(data);
+        login(data, setLogin);
+
+    }
 
   return (
       <div>
