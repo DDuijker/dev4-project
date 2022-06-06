@@ -86,11 +86,11 @@ def get_menu():
 
 def get_staff():
     qry = '''
-    SELECT email, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''
+    SELECT medewerker_id as id, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''
 
-    medewerkerInfo = DB.all(qry)
+    medewerker_info = DB.all(qry)
 
     return {
                "message": "success",
-               "medewerkers": medewerkerInfo
+               "medewerkers": medewerker_info
            }, 201

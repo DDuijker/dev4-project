@@ -22,7 +22,6 @@ export default function Menu() {
     //loop through the data.menu or menuItems and then
     //for every menu item (voorgerecht, hoofdgerecht) make a menu box
 
-
     if (!menuItems) {
         return null
     }

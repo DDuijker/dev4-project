@@ -20,7 +20,7 @@ export function login(data, setLogin) {
     //check email
     //check password
     api('login', "GET", data).then((res) => {
-        if (res.message == "success") {
+        if (res.message === "success") {
             alert("u bent ingelogd")
             //change header to login
             setLogin(true)
