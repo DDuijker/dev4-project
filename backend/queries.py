@@ -82,3 +82,15 @@ def get_menu():
     return {"message": "success",
             "menu": menu
             }, 201
+
+
+def get_staff():
+    qry = '''
+    SELECT email, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''
+
+    medewerkerInfo = DB.all(qry)
+
+    return {
+               "message": "success",
+               "medewerkers": medewerkerInfo
+           }, 201
