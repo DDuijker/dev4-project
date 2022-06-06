@@ -14,7 +14,7 @@ function StaffData() {
             }
 
             function getStaff() {
-                fetch("http://localhost:5000/")
+                fetch("http://localhost:5000/home")
                     .then((res) => res.json())
                     .then((data) => {
                         setStaff(data.medewerkers)
