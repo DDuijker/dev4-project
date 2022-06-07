@@ -19,11 +19,11 @@ export function register(data) {
 export function login(data, setLogin) {
   //check email
   //check password
-  api("login", "GET", data).then((res) => {
+  api("login", "POST", data).then((res) => {
     if (res.message === "success") {
       alert("u bent ingelogd");
       //change header to login
-      setLogin(true);
+      setLogin(true)
     }
   });
 }

@@ -14,15 +14,12 @@ export default function Login({setLogin}) {
         };
         console.log(data);
         login(data, setLogin);
-
     }
 
   return (
       <div>
         <h1 className={"text-login"}>Login</h1>
         <form
-            action="http://localhost:5000/login"
-            method="post"
             className={"login"}
             onSubmit={handleSubmit}
         >

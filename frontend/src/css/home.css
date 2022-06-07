@@ -10,7 +10,7 @@ body{
     font-family: 'DM Sans', sans-serif;
 }
 .banner {
-    background-image: url(../../public/images/cafe.jpg);
+    background-image: url(../images/cafe.jpg);
     height: 400px;
     background-repeat: no-repeat;
     background-position: top;
