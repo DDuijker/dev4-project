@@ -1,9 +1,11 @@
+//gebruik dit bestandje als je data mee moet geven aan een query in queries.py
+
 export function register(data) {
   //check if form is filled
 
   // Check if passwords match
   if (data.password !== data.confirmpassword) {
-    console.log("Wachtwoorden komen niet overeen");
+    alert("Wachtwoorden komen niet overeen");
   }
 
   // submit data to API
@@ -14,9 +16,16 @@ export function register(data) {
   });
 }
 
-export function login(data) {
+export function login(data, setLogin) {
   //check email
   //check password
+  api("login", "GET", data).then((res) => {
+    if (res.message === "success") {
+      alert("u bent ingelogd");
+      //change header to login
+      setLogin(true);
+    }
+  });
 }
 
 function api(endpoint, method = "GET", data = {}) {

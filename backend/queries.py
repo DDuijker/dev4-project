@@ -35,25 +35,27 @@ def create_user():
 def get_user():
     qry = '''
     SELECT * FROM `gebruiker` WHERE email =  :email'''
-    args = request.form.to_dict()
-    print(args["email"])
-    email = args["email"]
-    opgehaaldeGebruiker = DB.one(qry, {'email': email})
+    args = request.json()
+    given_email = args["email"]
+    password = args["password"]
+    opgehaalde_gebruiker = DB.one(qry, {'email': given_email})
 
-    if not opgehaaldeGebruiker or not check_password_hash(opgehaaldeGebruiker['wachtwoord'], password):
+    if not opgehaalde_gebruiker or not check_password_hash(opgehaalde_gebruiker['wachtwoord'], password):
         return 'Not found', 404
-    del opgehaaldeGebruiker['wachtwoord']
-    json_data = {'gebruiker_id': opgehaaldeGebruiker['gebruiker_id'], 'voornaam': opgehaaldeGebruiker['voornaam'],
-                 'tussenvoegsel': opgehaaldeGebruiker['tussenvoegsel'], 'achternaam': opgehaaldeGebruiker['achternaam'], 'email': opgehaaldeGebruiker['email']}
-    print(opgehaaldeGebruiker, "yeee")
-    opgehaaldeGebruiker = jsonify(opgehaaldeGebruiker)
-    print(type(json_data))
+    del opgehaalde_gebruiker['wachtwoord']
+    json_data = {'gebruiker_id': opgehaalde_gebruiker['gebruiker_id'],
+                 'voornaam': opgehaalde_gebruiker['voornaam'],
+                 'tussenvoegsel': opgehaalde_gebruiker['tussenvoegsel'],
+                 'achternaam': opgehaalde_gebruiker['achternaam'],
+                 'email': opgehaalde_gebruiker['email']}
+    jsonify(opgehaalde_gebruiker)
     access_token = jwt.encode(payload=json_data,
                               key="githubdev4keykeykeykey", algorithm="HS256")
     resp = make_response(
         redirect("http://localhost:3000/"))
     resp.set_cookie('access_token', access_token, expires="never")
-    return resp, 200
+    return {"message": "success",
+            "response": resp}, 200
 
 
 def get_menu():
@@ -91,3 +93,14 @@ def get_gallery():
         "message": "success",
         "gallerij": gallerij
     }, 201
+    
+def get_staff():
+    qry = '''
+    SELECT medewerker_id as id, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''
+
+    medewerker_info = DB.all(qry)
+
+    return {
+               "message": "success",
+               "medewerkers": medewerker_info
+           }, 201

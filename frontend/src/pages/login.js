@@ -3,17 +3,19 @@ import {Link} from "react-router-dom";
 import "../css/login.css";
 import {login} from "../connect_backend";
 
-export default function Login() {
-  function handleSubmit(event) {
-    //get the data
-    event.preventDefault();
-    let data = {
-      email: event.target.email.value,
-      password: event.target.password.value,
-    };
-    console.log(data);
-    login(data);
-  }
+
+export default function Login({setLogin}) {
+    function handleSubmit(event) {
+        //get the data
+        event.preventDefault();
+        let data = {
+            email: event.target.email.value,
+            password: event.target.password.value,
+        };
+        console.log(data);
+        login(data, setLogin);
+
+    }
 
   return (
       <div>
@@ -38,8 +40,9 @@ export default function Login() {
         </form>
         <div className={"buttons"}>
           <Link to="/registration">
-            <button className={"no-account"}>Nog geen account?</button>
+              <button className={"no-account"}>Nog geen account?</button>
           </Link>
+            <button className={"medewerkerbutton"}>Ik ben een medewerker</button>
         </div>
       </div>
   );
