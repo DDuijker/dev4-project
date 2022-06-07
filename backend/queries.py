@@ -35,20 +35,20 @@ def create_user():
 def get_user():
     qry = '''
     SELECT * FROM `gebruiker` WHERE email =  :email'''
-    args = request.form.to_dict()
-    print(args["email"])
-    email = args["email"]
-    opgehaaldeGebruiker = DB.one(qry, {'email': email})
+    args = request.json()
+    given_email = args["email"]
+    password = args["password"]
+    opgehaalde_gebruiker = DB.one(qry, {'email': given_email})
 
-    if not opgehaaldeGebruiker or not check_password_hash(opgehaaldeGebruiker['wachtwoord'], password):
+    if not opgehaalde_gebruiker or not check_password_hash(opgehaalde_gebruiker['wachtwoord'], password):
         return 'Not found', 404
-    del opgehaaldeGebruiker['wachtwoord']
-    json_data = {'gebruiker_id': opgehaaldeGebruiker['gebruiker_id'], 'voornaam': opgehaaldeGebruiker['voornaam'],
-                 'tussenvoegsel': opgehaaldeGebruiker['tussenvoegsel'], 'achternaam': opgehaaldeGebruiker['achternaam'],
-                 'email': opgehaaldeGebruiker['email']}
-    print(opgehaaldeGebruiker, "yeee")
-    jsonify(opgehaaldeGebruiker)
-    print(type(json_data))
+    del opgehaalde_gebruiker['wachtwoord']
+    json_data = {'gebruiker_id': opgehaalde_gebruiker['gebruiker_id'],
+                 'voornaam': opgehaalde_gebruiker['voornaam'],
+                 'tussenvoegsel': opgehaalde_gebruiker['tussenvoegsel'],
+                 'achternaam': opgehaalde_gebruiker['achternaam'],
+                 'email': opgehaalde_gebruiker['email']}
+    jsonify(opgehaalde_gebruiker)
     access_token = jwt.encode(payload=json_data,
                               key="githubdev4keykeykeykey", algorithm="HS256")
     resp = make_response(
