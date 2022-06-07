@@ -55,8 +55,7 @@ def get_user():
     jsonify(opgehaalde_gebruiker)
     access_token = jwt.encode(payload=json_data,
                               key="githubdev4keykeykeykey", algorithm="HS256")
-    resp = make_response(
-        (redirect('/home')))
+    resp = make_response()
     resp.set_cookie('access_token', access_token, expires="never")
     print(resp)
     return resp
