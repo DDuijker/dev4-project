@@ -1,9 +1,7 @@
-import email
 from flask import request, jsonify, make_response, redirect
 from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
 import jwt
-import json
 
 
 def check_login():
