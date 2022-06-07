@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request_finished, request_started
 from flask_cors import CORS
-from queries import (create_user, get_user, get_menu)
+from queries import get_gallery
+from queries import (create_user, get_user, get_menu, get_gallery)
 import sqlite3
 from db import DB
 
@@ -12,8 +13,7 @@ db_name = './database/restaurant.db'
 app.add_url_rule('/register', None, create_user, methods=["POST"])
 app.add_url_rule('/menu', None, get_menu, methods=["GET"])
 app.add_url_rule('/login', None, get_user, methods=["POST"])
-
-# app.add_url_rule('/', None, getStaff, methods=["GET"])
+app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 
 
 def check_login():
@@ -30,22 +30,6 @@ def db_connection():
         print(e)
     return conn
 
-
-# routes
-@app.route('/')
-def index():
-    # here we can return our staff pictures and titles
-    return "Home"
-
-
-# This is a query to get the menu
-@app.route('/ourmenu')
-def menu():
-    db_connection()
-    qry = 'SELECT * FROM menu'
-    menukaart = DB.all(qry)
-    # menukaart = conn.execute(qry)
-    return jsonify(menukaart)
 
 
 @app.errorhandler(404)

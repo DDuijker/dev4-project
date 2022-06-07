@@ -80,3 +80,14 @@ def get_menu():
     return {"message": "success",
             "menu": menu
             }, 201
+
+
+def get_gallery():
+    qry = '''SELECT * FROM gallerij '''
+
+    gallerij = DB.all(qry)
+
+    return {
+        "message": "success",
+        "gallerij": gallerij
+    }, 201
