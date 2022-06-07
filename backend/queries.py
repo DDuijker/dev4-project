@@ -82,6 +82,16 @@ def get_menu():
             }, 201
 
 
+def get_gallery():
+    qry = '''SELECT * FROM gallerij '''
+
+    gallerij = DB.all(qry)
+
+    return {
+        "message": "success",
+        "gallerij": gallerij
+    }, 201
+    
 def get_staff():
     qry = '''
     SELECT medewerker_id as id, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''

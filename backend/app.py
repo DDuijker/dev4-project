@@ -12,6 +12,7 @@ db_name = './database/restaurant.db'
 app.add_url_rule('/register', None, create_user, methods=["POST"])
 app.add_url_rule('/menu', None, get_menu, methods=["GET"])
 app.add_url_rule('/login', None, get_user, methods=["POST"])
+app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
 
