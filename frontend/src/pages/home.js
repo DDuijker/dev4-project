@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/home.css";
-import { Link } from "react-router-dom";
-import MedewerkerData from "../components/staffData";
+import {Link} from "react-router-dom";
+import StaffData from "../components/staffData";
 
 export default function Home() {
   return (
@@ -23,8 +23,8 @@ export default function Home() {
           enorme keuze aan dranken U bent van harte welkom om te komen lunchen
           of dineren.
         </p>
-        <h3>Dit zijn wij:</h3>
-        <MedewerkerData />
+          <h3>Dit zijn wij:</h3>
+          <StaffData/>
       </div>
     </div>
   );
