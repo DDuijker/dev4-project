@@ -31,34 +31,44 @@ def create_user():
 
 
 def get_user():
-    qry = '''
-    SELECT * FROM `gebruiker` WHERE email =  ?'''
+    # Parse all arguments for validity
     args = request.get_json()
-    given_email = args["email"]
-    password = args["password"]
-    # opgehaalde_gebruiker = DB.one(qry, {'email': given_email})
-    opgehaalde_gebruiker = DB.one(qry, [given_email])
+    given_email = args['email']
+    given_password = args['password']
 
-    print(opgehaalde_gebruiker)
+    qry = '''
+        SELECT * FROM `gebruiker` WHERE email = ?
+        '''
+    try:
+        user = DB.one(qry, given_email)
+        jsonify(user)
+        print(user)
+        if user:
+            if check_password_hash(user['wachtwoord'], given_password):
+                token = jwt.encode({'user_id': user['gebruiker_id']}, 'secret', algorithm='HS256')
+                resp = make_response()
+                resp.set_cookie('access_token', token.decode('UTF-8'))
+                return {"message": "success",
+                        "response": resp}, 201
+            else:
+                return {"message": "error",
+                        "response": "wrong password"}, 401
+    except Exception as e:
+        print(e)
+        return {"message": "error",
+                "error": "Email not found"}, 404
+    else:
+        return {"message": "error",
+                "response": "user not found"}, 401
 
-    # het gaat hier fout
 
-    if not opgehaalde_gebruiker or not check_password_hash(opgehaalde_gebruiker['wachtwoord'], password):
-        return 'Not found', 404
+def logout():
+    # how to logout?
 
-    del opgehaalde_gebruiker['wachtwoord']
-    json_data = {'gebruiker_id': opgehaalde_gebruiker['gebruiker_id'],
-                 'voornaam': opgehaalde_gebruiker['voornaam'],
-                 'tussenvoegsel': opgehaalde_gebruiker['tussenvoegsel'],
-                 'achternaam': opgehaalde_gebruiker['achternaam'],
-                 'email': opgehaalde_gebruiker['email']}
-    jsonify(opgehaalde_gebruiker)
-    access_token = jwt.encode(payload=json_data,
-                              key="githubdev4keykeykeykey", algorithm="HS256")
     resp = make_response()
-    resp.set_cookie('access_token', access_token, expires="never")
-    print(resp)
-    return resp
+    resp.set_cookie("access_token", '', expires=0)
+    return {"message": "success",
+            "response": resp}, 200
 
 
 def get_menu():
@@ -88,15 +98,16 @@ def get_menu():
 
 
 def get_gallery():
-    qry = '''SELECT * FROM gallerij '''
+    qry = '''SELECT naam FROM gallerij '''
 
     gallerij = DB.all(qry)
 
     return {
-        "message": "success",
-        "gallerij": gallerij
-    }, 201
-    
+               "message": "success",
+               "gallerij": gallerij
+           }, 201
+
+
 def get_staff():
     qry = '''
     SELECT medewerker_id as id, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''

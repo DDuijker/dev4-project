@@ -12,35 +12,36 @@ export default function Login({setLogin}) {
             email: event.target.email.value,
             password: event.target.password.value,
         };
-        console.log(data);
         login(data, setLogin);
     }
 
-  return (
-      <div>
-        <h1 className={"text-login"}>Login</h1>
-        <form
-            className={"login"}
-            onSubmit={handleSubmit}
-        >
-          <div className={"input"}>
-            <label className={"label"}>E-mail: </label>
-            <input type={"email"} name={"email"} placeholder={"..."}/>
-          </div>
-          <div className={"input"}>
-            <label className={"label"}>Wachtwoord: </label>
-            <input type={"password"} name={"password"} placeholder={"..."}/>
-          </div>
-          <button type="submit" className={"login-button"}>
-            Login
-          </button>
-        </form>
-        <div className={"buttons"}>
-          <Link to="/registration">
-              <button className={"no-account"}>Nog geen account?</button>
-          </Link>
-            <button className={"medewerkerbutton"}>Ik ben een medewerker</button>
+    return (
+        <div>
+            <h1 className={"text-login"}>Login</h1>
+            <form
+                className={"login"}
+                onSubmit={handleSubmit}
+            >
+                <div className={"input"}>
+                    <label className={"label"}>E-mail: </label>
+                    <input type={"email"} name={"email"} placeholder={"..."}/>
+                </div>
+                <div className={"input"}>
+                    <label className={"label"}>Wachtwoord: </label>
+                    <input type={"password"} name={"password"} placeholder={"..."}/>
+                </div>
+
+                <button type="submit" className={"login-button"}>
+                    Login
+                </button>
+
+            </form>
+            <div className={"buttons"}>
+                <Link to="/registration">
+                    <button className={"no-account"}>Nog geen account?</button>
+                </Link>
+                <button className={"medewerkerbutton"}>Ik ben een medewerker</button>
+            </div>
         </div>
-      </div>
-  );
+    );
 }

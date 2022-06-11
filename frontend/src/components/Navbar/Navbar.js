@@ -3,9 +3,7 @@ import {Nav, NavLink, NavMenu}
     from "./NavbarElements";
 import "../../css/Navbar.css"
 
-//TODO: if you're logged in the navbar login changes to logout
 //TODO: make logout component/function
-//TODO: if you're logged in there is another tab with "mijn reserveringen"
 const Navbar = ({medewerker, loggedIn}) => {
     if (medewerker === false) {
         return (
@@ -35,7 +33,7 @@ const Navbar = ({medewerker, loggedIn}) => {
                                 <NavLink className={"btn-2"} to="/myreservations">
                                     Mijn reserveringen
                                 </NavLink>
-                                <NavLink className={"btn-2"} to="/login">
+                                <NavLink className={"btn-2"} to="/logout">
                                     Logout
                                 </NavLink>
                             </>)}

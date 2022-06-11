@@ -12,18 +12,17 @@ import Footer from "./components/Footer";
 import Registration from "./pages/registration";
 import Tables from "./pages/tables";
 import Reservations from "./pages/reservations";
+import {logout} from './connect_backend'
 
 function App() {
-
     //TODO: als je inlogt als medewerker, zet medewerker === true.
     //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
     const [userLogged, setUserLogged] = React.useState(false)
+    const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
     function setIngelogd(boolean) {
         setUserLogged(boolean)
     }
-
-    const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
     return (
         <div className={"wrapper"}>
@@ -44,6 +43,7 @@ function App() {
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/reservations' element={<Reservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>
+                        <Route path='/logout' element={logout}/>
                     </Routes>
                 </div>
             </Router>
