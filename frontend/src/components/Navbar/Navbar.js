@@ -3,7 +3,6 @@ import {Nav, NavLink, NavMenu}
     from "./NavbarElements";
 import "../../css/Navbar.css"
 
-//TODO: make logout component/function
 const Navbar = ({medewerker, loggedIn}) => {
     if (medewerker === false) {
         return (

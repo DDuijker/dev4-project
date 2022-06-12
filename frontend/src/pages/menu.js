@@ -7,15 +7,12 @@ export default function Menu() {
 
     useEffect(function () {
         async function getData() {
-            console.log('ok')
             fetch("http://localhost:5000/menu")
                 .then((response) => response.json())
                 .then((data) => {
                     setMenuItems(data.menu)
-                    console.log(data)
                 })
         }
-
         getData();
     }, [])
 
@@ -25,8 +22,6 @@ export default function Menu() {
     if (!menuItems) {
         return null
     }
-
-    console.log(menuItems.voorgerechten)
     return (
         <div>
             <h1 className={"menu--title"}>Ons Menu</h1>

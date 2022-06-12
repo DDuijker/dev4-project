@@ -1,4 +1,4 @@
-from flask import request, jsonify, make_response, redirect, url_for
+from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
 import jwt
@@ -31,32 +31,48 @@ def create_user():
 
 
 def get_user():
+    print("HI")
     # Parse all arguments for validity
     args = request.get_json()
-    given_email = args['email']
-    given_password = args['password']
 
     qry = '''
-        SELECT * FROM `gebruiker` WHERE email = ?
+        SELECT * FROM `gebruiker` WHERE email = :email
         '''
+
     try:
-        user = DB.one(qry, given_email)
-        jsonify(user)
+        user = DB.one(qry, args)
+
         print(user)
         if user:
-            if check_password_hash(user['wachtwoord'], given_password):
-                token = jwt.encode({'user_id': user['gebruiker_id']}, 'secret', algorithm='HS256')
+            # if the password is correct, generate a token
+            if check_password_hash(user['wachtwoord'], args['password']):
+                # generate a token
+                payload = {
+                    'id': user['gebruiker_id'],
+                    'email': user['email'],
+                    'firstname': user['voornaam'],
+                    'infix': user['tussenvoegsel'],
+                    'lastname': user['achternaam']
+                }
+
+                resp = make_response(jsonify(payload))
+                resp.set_cookie('access_token', jwt.encode({'user_id': user['gebruiker_id']}, 'secret'))
+
+                access_token = jwt.encode(payload=payload,
+                                          key="githubdev4keykeykeykey", algorithm="HS256")
                 resp = make_response()
-                resp.set_cookie('access_token', token.decode('UTF-8'))
+                resp.set_cookie('access_token', access_token, expires="never")
                 return {"message": "success",
-                        "response": resp}, 201
+                        "user_id": user['gebruiker_id'],
+                        }, 200
+
             else:
                 return {"message": "error",
                         "response": "wrong password"}, 401
     except Exception as e:
         print(e)
         return {"message": "error",
-                "error": "Email not found"}, 404
+                "error": "Er gaat iets mis"}, 404
     else:
         return {"message": "error",
                 "response": "user not found"}, 401

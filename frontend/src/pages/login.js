@@ -5,6 +5,8 @@ import {login} from "../connect_backend";
 
 
 export default function Login({setLogin}) {
+    const [error, setError] = React.useState("");
+
     function handleSubmit(event) {
         //get the data
         event.preventDefault();
@@ -12,7 +14,7 @@ export default function Login({setLogin}) {
             email: event.target.email.value,
             password: event.target.password.value,
         };
-        login(data, setLogin);
+        login(data, setLogin, setError);
     }
 
     return (
@@ -30,12 +32,12 @@ export default function Login({setLogin}) {
                     <label className={"label"}>Wachtwoord: </label>
                     <input type={"password"} name={"password"} placeholder={"..."}/>
                 </div>
-
+                <div className={"error-text"}>{error}</div>
                 <button type="submit" className={"login-button"}>
                     Login
                 </button>
-
             </form>
+
             <div className={"buttons"}>
                 <Link to="/registration">
                     <button className={"no-account"}>Nog geen account?</button>

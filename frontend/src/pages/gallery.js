@@ -11,10 +11,8 @@ export default function Gallery() {
         .then((response) => response.json())
         .then((data) => {
           setGalleryData(data.gallerij);
-          console.log(data);
         });
     }
-
     getData();
   }, []);
 

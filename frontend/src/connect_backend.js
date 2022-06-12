@@ -18,8 +18,8 @@ export function register(data) {
     });
 }
 
-export function login(data, setLogin) {
-    console.log(data);
+export function login(data, setLogin, setError) {
+    console.log(data.email);
     //check if form is filled
     if (data.email === "" || data.password === "") {
         alert("Vul alle velden in");
@@ -29,14 +29,24 @@ export function login(data, setLogin) {
         console.log(res);
         if (res.message === "success") {
             setLogin(true);
+            alert("U bent ingelogd")
+            //redirect to home page
+            // window.location.href = "/";
+        } else if (res.error === "wrong password") {
+            setError("Wachtwoord is incorrect");
+        } else if (res.error === "user not found") {
+            setError("Gebruiker niet gevonden");
+        } else {
+            setError("Er is iets fout gegaan");
         }
     });
 }
 
-export function logout() {
+export function logout(setLogin) {
     api('logout', "GET",).then((res) => {
         if (res.message === "success") {
             alert("u bent uitgelogd")
+            setLogin(false);
         }
     })
 }
