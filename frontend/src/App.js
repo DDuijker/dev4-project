@@ -41,7 +41,7 @@ function App() {
                         <Route path='/reservation' element={<Reservation loggedIn={userLogged}/>}/>
                         <Route path='/login' element={<Login setLogin={setIngelogd}/>}/>
                         <Route path='/registration' element={<Registration/>}/>
-                        <Route path='/reservations' element={<Reservations/>}/>
+                        <Route path='/myReservations' element={<Reservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>
                         <Route path='/logout' element={logout}/>
                     </Routes>

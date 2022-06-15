@@ -1,5 +1,7 @@
+import json
 from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
+
 from db import DB
 import jwt
 
@@ -7,6 +9,29 @@ import jwt
 def check_login():
     print(request.cookies.get('access_token'))
     return 'asd'
+
+
+def me():
+    if not request.cookies.get('access_token'):
+        return {"message": "error",
+                "response": "no token"}, 401
+    else:
+        # decode the token
+        try:
+            payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
+            print(payload)
+            return {"message": "success",
+                    "response": payload}, 200
+        except jwt.ExpiredSignatureError:
+            return {"message": "error",
+                    "response": "token expired"}, 401
+        except jwt.InvalidTokenError:
+            return {"message": "error",
+                    "response": "token invalid"}, 401
+        except Exception as e:
+            print(e)
+            return {"message": "error",
+                    "response": "token invalid"}, 401
 
 
 def create_user():
@@ -31,7 +56,7 @@ def create_user():
 
 
 def get_user():
-    print("HI")
+    print("Hij zit in get user")
     # Parse all arguments for validity
     args = request.get_json()
 
@@ -46,24 +71,25 @@ def get_user():
         if user:
             # if the password is correct, generate a token
             if check_password_hash(user['wachtwoord'], args['password']):
-                # generate a token
-                payload = {
+
+                # make access token
+                access_token = jwt.encode({
                     'id': user['gebruiker_id'],
                     'email': user['email'],
                     'firstname': user['voornaam'],
                     'infix': user['tussenvoegsel'],
                     'lastname': user['achternaam']
-                }
-
-                resp = make_response(jsonify(payload))
-                resp.set_cookie('access_token', jwt.encode({'user_id': user['gebruiker_id']}, 'secret'))
-
-                access_token = jwt.encode(payload=payload,
-                                          key="githubdev4keykeykeykey", algorithm="HS256")
+                }, key='secret', algorithm='HS256')
                 resp = make_response()
-                resp.set_cookie('access_token', access_token, expires="never")
+                # make access token expire in 12 hours
+                # make cookie
+                resp.set_cookie('access_token', access_token, expires=12 * 60 * 60)
+
+                decoded = jwt.decode(access_token, key='secret', algorithms=['HS256'])
+
                 return {"message": "success",
-                        "user_id": user['gebruiker_id'],
+                        "user-id": user['gebruiker_id'],
+                        "user": decoded
                         }, 200
 
             else:
@@ -79,12 +105,10 @@ def get_user():
 
 
 def logout():
-    # how to logout?
-
+    # logout the user
     resp = make_response()
-    resp.set_cookie("access_token", '', expires=0)
-    return {"message": "success",
-            "response": resp}, 200
+    resp.set_cookie('access_token', '', expires="Thu, 01 Jan 1970 00:00:00 GMT")
+    return {"message": "success"}, 200
 
 
 def get_menu():

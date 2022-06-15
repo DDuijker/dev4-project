@@ -6,6 +6,7 @@ import {login} from "../connect_backend";
 
 export default function Login({setLogin}) {
     const [error, setError] = React.useState("");
+    const [user, setUser] = React.useState(null);
 
     function handleSubmit(event) {
         //get the data
@@ -14,7 +15,7 @@ export default function Login({setLogin}) {
             email: event.target.email.value,
             password: event.target.password.value,
         };
-        login(data, setLogin, setError);
+        login(data, setLogin, setError, setUser);
     }
 
     return (
