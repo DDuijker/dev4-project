@@ -24,13 +24,11 @@ export function login(data, setError) {
     }
     // submit data to API
     apiWithoutToken("login", "POST", data).then((res) => {
-        console.log('---', res);
         if (res.message === "success") {
             setCookie("name", res.user.firstname, 999)
             setCookie("token", res.token, 999)
-            console.log('++++')
             console.log(res.user);
-            alert("U bent ingelogd")
+            window.location.href = "/";
         } else if (res.error === "wrong password") {
             setError("Wachtwoord is incorrect");
         } else if (res.error === "user not found") {

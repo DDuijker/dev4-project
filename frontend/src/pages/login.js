@@ -15,7 +15,7 @@ export default function Login() {
             password: event.target.password.value,
         };
         //send the data to the backend
-        login(data);
+        login(data, setError);
     }
 
     return (
