@@ -13,6 +13,7 @@ import Registration from "./pages/registration";
 import Tables from "./pages/tables";
 import Reservations from "./pages/reservations";
 import {getCookie, logout} from './connect_backend'
+import StaffLogin from "./components/StaffLogin";
 
 function App() {
     //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
@@ -38,6 +39,7 @@ function App() {
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/myReservations' element={<Reservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>
+                        <Route path='/staffLogin' element={<StaffLogin/>}/>
                         <Route path='/logout' element={logout}/>
                     </Routes>
                 </div>

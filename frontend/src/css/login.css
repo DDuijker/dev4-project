@@ -27,7 +27,7 @@
     justify-items: center;
 }
 
-.no-account, .login-button, .medewerkerbutton {
+.no-account, .login-button, .medewerkerbutton, .login-button-staff {
     color: #FFFFFF;
     padding-left: 20px;
     padding-right: 20px;
@@ -40,6 +40,13 @@
     background-color: #2D384C;
     height: 40px;
     align-items: center;
+}
+
+.login-button-staff {
+    background-color: #2D384C;
+    height: 40px;
+    align-items: center;
+    background-color: #A28973
 }
 
 .no-account {

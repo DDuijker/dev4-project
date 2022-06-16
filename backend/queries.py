@@ -11,30 +11,30 @@ def check_login():
     return 'asd'
 
 
-def me():
-    token = request.headers['Authorization']
-    user = jwt.decode(token, key='secret', algorithms=['HS256'])
-
-    if not request.cookies.get('access_token'):
-        return {"message": "error",
-                "response": "no token"}, 401
-    else:
-        # decode the token
-        try:
-            payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-            print(payload)
-            return {"message": "success",
-                    "response": payload}, 200
-        except jwt.ExpiredSignatureError:
-            return {"message": "error",
-                    "response": "token expired"}, 401
-        except jwt.InvalidTokenError:
-            return {"message": "error",
-                    "response": "token invalid"}, 401
-        except Exception as e:
-            print(e)
-            return {"message": "error",
-                    "response": "token invalid"}, 401
+# def me():
+#     token = request.headers['Authorization']
+#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
+#
+#     if not request.cookies.get('access_token'):
+#         return {"message": "error",
+#                 "response": "no token"}, 401
+#     else:
+#         # decode the token
+#         try:
+#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
+#             print(payload)
+#             return {"message": "success",
+#                     "response": payload}, 200
+#         except jwt.ExpiredSignatureError:
+#             return {"message": "error",
+#                     "response": "token expired"}, 401
+#         except jwt.InvalidTokenError:
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
+#         except Exception as e:
+#             print(e)
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
 
 
 def create_user():
@@ -58,7 +58,7 @@ def create_user():
     return {"message": "success", "id": user_id}, 201
 
 
-def get_user():
+def login():
     print("Hij zit in get user")
     # Parse all arguments for validity
 
@@ -108,6 +108,54 @@ def get_user():
     else:
         return {"message": "error",
                 "response": "user not found"}, 401
+
+
+def staff_login():
+    args = request.json
+
+    qry = '''
+    SELECT * FROM `medewerker` WHERE email = :email
+    '''
+
+    try:
+        staff = DB.one(qry, args)
+        print(staff)
+        if staff:
+            # if the password is correct, generate a token
+            if check_password_hash(staff['wachtwoord'], args['password']):
+
+                # make access token
+                access_token = jwt.encode({
+                    'id': staff['medewerker_id'],
+                    'email': staff['email'],
+                    'firstname': staff['voornaam'],
+                    'infix': staff['tussenvoegsel'],
+                    'lastname': staff['achternaam']
+                }, key='secret', algorithm='HS256')
+                resp = make_response()
+                # make access token expire in 12 hours
+                # make cookie
+                resp.set_cookie('access_token', access_token, expires=12 * 60 * 60)
+
+                decoded_staff = jwt.decode(access_token, key='secret', algorithms=['HS256'])
+
+                print(decoded_staff)
+                return {"message": "success",
+                        "staff-id": staff['medewerker_id'],
+                        "staff": decoded_staff,
+                        "token": access_token
+                        }, 200
+            else:
+                return {"message": "error",
+                        "response": "wrong password"}, 401
+
+    except Exception as e:
+        print(e)
+        return {"message": "error",
+                "error": "Er gaat iets mis"}, 404
+    else:
+        return {"message": "error",
+                "response": "Staff member not found"}, 401
 
 
 def get_menu():

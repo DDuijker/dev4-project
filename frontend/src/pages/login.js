@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import "../css/login.css";
 import {login} from "../connect_backend";
-
+import StaffLogin from "../components/StaffLogin";
 
 export default function Login() {
     const [error, setError] = React.useState("");
@@ -15,7 +15,13 @@ export default function Login() {
             password: event.target.password.value,
         };
         //send the data to the backend
-        login(data, setError);
+        login(data, setError, false);
+    }
+
+    function handleStaffMember(event) {
+        //redirect to the staff login page
+        event.preventDefault();
+        window.location.href = "/staffLogin";
     }
 
     return (
@@ -43,7 +49,9 @@ export default function Login() {
                 <Link to="/registration">
                     <button className={"no-account"}>Nog geen account?</button>
                 </Link>
-                <button className={"medewerkerbutton"}>Ik ben een medewerker</button>
+
+                <button className={"medewerkerbutton"} onClick={handleStaffMember}>Ik ben een medewerker</button>
+
             </div>
         </div>
     );

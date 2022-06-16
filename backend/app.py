@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from queries import (create_user, get_user, get_menu, get_staff, get_gallery)
+from queries import (create_user, login, get_menu, get_staff, get_gallery)
 import sqlite3
 from db import DB
 
@@ -11,7 +11,8 @@ db_name = './database/restaurant.db'
 
 app.add_url_rule('/register', None, create_user, methods=["POST"])
 app.add_url_rule('/menu', None, get_menu, methods=["GET"])
-app.add_url_rule('/login', None, get_user, methods=["POST"])
+app.add_url_rule('/login', None, login, methods=["POST"])
+app.add_url_rule('/login_medewerker', None, staff_login, methods=["POST"])
 app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])

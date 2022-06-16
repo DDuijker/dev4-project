@@ -16,27 +16,44 @@ export function register(data) {
     });
 }
 
-export function login(data, setError) {
+export function login(data, setError, medewerker) {
     //check if form is filled
     if (data.email === "" || data.password === "") {
         setError("Vul alle velden in");
         return;
     }
-    // submit data to API
-    apiWithoutToken("login", "POST", data).then((res) => {
-        if (res.message === "success") {
-            setCookie("name", res.user.firstname, 999)
-            setCookie("token", res.token, 999)
-            console.log(res.user);
-            window.location.href = "/";
-        } else if (res.error === "wrong password") {
-            setError("Wachtwoord is incorrect");
-        } else if (res.error === "user not found") {
-            setError("Gebruiker niet gevonden");
-        } else {
-            setError("Er is iets fout gegaan");
-        }
-    });
+    //if it's a user, get a user and a name token
+    if (!medewerker) {
+        // submit data to API
+        apiWithoutToken("login", "POST", data).then((res) => {
+            if (res.message === "success") {
+                setCookie("name", res.user.firstname, 999)
+                setCookie("token", res.token, 999)
+                console.log(res.user);
+                window.location.href = "/";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "user not found") {
+                setError("Gebruiker niet gevonden");
+            } else {
+                setError("Er is iets fout gegaan");
+            }
+        });
+    } else {
+        //submit medewerker data to API
+        apiWithoutToken("login_medewerker", "POST", data).then((res) => {
+            if (res.message === "success") {
+                setCookie("staff", res.staff, 999)
+                setCookie("staffname", res.staff.firstname, 999)
+                console.log(res.staff);
+                window.location.href = "/tables";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "Medewerker not found") {
+                setError("Medewerker niet gevonden");
+            }
+        });
+    }
 }
 
 export function logout() {
