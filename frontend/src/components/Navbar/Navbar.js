@@ -5,9 +5,7 @@ import "../../css/Navbar.css"
 import {getCookie, logout} from "../../connect_backend";
 
 
-const Navbar = ({medewerker}) => {
-
-    const loggedIn = getCookie("token") != null
+const Navbar = ({medewerker, loggedIn}) => {
 
 
     if (medewerker === false) {
@@ -56,7 +54,7 @@ const Navbar = ({medewerker}) => {
                 <Nav id={"navbar"}>
                     <h1 id={"navbar--text"}>GitPub</h1>
                     <NavMenu>
-                        <NavLink className={"btn-2"} to="/reservations">
+                        <NavLink className={"btn-2"} to="/allReservations">
                             Reserveringen
                         </NavLink>
                         <NavLink className={"btn-2"} to="/tables">

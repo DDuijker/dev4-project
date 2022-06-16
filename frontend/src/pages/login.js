@@ -21,7 +21,7 @@ export default function Login() {
     function handleStaffMember(event) {
         //redirect to the staff login page
         event.preventDefault();
-        window.location.href = "/staffLogin";
+        window.location.href = "/staff_login";
     }
 
     return (

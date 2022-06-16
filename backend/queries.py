@@ -122,7 +122,7 @@ def staff_login():
         print(staff)
         if staff:
             # if the password is correct, generate a token
-            if check_password_hash(staff['wachtwoord'], args['password']):
+            if staff['wachtwoord'] == args['password']:
 
                 # make access token
                 access_token = jwt.encode({
@@ -143,7 +143,7 @@ def staff_login():
                 return {"message": "success",
                         "staff-id": staff['medewerker_id'],
                         "staff": decoded_staff,
-                        "token": access_token
+                        "staff_token": access_token
                         }, 200
             else:
                 return {"message": "error",

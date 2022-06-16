@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from queries import (create_user, login, get_menu, get_staff, get_gallery)
+from queries import (create_user, login, get_menu, get_staff, get_gallery, staff_login)
 import sqlite3
 from db import DB
 

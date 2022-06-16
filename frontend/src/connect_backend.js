@@ -43,8 +43,10 @@ export function login(data, setError, medewerker) {
         //submit medewerker data to API
         apiWithoutToken("login_medewerker", "POST", data).then((res) => {
             if (res.message === "success") {
+                console.log(res)
+                setCookie("staff_token", res.staff_token, 999)
                 setCookie("staff", res.staff, 999)
-                setCookie("staffname", res.staff.firstname, 999)
+                //setCookie("staffname", res.staff.firstname, 999)
                 console.log(res.staff);
                 window.location.href = "/tables";
             } else if (res.error === "wrong password") {
@@ -57,7 +59,7 @@ export function login(data, setError, medewerker) {
 }
 
 export function logout() {
-    console.log('logout')
+
     deleteCookie("token")
     deleteCookie("name")
 }

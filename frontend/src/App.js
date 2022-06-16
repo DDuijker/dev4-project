@@ -14,19 +14,18 @@ import Tables from "./pages/tables";
 import Reservations from "./pages/reservations";
 import {getCookie, logout} from './connect_backend'
 import StaffLogin from "./components/StaffLogin";
+import AllReservations from "./pages/allReservations";
 
 function App() {
-    //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
-    //TODO: maak een cookie voor de medewerker
-    const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
     const loggedIn = getCookie("token") != null
+    const medewerker = getCookie("staff_token") != null
 
     return (
         <div className={"wrapper"}>
             <Router>
                 <div className={"page-header"}>
-                    <Navbar medewerker={medewerkerIngelogd} loggedIn={loggedIn}/>
+                    <Navbar medewerker={medewerker} loggedIn={loggedIn}/>
                 </div>
                 <div className={"page-body"}>
                     <Routes>
@@ -38,8 +37,9 @@ function App() {
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/myReservations' element={<Reservations/>}/>
+                        <Route path='/allReservations' element={<AllReservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>
-                        <Route path='/staffLogin' element={<StaffLogin/>}/>
+                        <Route path='/staff_login' element={<StaffLogin/>}/>
                         <Route path='/logout' element={logout}/>
                     </Routes>
                 </div>
