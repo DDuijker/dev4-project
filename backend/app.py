@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from queries import (create_user, get_user, get_menu, get_staff, get_gallery, logout)
+from queries import (create_user, get_user, get_menu, get_staff, get_gallery)
 import sqlite3
 from db import DB
 
@@ -15,7 +15,9 @@ app.add_url_rule('/login', None, get_user, methods=["POST"])
 app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
-app.add_url_rule('/logout', None, logout, methods=["POST"])
+
+
+# app.add_url_rule('/logout', None, logout, methods=["POST"])
 
 
 def check_login():

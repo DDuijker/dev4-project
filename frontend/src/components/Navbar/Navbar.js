@@ -2,8 +2,14 @@ import React from "react";
 import {Nav, NavLink, NavMenu}
     from "./NavbarElements";
 import "../../css/Navbar.css"
+import {getCookie, logout} from "../../connect_backend";
 
-const Navbar = ({medewerker, loggedIn}) => {
+
+const Navbar = ({medewerker}) => {
+
+    const loggedIn = getCookie("token") != null
+
+
     if (medewerker === false) {
         return (
             <>
@@ -32,9 +38,12 @@ const Navbar = ({medewerker, loggedIn}) => {
                                 <NavLink className={"btn-2"} to="/myreservations">
                                     Mijn reserveringen
                                 </NavLink>
-                                <NavLink className={"btn-2"} to="/logout">
-                                    Logout
-                                </NavLink>
+
+                                <button className={"btn-2"} onClick={() => {
+                                    logout()
+                                    window.location.reload()
+                                }}>Logout
+                                </button>
                             </>)}
 
                     </NavMenu>

@@ -4,7 +4,7 @@ import "../css/login.css";
 import {login} from "../connect_backend";
 
 
-export default function Login({setLogin}) {
+export default function Login() {
     const [error, setError] = React.useState("");
     const [user, setUser] = React.useState(null);
 
@@ -15,7 +15,8 @@ export default function Login({setLogin}) {
             email: event.target.email.value,
             password: event.target.password.value,
         };
-        login(data, setLogin, setError, setUser);
+        //send the data to the backend
+        login(data);
     }
 
     return (

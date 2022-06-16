@@ -12,23 +12,20 @@ import Footer from "./components/Footer";
 import Registration from "./pages/registration";
 import Tables from "./pages/tables";
 import Reservations from "./pages/reservations";
-import {logout} from './connect_backend'
+import {getCookie, logout} from './connect_backend'
 
 function App() {
     //TODO: als je inlogt als medewerker, zet medewerker === true.
     //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
-    const [userLogged, setUserLogged] = React.useState(false)
     const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
-    function setIngelogd(boolean) {
-        setUserLogged(boolean)
-    }
+    const loggedIn = getCookie("token") != null
 
     return (
         <div className={"wrapper"}>
             <Router>
                 <div className={"page-header"}>
-                    <Navbar medewerker={medewerkerIngelogd} loggedIn={userLogged}/>
+                    <Navbar medewerker={medewerkerIngelogd} loggedIn={loggedIn}/>
                 </div>
                 <div className={"page-body"}>
                     <Routes>
@@ -36,10 +33,8 @@ function App() {
                         <Route path='/home' exact element={<Home/>}/>
                         <Route path='/gallery' element={<Gallery/>}/>
                         <Route path='/menu' element={<Menu/>}/>
-                        {//geef mee of de gebruiker is ingelogd, anders mag ie geen reservatie maken
-                        }
-                        <Route path='/reservation' element={<Reservation loggedIn={userLogged}/>}/>
-                        <Route path='/login' element={<Login setLogin={setIngelogd}/>}/>
+                        <Route path='/reservation' element={<Reservation loggedIn={loggedIn}/>}/>
+                        <Route path='/login' element={<Login/>}/>
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/myReservations' element={<Reservations/>}/>
                         <Route path='/tables' element={<Tables/>}/>

@@ -1,4 +1,3 @@
-
 export function register(data) {
     //check if form is filled
     if (data.email === "" || data.password === "" || data.firstname === "" || data.lastname === "") {
@@ -17,19 +16,19 @@ export function register(data) {
     });
 }
 
-export function login(data, setLogin, setError, setUser) {
-    console.log(data.email);
+export function login(data, setError) {
     //check if form is filled
     if (data.email === "" || data.password === "") {
-        alert("Vul alle velden in");
+        setError("Vul alle velden in");
         return;
     }
     // submit data to API
-    api("login", "POST", data).then((res) => {
-        console.log(res);
+    apiWithoutToken("login", "POST", data).then((res) => {
+        console.log('---', res);
         if (res.message === "success") {
-            setLogin(true);
-            setUser(res.user);
+            setCookie("name", res.user.firstname, 999)
+            setCookie("token", res.token, 999)
+            console.log('++++')
             console.log(res.user);
             alert("U bent ingelogd")
         } else if (res.error === "wrong password") {
@@ -42,20 +41,27 @@ export function login(data, setLogin, setError, setUser) {
     });
 }
 
-export function logout(setLogin) {
-    api("logout", "POST").then((res) => {
-        if (res.message === "success") {
-            setLogin(false);
-            alert("U bent uitgelogd");
-            //redirect to home page
-            window.location.href = "/";
+export function logout() {
+    console.log('logout')
+    deleteCookie("token")
+    deleteCookie("name")
+}
 
-        }
-    });
+
+// Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
+function deleteCookie(cname) {
+    document.cookie = cname + '=; Max-Age=0'
+}
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 //make a function to get the cookie
-function getCookie(name) {
+export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie) {
         let cookies = document.cookie.split(';');
@@ -70,6 +76,19 @@ function getCookie(name) {
     }
     console.log(cookieValue);
     return cookieValue;
+}
+
+function apiWithoutToken(endpoint, method = "GET", data = {}) {
+    const API = "http://localhost:5000/";
+    console.log("API:" + API + endpoint);
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: method === "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
 }
 
 function api(endpoint, method = "GET", data = {}) {

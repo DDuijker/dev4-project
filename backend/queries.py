@@ -12,6 +12,9 @@ def check_login():
 
 
 def me():
+    token = request.headers['Authorization']
+    user = jwt.decode(token, key='secret', algorithms=['HS256'])
+
     if not request.cookies.get('access_token'):
         return {"message": "error",
                 "response": "no token"}, 401
@@ -58,8 +61,10 @@ def create_user():
 def get_user():
     print("Hij zit in get user")
     # Parse all arguments for validity
-    args = request.get_json()
 
+    args = request.json
+
+    print(args)
     qry = '''
         SELECT * FROM `gebruiker` WHERE email = :email
         '''
@@ -89,7 +94,8 @@ def get_user():
 
                 return {"message": "success",
                         "user-id": user['gebruiker_id'],
-                        "user": decoded
+                        "user": decoded,
+                        "token": access_token
                         }, 200
 
             else:
@@ -102,13 +108,6 @@ def get_user():
     else:
         return {"message": "error",
                 "response": "user not found"}, 401
-
-
-def logout():
-    # logout the user
-    resp = make_response()
-    resp.set_cookie('access_token', '', expires="Thu, 01 Jan 1970 00:00:00 GMT")
-    return {"message": "success"}, 200
 
 
 def get_menu():
