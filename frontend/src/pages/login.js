@@ -6,7 +6,6 @@ import {login} from "../connect_backend";
 
 export default function Login() {
     const [error, setError] = React.useState("");
-    const [user, setUser] = React.useState(null);
 
     function handleSubmit(event) {
         //get the data

@@ -15,8 +15,8 @@ import Reservations from "./pages/reservations";
 import {getCookie, logout} from './connect_backend'
 
 function App() {
-    //TODO: als je inlogt als medewerker, zet medewerker === true.
     //TODO: maak pagina's voor de medewerkers: tafels, reserveringen
+    //TODO: maak een cookie voor de medewerker
     const [medewerkerIngelogd, setMedewerkerIngelogd] = React.useState(false)
 
     const loggedIn = getCookie("token") != null

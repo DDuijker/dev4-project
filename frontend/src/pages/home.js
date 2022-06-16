@@ -2,16 +2,19 @@ import React from "react";
 import "../css/home.css";
 import {Link} from "react-router-dom";
 import StaffData from "../components/staffData";
-import user from "./login";
+import {getCookie} from "../connect_backend";
 
 export default function Home() {
-    console.log(user)
+    //import user cookie from backend
+    const cookie = getCookie("name") != null
+    const username = getCookie("name")
+
     return (
         <div>
             <div className={"banner"}>
                 {//if user is logged in, show their name}
-                    user.firstname ? (
-                        <h1 className={"banner--header"}>Welkom, {user.voornaam}</h1>
+                    cookie ? (
+                        <h1 className={"banner--header"}>Welkom, {username}</h1>
                     ) : (
                         <h1 className={"banner--header"}>We love good food.</h1>
                     )
