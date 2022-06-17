@@ -59,9 +59,10 @@ export function login(data, setError, medewerker) {
 }
 
 export function logout() {
-
     deleteCookie("token")
     deleteCookie("name")
+    deleteCookie("staff_token")
+    deleteCookie("staff")
 }
 
 
