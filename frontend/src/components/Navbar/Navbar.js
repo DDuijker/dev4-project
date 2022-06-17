@@ -58,7 +58,7 @@ const Navbar = ({medewerker, loggedIn}) => {
                         </NavLink>
                         <button className={"btn-2"} onClick={() => {
                             logout()
-                            window.location.href = "/"
+                            window.location.reload()
                         }}>Logout
                         </button>
                     </NavMenu>
