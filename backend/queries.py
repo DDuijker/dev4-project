@@ -194,17 +194,10 @@ def get_gallery():
     gallerij = DB.all(qry)
 
     return {
-<< << << < HEAD
+
         "message": "success",
         "gallerij": gallerij
     }, 201
-
-
-== == == =
-               "message": "success",
-               "gallerij": gallerij
-           }, 201
->>>>>>> f84033873e6f4af7465b7f6e5ae845f88fe25c65
 
 
 def get_staff():
