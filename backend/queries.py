@@ -51,6 +51,7 @@ def get_user():
                               key="githubdev4keykeykeykey", algorithm="HS256")
     resp = make_response(
         redirect("http://localhost:3000/"))
+    console.log(resp)
     resp.set_cookie('access_token', access_token, expires="never")
     return {"message": "success",
             "response": resp}, 200
@@ -91,7 +92,8 @@ def get_gallery():
         "message": "success",
         "gallerij": gallerij
     }, 201
-    
+
+
 def get_staff():
     qry = '''
     SELECT medewerker_id as id, voornaam, tussenvoegsel, achternaam, foto, titel, beschrijving FROM `medewerker`'''
@@ -99,6 +101,6 @@ def get_staff():
     medewerker_info = DB.all(qry)
 
     return {
-               "message": "success",
-               "medewerkers": medewerker_info
-           }, 201
+        "message": "success",
+        "medewerkers": medewerker_info
+    }, 201

@@ -35,7 +35,7 @@ const Navbar = ({medewerker, loggedIn}) => {
                                 <NavLink className={"btn-2"} to="/myreservations">
                                     Mijn reserveringen
                                 </NavLink>
-                                <NavLink className={"btn-2"} to="/login">
+                                <NavLink className={"btn-2"} to="/logout">
                                     Logout
                                 </NavLink>
                             </>)}
