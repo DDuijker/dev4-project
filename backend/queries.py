@@ -6,9 +6,11 @@ from db import DB
 import jwt
 
 
-def check_login():
-    print(request.cookies.get('access_token'))
-    return 'asd'
+def my_reservations():
+    args = request.json
+    user_id = args['user_id']
+
+    qry = ''' SELECT * FROM reservatie WHERE gebruiker_id = :user_id '''
 
 
 # def me():
@@ -59,7 +61,6 @@ def create_user():
 
 
 def login():
-    print("Hij zit in get user")
     # Parse all arguments for validity
 
     args = request.json

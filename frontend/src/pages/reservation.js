@@ -53,6 +53,7 @@ export default function Reservation({loggedIn}) {
                     Locatie:
                 </label>
                 <select className={"dropdown"}>
+                    <option value={"geen"}>Geen</option>
                     <option value={"binnen"}>Binnen</option>
                     <option value={"buiten"}>Buiten</option>
                 </select>
@@ -60,6 +61,7 @@ export default function Reservation({loggedIn}) {
                     Verdieping:
                 </label>
                 <select className={"dropdown"}>
+                    <option value={"geen"}>Geen</option>
                     <option value={"1"}>1e verdieping</option>
                     <option value={"2"}>2e verdieping</option>
                 </select>
@@ -67,6 +69,7 @@ export default function Reservation({loggedIn}) {
                     Type stoel:
                 </label>
                 <select className={"dropdown"}>
+                    <option value={"geen"}>Geen</option>
                     <option value={"stoel"}>Stoel</option>
                     <option value={"bank"}>Bank</option>
                 </select>
