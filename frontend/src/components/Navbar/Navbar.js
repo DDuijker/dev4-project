@@ -2,11 +2,12 @@ import React from "react";
 import {Nav, NavLink, NavMenu}
     from "./NavbarElements";
 import "../../css/Navbar.css"
+import {getCookie, logout} from "../../connect_backend";
 
-//TODO: if you're logged in the navbar login changes to logout
-//TODO: make logout component/function
-//TODO: if you're logged in there is another tab with "mijn reserveringen"
+
 const Navbar = ({medewerker, loggedIn}) => {
+
+
     if (medewerker === false) {
         return (
             <>
@@ -35,9 +36,12 @@ const Navbar = ({medewerker, loggedIn}) => {
                                 <NavLink className={"btn-2"} to="/myreservations">
                                     Mijn reserveringen
                                 </NavLink>
-                                <NavLink className={"btn-2"} to="/login">
-                                    Logout
-                                </NavLink>
+
+                                <button className={"btn-2"} onClick={() => {
+                                    logout()
+                                    window.location.reload()
+                                }}>Logout
+                                </button>
                             </>)}
 
                     </NavMenu>
@@ -50,7 +54,7 @@ const Navbar = ({medewerker, loggedIn}) => {
                 <Nav id={"navbar"}>
                     <h1 id={"navbar--text"}>GitPub</h1>
                     <NavMenu>
-                        <NavLink className={"btn-2"} to="/reservations">
+                        <NavLink className={"btn-2"} to="/allReservations">
                             Reserveringen
                         </NavLink>
                         <NavLink className={"btn-2"} to="/tables">

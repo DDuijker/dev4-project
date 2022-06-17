@@ -1,6 +1,6 @@
 import React from "react";
 import Staff from "./Staff";
-
+import Chef from '../images/chef.jpg'
 function StaffData() {
     const [staff, setStaff] = React.useState(null)
 
@@ -35,7 +35,7 @@ function StaffData() {
         return (
             <Staff
                 key={medewerker.id}
-                photo={`.../images/${medewerker.foto}`}
+                photo={require(`../images/${medewerker.foto}`)}
                 firstname={medewerker.voornaam}
                 infix={medewerker.tussenvoegsel}
                 lastname={medewerker.achternaam}

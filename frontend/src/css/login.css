@@ -27,7 +27,7 @@
     justify-items: center;
 }
 
-.no-account, .login-button, .medewerkerbutton {
+.no-account, .login-button, .medewerkerbutton, .login-button-staff {
     color: #FFFFFF;
     padding-left: 20px;
     padding-right: 20px;
@@ -42,6 +42,13 @@
     align-items: center;
 }
 
+.login-button-staff {
+    background-color: #2D384C;
+    height: 40px;
+    align-items: center;
+    background-color: #A28973
+}
+
 .no-account {
     background-color: #8C6E52;
     text-decoration: underline;
@@ -49,4 +56,13 @@
 
 .medewerkerbutton {
     background-color: #A28973;
+}
+
+.error-text {
+    color: red;
+    font-size: small;
+    display: grid;
+    justify-items: center;
+    margin: 2% 0 4px 0%;
+    align-items: center;
 }
