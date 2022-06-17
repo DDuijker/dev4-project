@@ -1,5 +1,7 @@
-from flask import request, jsonify, make_response, redirect
+import json
+from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
+
 from db import DB
 import jwt
 
@@ -7,6 +9,32 @@ import jwt
 def check_login():
     print(request.cookies.get('access_token'))
     return 'asd'
+
+
+# def me():
+#     token = request.headers['Authorization']
+#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
+#
+#     if not request.cookies.get('access_token'):
+#         return {"message": "error",
+#                 "response": "no token"}, 401
+#     else:
+#         # decode the token
+#         try:
+#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
+#             print(payload)
+#             return {"message": "success",
+#                     "response": payload}, 200
+#         except jwt.ExpiredSignatureError:
+#             return {"message": "error",
+#                     "response": "token expired"}, 401
+#         except jwt.InvalidTokenError:
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
+#         except Exception as e:
+#             print(e)
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
 
 
 def create_user():
@@ -30,31 +58,108 @@ def create_user():
     return {"message": "success", "id": user_id}, 201
 
 
-def get_user():
-    qry = '''
-    SELECT * FROM `gebruiker` WHERE email =  :email'''
-    args = request.json()
-    given_email = args["email"]
-    password = args["password"]
-    opgehaalde_gebruiker = DB.one(qry, {'email': given_email})
+def login():
+    print("Hij zit in get user")
+    # Parse all arguments for validity
 
-    if not opgehaalde_gebruiker or not check_password_hash(opgehaalde_gebruiker['wachtwoord'], password):
-        return 'Not found', 404
-    del opgehaalde_gebruiker['wachtwoord']
-    json_data = {'gebruiker_id': opgehaalde_gebruiker['gebruiker_id'],
-                 'voornaam': opgehaalde_gebruiker['voornaam'],
-                 'tussenvoegsel': opgehaalde_gebruiker['tussenvoegsel'],
-                 'achternaam': opgehaalde_gebruiker['achternaam'],
-                 'email': opgehaalde_gebruiker['email']}
-    jsonify(opgehaalde_gebruiker)
-    access_token = jwt.encode(payload=json_data,
-                              key="githubdev4keykeykeykey", algorithm="HS256")
-    resp = make_response(
-        redirect("http://localhost:3000/"))
-    console.log(resp)
-    resp.set_cookie('access_token', access_token, expires="never")
-    return {"message": "success",
-            "response": resp}, 200
+    args = request.json
+
+    print(args)
+    qry = '''
+        SELECT * FROM `gebruiker` WHERE email = :email
+        '''
+
+    try:
+        user = DB.one(qry, args)
+
+        print(user)
+        if user:
+            # if the password is correct, generate a token
+            if check_password_hash(user['wachtwoord'], args['password']):
+
+                # make access token
+                access_token = jwt.encode({
+                    'id': user['gebruiker_id'],
+                    'email': user['email'],
+                    'firstname': user['voornaam'],
+                    'infix': user['tussenvoegsel'],
+                    'lastname': user['achternaam']
+                }, key='secret', algorithm='HS256')
+                resp = make_response()
+                # make access token expire in 12 hours
+                # make cookie
+                resp.set_cookie('access_token', access_token,
+                                expires=12 * 60 * 60)
+
+                decoded = jwt.decode(
+                    access_token, key='secret', algorithms=['HS256'])
+
+                return {"message": "success",
+                        "user-id": user['gebruiker_id'],
+                        "user": decoded,
+                        "token": access_token
+                        }, 200
+
+            else:
+                return {"message": "error",
+                        "response": "wrong password"}, 401
+    except Exception as e:
+        print(e)
+        return {"message": "error",
+                "error": "Er gaat iets mis"}, 404
+    else:
+        return {"message": "error",
+                "response": "user not found"}, 401
+
+
+def staff_login():
+    args = request.json
+
+    qry = '''
+    SELECT * FROM `medewerker` WHERE email = :email
+    '''
+
+    try:
+        staff = DB.one(qry, args)
+        print(staff)
+        if staff:
+            # if the password is correct, generate a token
+            if staff['wachtwoord'] == args['password']:
+
+                # make access token
+                access_token = jwt.encode({
+                    'id': staff['medewerker_id'],
+                    'email': staff['email'],
+                    'firstname': staff['voornaam'],
+                    'infix': staff['tussenvoegsel'],
+                    'lastname': staff['achternaam']
+                }, key='secret', algorithm='HS256')
+                resp = make_response()
+                # make access token expire in 12 hours
+                # make cookie
+                resp.set_cookie('access_token', access_token,
+                                expires=12 * 60 * 60)
+
+                decoded_staff = jwt.decode(
+                    access_token, key='secret', algorithms=['HS256'])
+
+                print(decoded_staff)
+                return {"message": "success",
+                        "staff-id": staff['medewerker_id'],
+                        "staff": decoded_staff,
+                        "staff_token": access_token
+                        }, 200
+            else:
+                return {"message": "error",
+                        "response": "wrong password"}, 401
+
+    except Exception as e:
+        print(e)
+        return {"message": "error",
+                "error": "Er gaat iets mis"}, 404
+    else:
+        return {"message": "error",
+                "response": "Staff member not found"}, 401
 
 
 def get_menu():
@@ -84,14 +189,22 @@ def get_menu():
 
 
 def get_gallery():
-    qry = '''SELECT * FROM gallerij '''
+    qry = '''SELECT naam FROM gallerij '''
 
     gallerij = DB.all(qry)
 
     return {
+<< << << < HEAD
         "message": "success",
         "gallerij": gallerij
     }, 201
+
+
+== == == =
+               "message": "success",
+               "gallerij": gallerij
+           }, 201
+>>>>>>> f84033873e6f4af7465b7f6e5ae845f88fe25c65
 
 
 def get_staff():
