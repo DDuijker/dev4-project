@@ -19,9 +19,14 @@ export default function Reservations() {
     const boxes = reservations.map((box) => {
         id++;
         console.log(box);
-        return (<div className={"reservation-box"}>
-            <ReservatieBox data={box} key={id} id={id}/>
-        </div>);
+        // if there is only one reservation, center the box
+        if (reservations.length === 1) {
+            return <ReservatieBox data={box} key={id} id={id} centered/>;
+
+        } else {
+            return <ReservatieBox data={box} key={id} id={id}/>;
+        }
+
     });
 
 
