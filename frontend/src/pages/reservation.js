@@ -38,11 +38,20 @@ export default function Reservation({ loggedIn }) {
       setError("Kies een datum in de toekomst");
       return;
     }
+    //make sure that a customer can't select a date later than 6 months from now
+    let sixMonthsFromNow = new Date();
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+    if (date > sixMonthsFromNow) {
+      setError("Kies een vroegere datum");
+      return;
+    }
 
-    //add two hours to time
-    //let newTime = new Date(event.target.date.value);
-    // newTime.setHours(newTime.getHours() + 2);
-    // let rTime =
+    //show a second timestamp of 2 hours after the chosen time
+    let time = new Date(event.target.time.value);
+    time.setHours(time.getHours() + 2);
+    let timeString = time.toLocaleTimeString("nl-NL");
+    console.log(timeString);
+
     //get data from the form
     let data = {
       aantal_personen: event.target.personen.value,
