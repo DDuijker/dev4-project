@@ -22,8 +22,6 @@ def my_reservations():
         return {"message": "error",
                 "error": "No token"}, 401
 
-<< << << < HEAD
-== == == =
 
 def post_reservation():
     # Parse all arguments for validity
@@ -74,8 +72,6 @@ def post_reservation():
 #             print(e)
 #             return {"message": "error",
 #                     "response": "token invalid"}, 401
->> >> >> > 2
-ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
 
 
 def create_user():
@@ -262,7 +258,6 @@ def get_staff():
                "medewerkers": medewerker_info
            }, 201
 
-<< << << < HEAD
 # def me():
 #     token = request.headers['Authorization']
 #     user = jwt.decode(token, key='secret', algorithms=['HS256'])
@@ -286,8 +281,7 @@ def get_staff():
 #         except Exception as e:
 #             print(e)
 #             return {"message": "error",
-#                     "response": "token invalid"}, 401
-== == == =
+#                = == == =
 
 def get_reservatie():
     qry = '''
@@ -301,5 +295,3 @@ def get_reservatie():
 
            }, 201
 
->> >> >> > 2
-ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
