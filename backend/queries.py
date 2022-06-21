@@ -13,6 +13,32 @@ def my_reservations():
     qry = ''' SELECT * FROM reservatie WHERE gebruiker_id = :user_id '''
 
 
+def post_reservation():
+    # Parse all arguments for validity
+    args = request.json
+    print(args)
+    token = args['token']
+    decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    print(decoded)
+    user_id = decoded['id']
+    print(user_id)
+    # add user id to args
+    args['user_id'] = user_id
+
+    # Make the insert query with parameters
+    qry = '''
+    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `datum`, `tijd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
+    VALUES(:user_id ,:aantal_personen, :date, :time, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
+    '''
+
+    # Insert into the database
+    reservatie_id = DB.insert(qry, args)
+
+    print(reservatie_id)
+    # Return a message and the user id
+    return {"message": "success", "id": reservatie_id}, 201
+
+
 # def me():
 #     token = request.headers['Authorization']
 #     user = jwt.decode(token, key='secret', algorithms=['HS256'])
