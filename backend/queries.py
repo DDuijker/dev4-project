@@ -12,8 +12,9 @@ def my_reservations():
     user_id = decoded['id']
 
     if user_id:
+        # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY datum, tijd 
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
