@@ -1,4 +1,5 @@
 import json
+from time import time
 from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
 
@@ -207,10 +208,10 @@ def get_staff():
            }, 201
 
 def get_reservatie():
-    qry = '''
-    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
+    qry = '''SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie` ORDER BY datum, tijd DESC'''
 
     reservatie_info = DB.all(qry)
+    
 
     return {
         "message": "success",
