@@ -19,7 +19,9 @@ export default function Reservations() {
     const boxes = reservations.map((box) => {
         id++;
         console.log(box);
-        return <ReservatieBox data={box} key={id} id={id}/>;
+        return (<div className={"reservation-box"}>
+            <ReservatieBox data={box} key={id} id={id}/>
+        </div>);
     });
 
 

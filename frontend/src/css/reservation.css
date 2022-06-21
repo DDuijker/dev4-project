@@ -66,10 +66,23 @@ input, .dropdown, #dropdown {
     color: rgba(255, 255, 255, 0.89);
 }
 
+.reservation-box {
+    /* make 3 colums */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .my-reservations {
     display: grid;
+
 }
 
 .reservation-item-text {
-
+    /* give it a border */
+    /* gice left and right padding */
+    padding: 20px 30px;
+    border: 1px solid #8191AA;
 }
