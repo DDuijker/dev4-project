@@ -50,7 +50,7 @@ export default function Reservation({ loggedIn }) {
     let time = new Date(event.target.time.value);
     time.setHours(time.getHours() + 2);
     let timeString = time.toLocaleTimeString("nl-NL");
-    console.log(timeString);
+    console.log(event.target.time.value);
 
     //get data from the form
     let data = {
