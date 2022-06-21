@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from queries import (create_user, login, get_menu, get_staff, get_gallery, staff_login)
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+from queries import (create_user, login, get_menu, get_staff, get_gallery, staff_login, my_reservations)
 import sqlite3
-from db import DB
 
 app = Flask(__name__)
 CORS(app)
-
+# app.config['JWT_SECRET_KEY'] = 'secret'
+# jwt = JWTManager(app)
 db_name = './database/restaurant.db'
 
 app.add_url_rule('/register', None, create_user, methods=["POST"])
@@ -16,6 +17,8 @@ app.add_url_rule('/login_medewerker', None, staff_login, methods=["POST"])
 app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
+app.add_url_rule('/', None, get_staff, methods=["GET"])
+app.add_url_rule('/myreservations', None, my_reservations, methods=["GET"])
 
 
 @app.before_request

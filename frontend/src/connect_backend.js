@@ -1,3 +1,4 @@
+
 export function register(data) {
     //check if form is filled
     if (data.email === "" || data.password === "" || data.firstname === "" || data.lastname === "") {
@@ -9,7 +10,7 @@ export function register(data) {
         alert("Wachtwoorden komen niet overeen");
     }
     // submit data to API
-    api("register", "POST", data).then((res) => {
+    apiWithoutToken("register", "POST", data).then((res) => {
         if (res.message === "success") {
             alert("user created");
         }
@@ -29,6 +30,7 @@ export function login(data, setError, medewerker) {
             if (res.message === "success") {
                 setCookie("name", res.user.firstname, 999)
                 setCookie("token", res.token, 999)
+                setCookie("user_id", res.user.id, 999)
                 console.log(res.user);
                 window.location.href = "/";
             } else if (res.error === "wrong password") {
@@ -58,15 +60,35 @@ export function login(data, setError, medewerker) {
     }
 }
 
+export function getMyReservations(setReservations) {
+    // get token from cookie
+    const token = getCookie("token");
+
+    if (token) {
+        // get user reservations
+        apiUser("myreservations", "GET").then((res) => {
+            if (res.message === "success") {
+                console.log(res);
+                setReservations(res.reservations);
+            }
+        });
+    } else {
+        alert("U bent niet ingelogd");
+        window.location.href = "/login";
+    }
+}
+
+
+// Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 export function logout() {
     deleteCookie("token")
     deleteCookie("name")
     deleteCookie("staff_token")
     deleteCookie("staff")
+    window.location.href = '/'
 }
 
 
-// Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 function deleteCookie(cname) {
     document.cookie = cname + '=; Max-Age=0'
 }
@@ -109,7 +131,7 @@ function apiWithoutToken(endpoint, method = "GET", data = {}) {
     }).then((res) => res.json());
 }
 
-function api(endpoint, method = "GET", data = {}) {
+function apiUser(endpoint, method = "GET", data = {}) {
     const API = "http://localhost:5000/";
     console.log("API:" + API + endpoint);
     return fetch(API + endpoint, {
@@ -118,6 +140,20 @@ function api(endpoint, method = "GET", data = {}) {
         headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + getCookie("token"),
+        },
+        body: method === "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
+}
+
+function apiStaff(endpoint, method = "GET", data = {}) {
+    const API = "http://localhost:5000/";
+    console.log("API:" + API + endpoint);
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getCookie("staff_token"),
         },
         body: method === "GET" ? null : JSON.stringify(data),
     }).then((res) => res.json());
