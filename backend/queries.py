@@ -208,8 +208,7 @@ def get_menu():
         "bijgerechten": bijgerecht,
         "dranken": dranken
     }
-    l = check_login()
-    print(l)
+    
     return {"message": "success",
             "menu": menu
             }, 201
@@ -234,6 +233,18 @@ def get_staff():
     medewerker_info = DB.all(qry)
 
     return {
+               "message": "success",
+               "medewerkers": medewerker_info
+           }, 201
+
+def get_reservatie():
+    qry = '''
+    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
+
+    reservatie_info = DB.all(qry)
+
+    return {
         "message": "success",
-        "medewerkers": medewerker_info
+        "reservatie": reservatie_info
+        
     }, 201
