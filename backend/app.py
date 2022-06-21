@@ -1,7 +1,14 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
+<< << << < HEAD
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from queries import (create_user, login, get_menu, get_staff, get_gallery, staff_login, get_reservatie, my_reservations)
+== == == =
+from queries import (create_user, login, get_menu,
+                     get_staff, get_gallery, staff_login, post_reservation, get_reservatie, )
+
+>> >> >> > 2
+ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
 import sqlite3
 from db import DB
 
@@ -18,7 +25,12 @@ app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/reservatie', None, get_reservatie, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
+<< << << < HEAD
 app.add_url_rule('/myreservations', None, my_reservations, methods=["GET"])
+== == == =
+app.add_url_rule('/reservation', None, post_reservation, methods=["POST"])
+>> >> >> > 2
+ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
 
 
 @app.before_request
