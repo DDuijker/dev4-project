@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from queries import (create_user, login, get_menu, get_staff, get_gallery, staff_login, get_reservatie)
+from queries import (create_user, login, get_menu,
+                     get_staff, get_gallery, staff_login, post_reservation, get_reservatie,)
+
 import sqlite3
 from db import DB
 
@@ -17,6 +19,7 @@ app.add_url_rule('/gallery', None, get_gallery, methods=["GET"])
 app.add_url_rule('/home', None, get_staff, methods=["GET"])
 app.add_url_rule('/reservatie', None, get_reservatie, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
+app.add_url_rule('/reservation', None, post_reservation, methods=["POST"])
 
 
 @app.before_request
