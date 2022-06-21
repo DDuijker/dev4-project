@@ -143,6 +143,19 @@ def staff_login():
                 "response": "Staff member not found"}, 401
 
 
+def get_reservatie():
+    qry = '''
+    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
+
+    reservatie_info = DB.all(qry)
+
+    return {
+               "message": "success",
+               "reservatie": reservatie_info
+
+           }, 201
+
+
 def get_menu():
     qry = '''
     SELECT menu.naam as gerecht, beschrijving, prijs FROM menu

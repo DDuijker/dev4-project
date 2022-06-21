@@ -1,13 +1,13 @@
 import React from "react";
 
-function ReservatieItem({ persons, date, time }) {
-  return (
-    <div>
-      <h4>Aantal personen: {persons}</h4>
-      <span> op: {date}</span>
-      <p>om: {time}</p>
-    </div>
-  );
+function ReservatieItem({data}) {
+    return (
+        <div>
+            <h4>Aantal personen: {data.aantal_personen}</h4>
+            <span> op: {data.datum}</span>
+            <p>om: {data.tijd}</p>
+        </div>
+    );
 }
 
 export default ReservatieItem;
