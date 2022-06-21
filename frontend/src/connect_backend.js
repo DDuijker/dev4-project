@@ -68,7 +68,7 @@ export function getMyReservations(setReservations) {
         // get user reservations
         apiUser("myreservations", "GET").then((res) => {
             if (res.message === "success") {
-                console.log(res);
+                console.log(res.reservations);
                 setReservations(res.reservations);
             }
         });
