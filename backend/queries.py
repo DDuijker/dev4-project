@@ -49,31 +49,6 @@ def post_reservation():
     # Return a message and the user id
     return {"message": "success", "id": reservatie_id}, 201
 
-# def me():
-#     token = request.headers['Authorization']
-#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
-#
-#     if not request.cookies.get('access_token'):
-#         return {"message": "error",
-#                 "response": "no token"}, 401
-#     else:
-#         # decode the token
-#         try:
-#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-#             print(payload)
-#             return {"message": "success",
-#                     "response": payload}, 200
-#         except jwt.ExpiredSignatureError:
-#             return {"message": "error",
-#                     "response": "token expired"}, 401
-#         except jwt.InvalidTokenError:
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-#         except Exception as e:
-#             print(e)
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-
 
 def create_user():
     # Parse all arguments for validity
@@ -257,42 +232,5 @@ def get_staff():
     return {
                "message": "success",
                "medewerkers": medewerker_info
-           }, 201
-
-# def me():
-#     token = request.headers['Authorization']
-#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
-#
-#     if not request.cookies.get('access_token'):
-#         return {"message": "error",
-#                 "response": "no token"}, 401
-#     else:
-#         # decode the token
-#         try:
-#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-#             print(payload)
-#             return {"message": "success",
-#                     "response": payload}, 200
-#         except jwt.ExpiredSignatureError:
-#             return {"message": "error",
-#                     "response": "token expired"}, 401
-#         except jwt.InvalidTokenError:
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-#         except Exception as e:
-#             print(e)
-#             return {"message": "error",
-#                = == == =
-
-def get_reservatie():
-    qry = '''
-    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
-
-    reservatie_info = DB.all(qry)
-
-    return {
-               "message": "success",
-               "reservatie": reservatie_info
-
            }, 201
 
