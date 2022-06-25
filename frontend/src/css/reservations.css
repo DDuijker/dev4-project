@@ -1,8 +1,3 @@
-.my-reservations {
-    display: grid;
-    justify-content: center;
-    text-align: center;
-}
 
 .error-text {
     color: red;
@@ -10,5 +5,38 @@
     display: grid;
     justify-items: center;
     margin: 2% 0 4px 0%;
+}
+
+.boxes {
+    /* make the boxes next to eachother */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
     align-items: center;
+}
+
+.my-reservations {
+    display: grid;
+}
+
+.reservation-box {
+    /* make 3 colums */
+    display: grid;
+    grid-gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+
+.reservation-item-text {
+    /* give it a border */
+    /* give left and right padding */
+    padding: 20px 30px;
+    border: 1px solid #8191AA;
+    /* give under and right a shadow */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }

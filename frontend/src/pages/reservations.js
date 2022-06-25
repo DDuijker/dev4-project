@@ -24,7 +24,7 @@ export default function Reservations() {
             return <ReservatieBox data={box} key={id} id={id} centered/>;
         }
         // if a reservation was in the past, cross it out
-        else if (box.date < new Date().toISOString().slice(0, 10)) {
+        else if (box.datum < new Date().toISOString().slice(0, 10)) {
             return <ReservatieBox data={box} key={id} id={id} crossed/>;
         } else {
             return <ReservatieBox data={box} key={id} id={id}/>;
@@ -37,9 +37,12 @@ export default function Reservations() {
     return (
         <div className={"my-reservations"}>
             <h1>Reservations</h1>
-            {reservations.length > 0 ? (boxes
-            ) : <h2>U heeft nog geen reserveringen</h2>
-            }
+            <div className={"boxes"}>
+                {reservations.length > 0 ? (boxes
+                ) : <h2>U heeft nog geen reserveringen</h2>
+                }
+            </div>
+
         </div>
     )
 }

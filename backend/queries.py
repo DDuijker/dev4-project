@@ -24,6 +24,50 @@ def my_reservations():
                 "error": "No token"}, 401
 
 
+def get_or_add_tables():
+    token = request.headers['Authorization'].split(' ')[1]
+    decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    staff_id = decoded['id']
+    if staff_id:
+        if request.method == 'GET':
+            return get_tables()
+        elif request.method == 'POST':
+            return add_tables()
+
+
+def get_tables():
+    # get all the tables
+    qry = ''' SELECT * FROM `tafel` '''
+
+    all_tables = DB.all(qry)
+
+    if all_tables:
+        return {
+                   "message": "success",
+                   "tables": all_tables
+               }, 200
+    else:
+        return {
+                   "message": "error",
+                   "error": "No tables found"
+               }, 404
+
+
+def add_tables():
+    args = request.json
+
+    qry = '''
+    INSERT INTO `tafel` (aantal_personen, locatie, verdieping, type_zitting) VALUES (:aantal_personen, :locatie, :verdieping, :type_zitting)
+    '''
+
+    if args['aantal_personen'] and args['locatie'] and args['verdieping'] and args['type_zitting']:
+        DB.insert(qry, args)
+        return {"message": "success"}, 201
+    else:
+        return {"message": "error",
+                "error": "No arguments"}, 404
+
+
 def post_reservation():
     # Parse all arguments for validity
     args = request.json
@@ -233,4 +277,3 @@ def get_staff():
                "message": "success",
                "medewerkers": medewerker_info
            }, 201
-
