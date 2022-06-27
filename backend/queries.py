@@ -1,17 +1,29 @@
 import json
 from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
-
 from db import DB
+from flask_jwt_extended import (jwt_required, get_jwt_identity)
 import jwt
 
 
 def my_reservations():
-    args = request.json
-    user_id = args['user_id']
+    token = request.headers['Authorization'].split(' ')[1]
+    decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    user_id = decoded['id']
 
-    qry = ''' SELECT * FROM reservatie WHERE gebruiker_id = :user_id '''
+    if user_id:
+        qry = '''
+        SELECT * FROM reservatie WHERE gebruiker_id = :id
+        '''
+        reservations = DB.all(qry, decoded)
+        return {"message": "success",
+                "reservations": reservations}, 200
+    else:
+        return {"message": "error",
+                "error": "No token"}, 401
 
+<< << << < HEAD
+== == == =
 
 def post_reservation():
     # Parse all arguments for validity
@@ -38,7 +50,6 @@ def post_reservation():
     # Return a message and the user id
     return {"message": "success", "id": reservatie_id}, 201
 
-
 # def me():
 #     token = request.headers['Authorization']
 #     user = jwt.decode(token, key='secret', algorithms=['HS256'])
@@ -63,6 +74,8 @@ def post_reservation():
 #             print(e)
 #             return {"message": "error",
 #                     "response": "token invalid"}, 401
+>> >> >> > 2
+ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
 
 
 def create_user():
@@ -88,7 +101,6 @@ def create_user():
 
 def login():
     # Parse all arguments for validity
-
     args = request.json
 
     print(args)
@@ -189,6 +201,19 @@ def staff_login():
                 "response": "Staff member not found"}, 401
 
 
+def get_reservatie():
+    qry = '''
+    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
+
+    reservatie_info = DB.all(qry)
+
+    return {
+               "message": "success",
+               "reservatie": reservatie_info
+
+           }, 201
+
+
 def get_menu():
     qry = '''
     SELECT menu.naam as gerecht, beschrijving, prijs FROM menu
@@ -208,7 +233,7 @@ def get_menu():
         "bijgerechten": bijgerecht,
         "dranken": dranken
     }
-    
+
     return {"message": "success",
             "menu": menu
             }, 201
@@ -221,9 +246,9 @@ def get_gallery():
 
     return {
 
-        "message": "success",
-        "gallerij": gallerij
-    }, 201
+               "message": "success",
+               "gallerij": gallerij
+           }, 201
 
 
 def get_staff():
@@ -237,6 +262,33 @@ def get_staff():
                "medewerkers": medewerker_info
            }, 201
 
+<< << << < HEAD
+# def me():
+#     token = request.headers['Authorization']
+#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
+#
+#     if not request.cookies.get('access_token'):
+#         return {"message": "error",
+#                 "response": "no token"}, 401
+#     else:
+#         # decode the token
+#         try:
+#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
+#             print(payload)
+#             return {"message": "success",
+#                     "response": payload}, 200
+#         except jwt.ExpiredSignatureError:
+#             return {"message": "error",
+#                     "response": "token expired"}, 401
+#         except jwt.InvalidTokenError:
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
+#         except Exception as e:
+#             print(e)
+#             return {"message": "error",
+#                     "response": "token invalid"}, 401
+== == == =
+
 def get_reservatie():
     qry = '''
     SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
@@ -244,7 +296,10 @@ def get_reservatie():
     reservatie_info = DB.all(qry)
 
     return {
-        "message": "success",
-        "reservatie": reservatie_info
-        
-    }, 201
+               "message": "success",
+               "reservatie": reservatie_info
+
+           }, 201
+
+>> >> >> > 2
+ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738

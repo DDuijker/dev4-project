@@ -1,0 +1,14 @@
+.my-reservations {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+}
+
+.error-text {
+    color: red;
+    font-size: small;
+    display: grid;
+    justify-items: center;
+    margin: 2% 0 4px 0%;
+    align-items: center;
+}

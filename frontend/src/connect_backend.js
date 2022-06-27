@@ -1,139 +1,187 @@
 export function register(data) {
-  //check if form is filled
-  if (
-    data.email === "" ||
-    data.password === "" ||
-    data.firstname === "" ||
-    data.lastname === ""
-  ) {
-    alert("Vul alle velden in");
-    return;
-  }
-  // Check if passwords match
-  if (data.password !== data.confirmpassword) {
-    alert("Wachtwoorden komen niet overeen");
-  }
-  // submit data to API
-  api("register", "POST", data).then((res) => {
-    if (res.message === "success") {
-      alert("user created");
+    //check if form is filled
+    if (
+        data.email === "" ||
+        data.password === "" ||
+        data.firstname === "" ||
+        data.lastname === ""
+    ) {
+        alert("Vul alle velden in");
+        return;
     }
-  });
+    // Check if passwords match
+    if (data.password !== data.confirmpassword) {
+        alert("Wachtwoorden komen niet overeen");
+    }
+    // submit data to API
+    apiWithoutToken("register", "POST", data).then((res) => {
+        if (res.message === "success") {
+            alert("user created");
+        }
+        // Check if passwords match
+        if (data.password !== data.confirmpassword) {
+            alert("Wachtwoorden komen niet overeen");
+        }
+        // submit data to API
+        apiWithoutToken("register", "POST", data).then((res) => {
+            if (res.message === "success") {
+                alert("user created");
+            }
+        });
+    });
 }
 
 export function login(data, setError, medewerker) {
-  //check if form is filled
-  if (data.email === "" || data.password === "") {
-    setError("Vul alle velden in");
-    return;
-  }
-  //if it's a user, get a user and a name token
-  if (!medewerker) {
-    // submit data to API
-    apiWithoutToken("login", "POST", data).then((res) => {
-      if (res.message === "success") {
-        setCookie("name", res.user.firstname, 999);
-        setCookie("token", res.token, 999);
-        console.log(res.user);
-        window.location.href = "/";
-      } else if (res.error === "wrong password") {
-        setError("Wachtwoord is incorrect");
-      } else if (res.error === "user not found") {
-        setError("Gebruiker niet gevonden");
-      } else {
-        setError("Er is iets fout gegaan");
-      }
-    });
-  } else {
-    //submit medewerker data to API
-    apiWithoutToken("login_medewerker", "POST", data).then((res) => {
-      if (res.message === "success") {
-        console.log(res);
-        setCookie("staff_token", res.staff_token, 999);
-        setCookie("staff", res.staff, 999);
-        //setCookie("staffname", res.staff.firstname, 999)
-        console.log(res.staff);
-        window.location.href = "/tables";
-      } else if (res.error === "wrong password") {
-        setError("Wachtwoord is incorrect");
-      } else if (res.error === "Medewerker not found") {
-        setError("Medewerker niet gevonden");
-      }
-    });
-  }
+    //check if form is filled
+    if (data.email === "" || data.password === "") {
+        setError("Vul alle velden in");
+        return;
+    }
+    //if it's a user, get a user and a name token
+    if (!medewerker) {
+        // submit data to API
+        apiWithoutToken("login", "POST", data).then((res) => {
+            if (res.message === "success") {
+                setCookie("name", res.user.firstname, 999)
+                setCookie("token", res.token, 999)
+                setCookie("user_id", res.user.id, 999)
+                console.log(res.user);
+                window.location.href = "/";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "user not found") {
+                setError("Gebruiker niet gevonden");
+            } else {
+                setError("Er is iets fout gegaan");
+            }
+        });
+    } else {
+        //submit medewerker data to API
+        apiWithoutToken("login_medewerker", "POST", data).then((res) => {
+            if (res.message === "success") {
+                console.log(res)
+                setCookie("staff_token", res.staff_token, 999)
+                setCookie("staff", res.staff, 999)
+                //setCookie("staffname", res.staff.firstname, 999)
+                console.log(res.staff);
+                window.location.href = "/tables";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "Medewerker not found") {
+                setError("Medewerker niet gevonden");
+            }
+        });
+    }
 }
 
+export function getMyReservations(setReservations) {
+    // get token from cookie
+    const token = getCookie("token");
+
+    if (token) {
+        // get user reservations
+        apiUser("myreservations", "GET").then((res) => {
+            if (res.message === "success") {
+                console.log(res.reservations);
+                setReservations(res.reservations);
+            }
+        });
+    } else {
+        alert("U bent niet ingelogd");
+        window.location.href = "/login";
+    }
+}
+
+
+// Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 export function logout() {
-  deleteCookie("token");
-  deleteCookie("name");
-  deleteCookie("staff_token");
-  deleteCookie("staff");
+
+    deleteCookie("token")
+    deleteCookie("name")
+    deleteCookie("staff_token")
+    deleteCookie("staff")
+    window.location.href = '/'
 }
 
 export function reservation(data) {
-  //add user id to the data
-  data.token = getCookie("token");
-  //submit data to API
-  api("reservation", "POST", data).then((res) => {
-    if (res.message === "success") {
-      alert("Reservering aangemaakt");
-    }
-  });
+    //add user id to the data
+    data.token = getCookie("token");
+    //submit data to API
+    apiUser("reservation", "POST", data).then((res) => {
+        if (res.message === "success") {
+            alert("Reservering aangemaakt");
+        }
+    });
 }
 
-// Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 function deleteCookie(cname) {
-  document.cookie = cname + "=; Max-Age=0";
+    document.cookie = cname + "=; Max-Age=0";
 }
 
 function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-  let expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 //make a function to get the cookie
 export function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie) {
-    let cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
+    let cookieValue = null;
+    if (document.cookie) {
+        let cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-  }
-  console.log(cookieValue);
-  return cookieValue;
+    console.log(cookieValue);
+    return cookieValue;
 }
 
 function apiWithoutToken(endpoint, method = "GET", data = {}) {
-  const API = "http://localhost:5000/";
-  console.log("API:" + API + endpoint);
-  return fetch(API + endpoint, {
-    method: method,
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: method === "GET" ? null : JSON.stringify(data),
-  }).then((res) => res.json());
+    const API = "http://localhost:5000/";
+    console.log("API:" + API + endpoint);
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: method === "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
 }
 
-function api(endpoint, method = "GET", data = {}) {
-  const API = "http://localhost:5000/";
-  console.log("API:" + API + endpoint);
-  return fetch(API + endpoint, {
-    method: method,
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
-    },
-    body: method === "GET" ? null : JSON.stringify(data),
-  }).then((res) => res.json());
+function apiUser(endpoint, method = "GET", data = {}) {
+    const API = "http://localhost:5000/";
+    console.log("API:" + API + endpoint);
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getCookie("token"),
+        },
+        body: method === "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
+
 }
+
+function apiStaff(endpoint, method = "GET", data = {}) {
+    const API = "http://localhost:5000/";
+    console.log("API:" + API + endpoint);
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getCookie("staff_token"),
+        },
+        body: method === "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
+}
+
