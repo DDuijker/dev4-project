@@ -32,46 +32,43 @@ export function register(data) {
 }
 
 export function login(data, setError, medewerker) {
-  //check if form is filled
-  if (data.email === "" || data.password === "") {
-    setError("Vul alle velden in");
-    return;
-  }
-  //if it's a user, get a user and a name token
-  if (!medewerker) {
-    // submit data to API
-    apiWithoutToken("login", "POST", data).then((res) => {
-      if (res.message === "success") {
-        setCookie("name", res.user.firstname, 999);
-        setCookie("token", res.token, 999);
-        setCookie("user_id", res.user.id, 999);
-        console.log(res.user);
-        window.location.href = "/";
-      } else if (res.error === "wrong password") {
-        setError("Wachtwoord is incorrect");
-      } else if (res.error === "user not found") {
-        setError("Gebruiker niet gevonden");
-      } else {
-        setError("Er is iets fout gegaan");
-      }
-    });
-  } else {
-    //submit medewerker data to API
-    apiWithoutToken("login_medewerker", "POST", data).then((res) => {
-      if (res.message === "success") {
-        console.log(res);
-        setCookie("staff_token", res.staff_token, 999);
-        setCookie("staff", res.staff, 999);
-        //setCookie("staffname", res.staff.firstname, 999)
-        console.log(res.staff);
-        window.location.href = "/tables";
-      } else if (res.error === "wrong password") {
-        setError("Wachtwoord is incorrect");
-      } else if (res.error === "Medewerker not found") {
-        setError("Medewerker niet gevonden");
-      }
-    });
-  }
+    //check if form is filled
+    if (data.email === "" || data.password === "") {
+        setError("Vul alle velden in");
+        return;
+    }
+    //if it's a user, get a user and a name token
+    if (!medewerker) {
+        // submit data to API
+        apiWithoutToken("login", "POST", data).then((res) => {
+            if (res.message === "success") {
+                setCookie("name", res.user.firstname, 999)
+                setCookie("token", res.token, 999)
+                setCookie("user_id", res.user.id, 999)
+                window.location.href = "/";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "user not found") {
+                setError("Gebruiker niet gevonden");
+            } else {
+                setError("Er is iets fout gegaan");
+            }
+        });
+    } else {
+        //submit medewerker data to API
+        apiWithoutToken("login_medewerker", "POST", data).then((res) => {
+            if (res.message === "success") {
+                setCookie("staff_token", res.staff_token, 999)
+                setCookie("staff", res.staff, 999)
+                //setCookie("staffname", res.staff.firstname, 999)
+                window.location.href = "/tables";
+            } else if (res.error === "wrong password") {
+                setError("Wachtwoord is incorrect");
+            } else if (res.error === "Medewerker not found") {
+                setError("Medewerker niet gevonden");
+            }
+        });
+    }
 }
 
 export default function get_tables(setTables) {
@@ -103,25 +100,57 @@ export function add_table(data) {
       //refresh the page
       window.location.href = "/tables";
     }
-  });
+    // submit data to API
+    apiStaff("tables", "POST", data).then((res) => {
+        if (res.message === "success") {
+            alert("table created");
+            //refresh the page
+            window.location.href = "/tables";
+            console.log(res)
+        }
+    });
 }
 
-export function getMyReservations(setReservations) {
-  // get token from cookie
-  const token = getCookie("token");
-
-  if (token) {
-    // get user reservations
-    apiUser("myreservations", "GET").then((res) => {
-      if (res.message === "success") {
-        console.log(res.reservations);
-        setReservations(res.reservations);
-      }
+export function patch_table(data) {
+    console.log(data);
+    apiStaff("tables", "PATCH", data).then((res) => {
+        if (res.message === "success") {
+            //refresh the page
+            window.location.href = "/tables";
+            alert("Table updated");
+            console.log(res)
+        }
     });
-  } else {
-    alert("U bent niet ingelogd");
-    window.location.href = "/login";
-  }
+}
+
+export function delete_table(data) {
+    apiStaff("tables", "DELETE", data).then((res) => {
+        if (res.message === "success") {
+            //refresh the page
+            window.location.href = "/tables";
+            alert("Table deleted");
+            //reload the table data
+            get_tables();
+        }
+    });
+}
+
+
+export function getMyReservations(setReservations) {
+    // get token from cookie
+    const token = getCookie("token");
+
+    if (token) {
+        // get user reservations
+        apiUser("myreservations", "GET").then((res) => {
+            if (res.message === "success") {
+                setReservations(res.reservations);
+            }
+        });
+    } else {
+        alert("U bent niet ingelogd");
+        window.location.href = "/login";
+    }
 }
 
 // Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
@@ -144,6 +173,7 @@ export function reservation(data) {
   });
 }
 
+// Cookie funtions
 function deleteCookie(cname) {
   document.cookie = cname + "=; Max-Age=0";
 }
@@ -168,11 +198,10 @@ export function getCookie(name) {
         break;
       }
     }
-  }
-  console.log(cookieValue);
-  return cookieValue;
+    return cookieValue;
 }
 
+// Api functions
 function apiWithoutToken(endpoint, method = "GET", data = {}) {
   const API = "http://localhost:5000/";
   console.log("API:" + API + endpoint);
