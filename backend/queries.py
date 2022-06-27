@@ -257,7 +257,7 @@ def get_menu():
 
 
 def get_gallery():
-    qry = '''SELECT naam FROM gallerij '''
+    qry = '''SELECT * FROM gallerij '''
 
     gallerij = DB.all(qry)
 
@@ -278,44 +278,3 @@ def get_staff():
                "message": "success",
                "medewerkers": medewerker_info
            }, 201
-<<<<<<< HEAD
-
-# def me():
-#     token = request.headers['Authorization']
-#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
-#
-#     if not request.cookies.get('access_token'):
-#         return {"message": "error",
-#                 "response": "no token"}, 401
-#     else:
-#         # decode the token
-#         try:
-#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-#             print(payload)
-#             return {"message": "success",
-#                     "response": payload}, 200
-#         except jwt.ExpiredSignatureError:
-#             return {"message": "error",
-#                     "response": "token expired"}, 401
-#         except jwt.InvalidTokenError:
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-#         except Exception as e:
-#             print(e)
-#             return {"message": "error",
-#                = == == =
-
-def get_reservatie():
-    qry = '''SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie` ORDER BY datum, tijd DESC'''
-
-    reservatie_info = DB.all(qry)
-    
-
-    return {
-               "message": "success",
-               "reservatie": reservatie_info
-
-           }, 201
-
-=======
->>>>>>> 94fc22312ddb70e4f21238439f0c6ee0239b8162
