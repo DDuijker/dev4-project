@@ -1,0 +1,32 @@
+.gallerij-card {
+    flex-basis: 225px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+  width: 33.33%;
+  margin-bottom: 10pt;
+    margin-top: 2%;
+   position: relative;
+   float: left;
+
+}
+.gallerij-card > h4 {
+    margin-bottom: 10pt;
+    margin-top: 2%;
+    color: #000;
+}
+
+.gallerij-card > img {
+    width: 100%;
+    height: 200pt;
+    align-self: center;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.row {
+    margin: 2%;
+}
