@@ -117,13 +117,22 @@ export function patch_table(data) {
 }
 
 export function delete_table(data) {
-    apiStaff("tables", "DELETE", data).then((res) => {
+    // first do a check if there are any reservations on this table
+    apiWithoutToken("reservatie", "GET", data).then((res) => {
         if (res.message === "success") {
-            //refresh the page
-            window.location.href = "/tables";
-            alert("Table deleted");
-            //reload the table data
-            get_tables();
+            if (res.reservations.length > 0) {
+                alert("Er zijn nog reservaties op deze tafel");
+            } else {
+                apiStaff("tables", "DELETE", data).then((res) => {
+                    if (res.message === "success") {
+                        //refresh the page
+                        window.location.href = "/tables";
+                        alert("Table deleted");
+                        //reload the table data
+                        get_tables();
+                    }
+                });
+            }
         }
     });
 }
