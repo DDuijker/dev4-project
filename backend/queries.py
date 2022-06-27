@@ -79,14 +79,14 @@ def get_tables():
 
     if all_tables:
         return {
-                   "message": "success",
-                   "tables": all_tables
-               }, 200
+            "message": "success",
+            "tables": all_tables
+        }, 200
     else:
         return {
-                   "message": "error",
-                   "error": "No tables found"
-               }, 404
+            "message": "error",
+            "error": "No tables found"
+        }, 404
 
 
 def add_tables():
@@ -118,8 +118,8 @@ def post_reservation():
 
     # Make the insert query with parameters
     qry = '''
-    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `datum`, `tijd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
-    VALUES(:user_id ,:aantal_personen, :date, :time, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
+    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
+    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
     '''
 
     # Insert into the database
@@ -260,10 +260,10 @@ def get_reservatie():
     reservatie_info = DB.all(qry)
 
     return {
-               "message": "success",
-               "reservatie": reservatie_info
+        "message": "success",
+        "reservatie": reservatie_info
 
-           }, 201
+    }, 201
 
 
 def get_menu():
@@ -298,9 +298,9 @@ def get_gallery():
 
     return {
 
-               "message": "success",
-               "gallerij": gallerij
-           }, 201
+        "message": "success",
+        "gallerij": gallerij
+    }, 201
 
 
 def get_staff():
@@ -310,6 +310,6 @@ def get_staff():
     medewerker_info = DB.all(qry)
 
     return {
-               "message": "success",
-               "medewerkers": medewerker_info
-           }, 201
+        "message": "success",
+        "medewerkers": medewerker_info
+    }, 201

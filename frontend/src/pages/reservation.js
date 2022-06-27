@@ -26,7 +26,7 @@ export default function Reservation({ loggedIn }) {
   function submit(event) {
     //check if the form is filled
     event.preventDefault();
-    if (event.target.date.value === "" || event.target.time.value === "") {
+    if (event.target.date.value === "") {
       setError("Vul alle velden in");
       return;
     }
@@ -38,6 +38,7 @@ export default function Reservation({ loggedIn }) {
       setError("Kies een datum in de toekomst");
       return;
     }
+
     //make sure that a customer can't select a date later than 6 months from now
     let sixMonthsFromNow = new Date();
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
@@ -45,18 +46,26 @@ export default function Reservation({ loggedIn }) {
       setError("Kies een vroegere datum");
       return;
     }
+    // get the date from datepicker without the time
+    let dateString = date.toISOString().slice(0, 10);
+    console.log(dateString);
 
-    //show a second timestamp of 2 hours after the chosen time
-    let time = new Date(event.target.time.value);
-    time.setHours(time.getHours() + 2);
-    let timeString = time.toLocaleTimeString("nl-NL");
-    console.log(timeString);
+    // get the time from datepicker
+    var hour = new Date(event.target.date.value).getHours();
+    var minute = new Date(event.target.date.value).getMinutes();
+    var timeStart = hour + ":" + minute;
+    console.log(timeStart);
+    //add 2 hours to time
+    var time2 = new Date(event.target.date.value).getHours() + 2;
+    var timeEnd = time2 + ":" + minute;
+    console.log(timeEnd);
 
     //get data from the form
     let data = {
       aantal_personen: event.target.personen.value,
-      date: event.target.date.value,
-      time: event.target.time.value,
+      date: dateString,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
       text: event.target.text.value,
       voorkeur_locatie: event.target.locaties.value,
       voorkeur_verdieping: event.target.verdiepingen.value,
@@ -64,11 +73,12 @@ export default function Reservation({ loggedIn }) {
       tijd_van_reservatie: new Date(),
     };
     console.log(data);
+
     //send it to the backend
-    //reservation(data, setError, false);
+    reservation(data, setError, false);
 
     //clear the form
-    //event.target.reset();
+    event.target.reset();
   }
 
   return (
@@ -87,8 +97,7 @@ export default function Reservation({ loggedIn }) {
             <option value={8}>8 personen</option>
             <option value={10}>10 personen</option>
           </select>
-          <input type="date" name="date" placeholder="mm/dd/yyyy" />
-          <input type="time" name="time" placeholder="tijd" />
+          <input id="datePicker" type="datetime-local" name="date" />
           <input type="text-area" name="text" placeholder="bericht" />
         </div>
         <h3>Voorkeuren</h3>

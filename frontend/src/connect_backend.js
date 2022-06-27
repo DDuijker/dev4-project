@@ -1,34 +1,34 @@
 export function register(data) {
-    //check if form is filled
-    if (
-        data.email === "" ||
-        data.password === "" ||
-        data.firstname === "" ||
-        data.lastname === ""
-    ) {
-        alert("Vul alle velden in");
-        return;
+  //check if form is filled
+  if (
+    data.email === "" ||
+    data.password === "" ||
+    data.firstname === "" ||
+    data.lastname === ""
+  ) {
+    alert("Vul alle velden in");
+    return;
+  }
+  // Check if passwords match
+  if (data.password !== data.confirmpassword) {
+    alert("Wachtwoorden komen niet overeen");
+  }
+  // submit data to API
+  apiWithoutToken("register", "POST", data).then((res) => {
+    if (res.message === "success") {
+      alert("user created");
     }
     // Check if passwords match
     if (data.password !== data.confirmpassword) {
-        alert("Wachtwoorden komen niet overeen");
+      alert("Wachtwoorden komen niet overeen");
     }
     // submit data to API
     apiWithoutToken("register", "POST", data).then((res) => {
-        if (res.message === "success") {
-            alert("user created");
-        }
-        // Check if passwords match
-        if (data.password !== data.confirmpassword) {
-            alert("Wachtwoorden komen niet overeen");
-        }
-        // submit data to API
-        apiWithoutToken("register", "POST", data).then((res) => {
-            if (res.message === "success") {
-                alert("user created");
-            }
-        });
+      if (res.message === "success") {
+        alert("user created");
+      }
     });
+  });
 }
 
 export function login(data, setError, medewerker) {
@@ -72,26 +72,33 @@ export function login(data, setError, medewerker) {
 }
 
 export default function get_tables(setTables) {
-    // I still need to check if the user is a staff member
-    return apiStaff("tables", "GET").then((res) => {
-        if (res.message === "success") {
-            setTables(res.tables);
-        } else {
-            return null;
-        }
-    });
+  // I still need to check if the user is a staff member
+  return apiStaff("tables", "GET").then((res) => {
+    if (res.message === "success") {
+      setTables(res.tables);
+    } else {
+      return null;
+    }
+  });
 }
 
 export function add_table(data) {
-    //check if form is filled
-    if (
-        data.aantal_personen === "" ||
-        data.locatie === "" ||
-        data.verdieping === "" ||
-        data.type_zitting === ""
-    ) {
-        alert("Vul alle velden in");
-        return;
+  //check if form is filled
+  if (
+    data.aantal_personen === "" ||
+    data.locatie === "" ||
+    data.verdieping === "" ||
+    data.type_zitting === ""
+  ) {
+    alert("Vul alle velden in");
+    return;
+  }
+  // submit data to API
+  apiStaff("tables", "POST", data).then((res) => {
+    if (res.message === "success") {
+      alert("table created");
+      //refresh the page
+      window.location.href = "/tables";
     }
     // submit data to API
     apiStaff("tables", "POST", data).then((res) => {
@@ -146,96 +153,92 @@ export function getMyReservations(setReservations) {
     }
 }
 
-
 // Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 export function logout() {
-    deleteCookie("token")
-    deleteCookie("name")
-    deleteCookie("staff_token")
-    deleteCookie("staff")
-    window.location.href = '/'
+  deleteCookie("token");
+  deleteCookie("name");
+  deleteCookie("staff_token");
+  deleteCookie("staff");
+  window.location.href = "/";
 }
 
 export function reservation(data) {
-    //add user id to the data
-    data.token = getCookie("token");
-    //submit data to API
-    apiUser("reservation", "POST", data).then((res) => {
-        if (res.message === "success") {
-            alert("Reservering aangemaakt");
-        }
-    });
+  //add user id to the data
+  data.token = getCookie("token");
+  //submit data to API
+  apiUser("reservation", "POST", data).then((res) => {
+    if (res.message === "success") {
+      alert("Reservering aangemaakt");
+    }
+  });
 }
 
 // Cookie funtions
 function deleteCookie(cname) {
-    document.cookie = cname + "=; Max-Age=0";
+  document.cookie = cname + "=; Max-Age=0";
 }
 
 function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  const d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 //make a function to get the cookie
 export function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie) {
-        let cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+  let cookieValue = null;
+  if (document.cookie) {
+    let cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
     }
     return cookieValue;
 }
 
 // Api functions
 function apiWithoutToken(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-        method: method,
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
 }
 
 function apiUser(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-        method: method,
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getCookie("token"),
-        },
-        body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
-
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
 }
 
 function apiStaff(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-        method: method,
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getCookie("staff_token"),
-        },
-        body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("staff_token"),
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
 }
-
