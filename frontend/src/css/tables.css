@@ -44,3 +44,13 @@
     border-radius: 10px;
     border: outset;
 }
+
+.delete-button {
+    margin-left: 15px;
+    /* make it round */
+    border-radius: 50%;
+    /* make it a bit bigger */
+    width: 30px;
+    height: 30px;
+    border: outset;
+}
