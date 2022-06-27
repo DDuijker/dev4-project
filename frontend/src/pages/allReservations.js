@@ -49,7 +49,7 @@ export default function AllReservations() {
     <div>
       <h1>Alle reservaties</h1>
       <div className={"boxes"}>
-        <div>{boxes ? boxes : <h1>Er zijn geen reserveringen</h1>}</div>
+        <div>{reservatieItems.length > 0 ? boxes : <h1>Er zijn geen reserveringen</h1>}</div>
       </div>
     </div>
   );
