@@ -35,6 +35,20 @@ def tables():
             return add_tables()
         elif request.method == 'PATCH':
             return patch_tables()
+        elif request.method == 'DELETE':
+            return delete_tables()
+
+
+def delete_tables():
+    args = request.json
+    print(args)
+    qry = '''
+    DELETE FROM `tafel` WHERE tafel_id = :id
+    '''
+
+    DB.delete(qry, args)
+
+    return {"message": "success"}, 200
 
 
 def patch_tables():

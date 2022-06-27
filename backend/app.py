@@ -20,7 +20,7 @@ app.add_url_rule('/reservatie', None, get_reservatie, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
 app.add_url_rule('/myreservations', None, my_reservations, methods=["GET"])
 app.add_url_rule('/reservation', None, post_reservation, methods=["POST"])
-app.add_url_rule('/tables', None, tables, methods=["GET", "POST", "PATCH"])
+app.add_url_rule('/tables', None, tables, methods=["GET", "POST", "PATCH", "DELETE"])
 
 
 @app.before_request

@@ -116,6 +116,19 @@ export function patch_table(data) {
     });
 }
 
+export function delete_table(data) {
+    apiStaff("tables", "DELETE", data).then((res) => {
+        if (res.message === "success") {
+            //refresh the page
+            window.location.href = "/tables";
+            alert("Table deleted");
+            //reload the table data
+            get_tables();
+        }
+    });
+}
+
+
 export function getMyReservations(setReservations) {
     // get token from cookie
     const token = getCookie("token");
