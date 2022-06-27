@@ -24,9 +24,6 @@ export default function AddTable() {
         console.log(data);
         add_table(data);
     }
-
-
-    console.log("table")
     //make a form to add a table
     return (<div>
         <h3>Voeg een tafel toe</h3>

@@ -45,7 +45,6 @@ export function login(data, setError, medewerker) {
                 setCookie("name", res.user.firstname, 999)
                 setCookie("token", res.token, 999)
                 setCookie("user_id", res.user.id, 999)
-                console.log(res.user);
                 window.location.href = "/";
             } else if (res.error === "wrong password") {
                 setError("Wachtwoord is incorrect");
@@ -59,11 +58,9 @@ export function login(data, setError, medewerker) {
         //submit medewerker data to API
         apiWithoutToken("login_medewerker", "POST", data).then((res) => {
             if (res.message === "success") {
-                console.log(res)
                 setCookie("staff_token", res.staff_token, 999)
                 setCookie("staff", res.staff, 999)
                 //setCookie("staffname", res.staff.firstname, 999)
-                console.log(res.staff);
                 window.location.href = "/tables";
             } else if (res.error === "wrong password") {
                 setError("Wachtwoord is incorrect");
@@ -106,6 +103,16 @@ export function add_table(data) {
     });
 }
 
+export function patch_table(data) {
+    apiStaff("tables", "PATCH", data).then((res) => {
+        if (res.message === "success") {
+            alert("table updated");
+            //refresh the page
+            window.location.href = "/tables";
+        }
+    });
+}
+
 export function getMyReservations(setReservations) {
     // get token from cookie
     const token = getCookie("token");
@@ -114,7 +121,6 @@ export function getMyReservations(setReservations) {
         // get user reservations
         apiUser("myreservations", "GET").then((res) => {
             if (res.message === "success") {
-                console.log(res.reservations);
                 setReservations(res.reservations);
             }
         });
@@ -170,7 +176,6 @@ export function getCookie(name) {
             }
         }
     }
-    console.log(cookieValue);
     return cookieValue;
 }
 
