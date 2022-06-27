@@ -14,13 +14,8 @@ export default function AllReservations() {
           console.log(data.reservatie);
         });
     }
-
     getData();
   }, []);
-
-  if (!reservatieItems) {
-    return null;
-  }
 
   let id = 1;
   const boxes = reservatieItems.map((box) => {
@@ -43,7 +38,7 @@ export default function AllReservations() {
       );
     } else {
       return (
-        <div className={"grid"}>
+        <div>
           <ReservatieBox data={box} key={id} id={id} />
         </div>
       );
