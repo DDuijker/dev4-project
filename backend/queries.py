@@ -1,4 +1,5 @@
 import json
+from time import time
 from flask import request, jsonify, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
@@ -292,7 +293,7 @@ def get_menu():
 
 
 def get_gallery():
-    qry = '''SELECT naam FROM gallerij '''
+    qry = '''SELECT * FROM gallerij '''
 
     gallerij = DB.all(qry)
 

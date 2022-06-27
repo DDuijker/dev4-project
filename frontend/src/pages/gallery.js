@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import GalleryPhoto from "../components/GalleryPhoto";
+import "../css/gallerij.css";
 
-export default function Gallery() {
-  const [galleryPhoto, setGalleryData] = useState(null);
+export default function gallery() {
+  /* const [galleryPhoto, setGalleryData] = useState(null);
 
   useEffect(function () {
     async function getData() {
@@ -13,10 +15,12 @@ export default function Gallery() {
     }
     getData();
   }, []);
-
+ */
   return (
     <div>
-      <h1>Gallery</h1>
+      <h1>
+        <GalleryPhoto />
+      </h1>
     </div>
   );
 }

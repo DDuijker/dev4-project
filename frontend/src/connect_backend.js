@@ -89,16 +89,8 @@ export function add_table(data) {
       alert("table created");
       //refresh the page
       window.location.href = "/tables";
+      console.log(res);
     }
-    // submit data to API
-    apiStaff("tables", "POST", data).then((res) => {
-      if (res.message === "success") {
-        alert("table created");
-        //refresh the page
-        window.location.href = "/tables";
-        console.log(res);
-      }
-    });
   });
 }
 
@@ -200,46 +192,46 @@ export function getCookie(name) {
     }
     return cookieValue;
   }
+}
 
-  // Api functions
-  function apiWithoutToken(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-      method: method,
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
-  }
+// Api functions
+function apiWithoutToken(endpoint, method = "GET", data = {}) {
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
+}
 
-  function apiUser(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-      method: method,
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + getCookie("token"),
-      },
-      body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
-  }
+function apiUser(endpoint, method = "GET", data = {}) {
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
+}
 
-  function apiStaff(endpoint, method = "GET", data = {}) {
-    const API = "http://localhost:5000/";
-    console.log("API:" + API + endpoint);
-    return fetch(API + endpoint, {
-      method: method,
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + getCookie("staff_token"),
-      },
-      body: method === "GET" ? null : JSON.stringify(data),
-    }).then((res) => res.json());
-  }
+function apiStaff(endpoint, method = "GET", data = {}) {
+  const API = "http://localhost:5000/";
+  console.log("API:" + API + endpoint);
+  return fetch(API + endpoint, {
+    method: method,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("staff_token"),
+    },
+    body: method === "GET" ? null : JSON.stringify(data),
+  }).then((res) => res.json());
 }
