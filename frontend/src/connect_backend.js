@@ -1,11 +1,7 @@
+
 export function register(data) {
     //check if form is filled
-    if (
-        data.email === "" ||
-        data.password === "" ||
-        data.firstname === "" ||
-        data.lastname === ""
-    ) {
+    if (data.email === "" || data.password === "" || data.firstname === "" || data.lastname === "") {
         alert("Vul alle velden in");
         return;
     }
@@ -18,16 +14,6 @@ export function register(data) {
         if (res.message === "success") {
             alert("user created");
         }
-        // Check if passwords match
-        if (data.password !== data.confirmpassword) {
-            alert("Wachtwoorden komen niet overeen");
-        }
-        // submit data to API
-        apiWithoutToken("register", "POST", data).then((res) => {
-            if (res.message === "success") {
-                alert("user created");
-            }
-        });
     });
 }
 
@@ -177,6 +163,7 @@ export function reservation(data) {
 }
 
 // Cookie funtions
+// Cookie funtions
 function deleteCookie(cname) {
     document.cookie = cname + "=; Max-Age=0";
 }
@@ -204,6 +191,7 @@ export function getCookie(name) {
     }
     return cookieValue;
 }
+
 
 // Api functions
 function apiWithoutToken(endpoint, method = "GET", data = {}) {

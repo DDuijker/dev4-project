@@ -2,6 +2,7 @@ import React from "react";
 import '../css/reservations.css'
 
 function ReservatieItem({data}) {
+    console.log(data);
     return (
         <div className={"reservation-item-text"}>
             <h4>Aantal personen: {data.aantal_personen}</h4>
