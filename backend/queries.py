@@ -15,7 +15,7 @@ def my_reservations():
     if user_id:
         # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY datum, tijd 
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart 
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
