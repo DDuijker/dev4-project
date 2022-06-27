@@ -39,6 +39,5 @@
 }
 
 .not-loggedin {
-    display: grid;
     justify-items: center;
 }

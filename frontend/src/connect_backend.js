@@ -74,6 +74,38 @@ export function login(data, setError, medewerker) {
     }
 }
 
+export default function get_tables(setTables) {
+    // I still need to check if the user is a staff member
+    return apiStaff("tables", "GET").then((res) => {
+        if (res.message === "success") {
+            setTables(res.tables);
+        } else {
+            return null;
+        }
+    });
+}
+
+export function add_table(data) {
+    //check if form is filled
+    if (
+        data.aantal_personen === "" ||
+        data.locatie === "" ||
+        data.verdieping === "" ||
+        data.type_zitting === ""
+    ) {
+        alert("Vul alle velden in");
+        return;
+    }
+    // submit data to API
+    apiStaff("tables", "POST", data).then((res) => {
+        if (res.message === "success") {
+            alert("table created");
+            //refresh the page
+            window.location.href = "/tables";
+        }
+    });
+}
+
 export function getMyReservations(setReservations) {
     // get token from cookie
     const token = getCookie("token");
@@ -95,7 +127,6 @@ export function getMyReservations(setReservations) {
 
 // Cookie functions stolen from w3schools (https://www.w3schools.com/js/js_cookies.asp)
 export function logout() {
-
     deleteCookie("token")
     deleteCookie("name")
     deleteCookie("staff_token")

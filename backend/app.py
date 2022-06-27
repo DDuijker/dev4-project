@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, request_finished, request_started, request
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from queries import (create_user, login, get_menu,
-                     get_staff, get_gallery, staff_login, post_reservation, get_reservatie, my_reservations)
-
+                     get_staff, get_gallery, staff_login, post_reservation, get_reservatie, my_reservations,
+                     get_or_add_tables)
 import sqlite3
-from db import DB
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +20,7 @@ app.add_url_rule('/reservatie', None, get_reservatie, methods=["GET"])
 app.add_url_rule('/', None, get_staff, methods=["GET"])
 app.add_url_rule('/myreservations', None, my_reservations, methods=["GET"])
 app.add_url_rule('/reservation', None, post_reservation, methods=["POST"])
+app.add_url_rule('/tables', None, get_or_add_tables, methods=["GET", "POST"])
 
 
 @app.before_request

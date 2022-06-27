@@ -46,7 +46,7 @@ function App() {
                         />
                         <Route
                             path="/tables"
-                            element={<Tables medewerker={medewerker} loggedIn={loggedIn}/>}
+                            element={<Tables medewerker={medewerker}/>}
                         />
                         <Route path="/staff_login" element={<StaffLogin/>}/>
                         <Route path="/logout" element={logout}/>
