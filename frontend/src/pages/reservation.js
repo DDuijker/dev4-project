@@ -47,12 +47,10 @@ export default function Reservation({ loggedIn }) {
     }
 
     //show a second timestamp of 2 hours after the chosen time
-    Date.prototype.addHours = function (h) {
-      this.setTime(this.getTime() + h * 60 * 60 * 1000);
-      return this;
-    };
-
-    console.log(this);
+    let time = new Date(event.target.time.value);
+    time.setHours(time.getHours() + 2);
+    let timeString = time.toLocaleTimeString("nl-NL");
+    console.log(timeString);
 
     //get data from the form
     let data = {

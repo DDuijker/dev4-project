@@ -12,8 +12,9 @@ def my_reservations():
     user_id = decoded['id']
 
     if user_id:
+        # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY datum, tijd 
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
@@ -21,6 +22,50 @@ def my_reservations():
     else:
         return {"message": "error",
                 "error": "No token"}, 401
+
+
+def get_or_add_tables():
+    token = request.headers['Authorization'].split(' ')[1]
+    decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    staff_id = decoded['id']
+    if staff_id:
+        if request.method == 'GET':
+            return get_tables()
+        elif request.method == 'POST':
+            return add_tables()
+
+
+def get_tables():
+    # get all the tables
+    qry = ''' SELECT * FROM `tafel` '''
+
+    all_tables = DB.all(qry)
+
+    if all_tables:
+        return {
+                   "message": "success",
+                   "tables": all_tables
+               }, 200
+    else:
+        return {
+                   "message": "error",
+                   "error": "No tables found"
+               }, 404
+
+
+def add_tables():
+    args = request.json
+
+    qry = '''
+    INSERT INTO `tafel` (aantal_personen, locatie, verdieping, type_zitting) VALUES (:aantal_personen, :locatie, :verdieping, :type_zitting)
+    '''
+
+    if args['aantal_personen'] and args['locatie'] and args['verdieping'] and args['type_zitting']:
+        DB.insert(qry, args)
+        return {"message": "success"}, 201
+    else:
+        return {"message": "error",
+                "error": "No arguments"}, 404
 
 << << << < HEAD
 == == == =
@@ -49,33 +94,6 @@ def post_reservation():
     print(reservatie_id)
     # Return a message and the user id
     return {"message": "success", "id": reservatie_id}, 201
-
-# def me():
-#     token = request.headers['Authorization']
-#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
-#
-#     if not request.cookies.get('access_token'):
-#         return {"message": "error",
-#                 "response": "no token"}, 401
-#     else:
-#         # decode the token
-#         try:
-#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-#             print(payload)
-#             return {"message": "success",
-#                     "response": payload}, 200
-#         except jwt.ExpiredSignatureError:
-#             return {"message": "error",
-#                     "response": "token expired"}, 401
-#         except jwt.InvalidTokenError:
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-#         except Exception as e:
-#             print(e)
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
->> >> >> > 2
-ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
 
 
 def create_user():
@@ -261,45 +279,3 @@ def get_staff():
                "message": "success",
                "medewerkers": medewerker_info
            }, 201
-
-<< << << < HEAD
-# def me():
-#     token = request.headers['Authorization']
-#     user = jwt.decode(token, key='secret', algorithms=['HS256'])
-#
-#     if not request.cookies.get('access_token'):
-#         return {"message": "error",
-#                 "response": "no token"}, 401
-#     else:
-#         # decode the token
-#         try:
-#             payload = jwt.decode(request.cookies.get('access_token'), key='secret', algorithms=['HS256'])
-#             print(payload)
-#             return {"message": "success",
-#                     "response": payload}, 200
-#         except jwt.ExpiredSignatureError:
-#             return {"message": "error",
-#                     "response": "token expired"}, 401
-#         except jwt.InvalidTokenError:
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-#         except Exception as e:
-#             print(e)
-#             return {"message": "error",
-#                     "response": "token invalid"}, 401
-== == == =
-
-def get_reservatie():
-    qry = '''
-    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
-
-    reservatie_info = DB.all(qry)
-
-    return {
-               "message": "success",
-               "reservatie": reservatie_info
-
-           }, 201
-
->> >> >> > 2
-ce72c7d41a0526f2d40d6d00d2f9dcfa36a2738
