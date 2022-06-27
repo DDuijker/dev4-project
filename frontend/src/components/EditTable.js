@@ -1,11 +1,24 @@
 import React from 'react';
 import '../css/tables.css';
-
+import {patch_table} from "../connect_backend";
 
 export default function EditTable(table) {
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        const data = {
+            id: table.table.tafel_id,
+            aantal_personen: event.target.aantal_personen.value,
+            locatie: event.target.locatie.value,
+            verdieping: event.target.verdieping.value,
+            type_zitting: event.target.type_zitting.value
+        }
+        patch_table(data);
+    }
+
     return (
-        <form className={"addTableForm"} key={table.tafel_id}>
-            <h4 className={"table-number"}>Tafelnummer: {table.tafel_id}</h4>
+        <form className={"addTableForm"} onSubmit={handleSubmit} key={table.tafel_id}>
+            <h4 className={"table-number"}>Tafelnummer: {table.table.tafel_id}</h4>
             <select className={"dropdown"} id={"aantal_personen"} defaultValue={table.aantal_personen}>
                 <option value={1}>1 persoon</option>
                 <option value={2}>2 personen</option>
@@ -31,8 +44,14 @@ export default function EditTable(table) {
                 <option value={"bank"}>Bank</option>
             </select>
             <button onClick={() => {
-                table.editing = false;
-                //make a patch function for the backend
+                //patch the table
+                patch_table({
+                    id: table.table.tafel_id,
+                    aantal_personen: table.table.aantal_personen,
+                    locatie: table.table.locatie,
+                    verdieping: table.table.verdieping,
+                    type_zitting: table.table.type_zitting
+                });
             }} className={"button-add-table"}>Verander
             </button>
         </form>

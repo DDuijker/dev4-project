@@ -23,8 +23,9 @@ export default function Tables({medewerker}) {
             // console.log("Is this table being edited?", table.editing)
             // select the table that is being edited
             if (table.editing === true) {
+                console.log(table.tafel_id)
                 return (
-                    <EditTable table={table} key={table.tafel_id}/>
+                    <EditTable table={table} id={table.tafel_id} key={table.tafel_id}/>
                 )
             } else {
                 return (

@@ -99,16 +99,19 @@ export function add_table(data) {
             alert("table created");
             //refresh the page
             window.location.href = "/tables";
+            console.log(res)
         }
     });
 }
 
 export function patch_table(data) {
+    console.log(data);
     apiStaff("tables", "PATCH", data).then((res) => {
         if (res.message === "success") {
-            alert("table updated");
             //refresh the page
             window.location.href = "/tables";
+            alert("Table updated");
+            console.log(res)
         }
     });
 }
@@ -151,6 +154,7 @@ export function reservation(data) {
     });
 }
 
+// Cookie funtions
 function deleteCookie(cname) {
     document.cookie = cname + "=; Max-Age=0";
 }
@@ -179,6 +183,7 @@ export function getCookie(name) {
     return cookieValue;
 }
 
+// Api functions
 function apiWithoutToken(endpoint, method = "GET", data = {}) {
     const API = "http://localhost:5000/";
     console.log("API:" + API + endpoint);

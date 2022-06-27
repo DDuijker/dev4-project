@@ -24,17 +24,7 @@ def my_reservations():
                 "error": "No token"}, 401
 
 
-def patch_tables():
-    args = request.json
-    qry = '''
-    UPDATE `tafel` SET aantal_personen = :aantal_personen, locatie = :locatie, verdieping = :verdieping, type_zitting = :type_zitting WHERE tafel_id = :id
-    '''
-
-    DB.update(qry, args)
-    return {"message": "success"}, 200
-
-
-def get_or_add_tables():
+def tables():
     token = request.headers['Authorization'].split(' ')[1]
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
     staff_id = decoded['id']
@@ -45,6 +35,25 @@ def get_or_add_tables():
             return add_tables()
         elif request.method == 'PATCH':
             return patch_tables()
+
+
+def patch_tables():
+    args = request.json
+    print(args)
+    qry = '''
+    UPDATE `tafel` SET aantal_personen = :aantal_personen, locatie = :locatie, verdieping = :verdieping, type_zitting = :type_zitting WHERE tafel_id = :id
+    '''
+
+    DB.update(qry, args)
+
+    qry_updated_table = '''
+    SELECT * FROM `tafel` WHERE tafel_id = :id
+    '''
+
+    updated_table = DB.one(qry_updated_table, args)
+
+    return {"message": "success",
+            "updated_table": updated_table}, 200
 
 
 def get_tables():
