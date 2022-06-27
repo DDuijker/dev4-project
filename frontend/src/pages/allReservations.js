@@ -25,7 +25,7 @@ export default function AllReservations() {
     if (reservatieItems.length === 1) {
       return (
         <div className={"center-this-one"}>
-          <ReservatieBox data={box} key={id} id={id} />;
+          <ReservatieBox data={box} key={id} id={id}/>
         </div>
       );
     }
