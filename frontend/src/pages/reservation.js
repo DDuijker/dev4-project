@@ -4,13 +4,6 @@ import { Link } from "react-router-dom";
 import { reservation } from "../connect_backend";
 
 export default function Reservation({ loggedIn }) {
-  //TODO: if user isn't logged in you can't place a reservation
-  //TODO: check if the form is filled
-  //TODO: make sure that a customer can't select a date in the past
-  //TODO: make sure someone is first logged in
-  //TODO: insert icons at the end of the submit
-  //TODO: send it to the backend
-
   const [error, setError] = React.useState("");
   if (!loggedIn) {
     return (

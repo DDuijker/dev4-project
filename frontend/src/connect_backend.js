@@ -139,7 +139,6 @@ export function getMyReservations(setReservations) {
       }
     });
   } else {
-    alert("U bent niet ingelogd");
     window.location.href = "/login";
   }
 }

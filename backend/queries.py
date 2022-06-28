@@ -255,8 +255,8 @@ def staff_login():
 
 def get_reservatie():
     qry = '''
-    SELECT reservatie_id as id, aantal_personen, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
-    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id'''
+    SELECT reservatie_id as id, aantal_personen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
+    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart DESC'''
 
     reservatie_info = DB.all(qry)
 

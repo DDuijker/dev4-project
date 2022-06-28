@@ -7,14 +7,8 @@
     margin: 2% 0 4px 0%;
 }
 
-.boxes {
-    /* make the boxes next to eachother */
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 10px;
-    margin: 20px;
-    justify-content: center;
-    align-items: center;
+.crossed {
+    text-decoration: line-through;
 }
 
 .my-reservations {
@@ -23,20 +17,29 @@
 
 .reservation-box {
     display: grid;
-    grid-gap: 20px;
-    margin: 20px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    border: 1px solid #8191AA;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
 }
 
 
 .reservation-item-text {
-    /* give it a border */
-    /* give left and right padding */
+    display: grid;
     padding: 10px 20px;
+    margin-bottom: 20px;
     border: 1px solid #8191AA;
     /* give under and right a shadow */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.contents {
-    display: contents;
+
+.all-reservations {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
 }

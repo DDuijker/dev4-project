@@ -9,6 +9,7 @@ function ReservatieItem({data}) {
             <h4>Aantal personen: {data.aantal_personen}</h4>
             <p>op: {data.date}</p>
             <p>van {data.timeStart} tot {data.timeEnd}</p>
+            <h5>Tafelnummer: {data.tafel_id}</h5>
             <p>{data.bericht && data.bericht}</p>
             <h4>Voorkeuren</h4>
             <p>Locatie: {data.voorkeur_locatie}</p>
