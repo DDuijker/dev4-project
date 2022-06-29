@@ -163,7 +163,7 @@ export function reservation(data) {
 
 
 export function patch_reservation(data) {
-    apiUser("reservation", "PATCH", data).then((res) => {
+    apiUser("reservatie", "PATCH", data).then((res) => {
         if (res.message === "success") {
             alert("Reservering aangepast");
         }

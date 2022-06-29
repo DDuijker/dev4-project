@@ -7,6 +7,7 @@ function ReservatieBox({data, id, type, reservations, setReservations}) {
         <ReservatieItem
             key={id}
             data={data}
+            id={id}
             type={type}
             reservations={reservations}
             setReservations={setReservations}
