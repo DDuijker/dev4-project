@@ -10,8 +10,8 @@ import Login from "./pages/login";
 import Footer from "./components/Footer";
 import Registration from "./pages/registration";
 import Tables from "./pages/tables";
-import Reservations from "./pages/reservations";
-import { getCookie, logout } from "./connect_backend";
+import Reservations from "./pages/my_reservations";
+import {getCookie, logout} from "./connect_backend";
 import StaffLogin from "./components/StaffLogin";
 import AllReservations from "./pages/allReservations";
 
@@ -36,14 +36,14 @@ function App() {
               element={<Reservation loggedIn={loggedIn} />}
             />
             <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/myReservations" element={<Reservations />} />
-            <Route
-              path="/allReservations"
-              element={
-                <AllReservations medewerker={medewerker} loggedIn={loggedIn} />
-              }
-            />
+              <Route path="/registration" element={<Registration/>}/>
+              <Route path="/my_reservations" element={<Reservations/>}/>
+              <Route
+                  path="/allReservations"
+                  element={
+                      <AllReservations medewerker={medewerker} loggedIn={loggedIn}/>
+                  }
+              />
             <Route
               path="/tables"
               element={<Tables medewerker={medewerker} />}

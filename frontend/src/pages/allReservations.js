@@ -29,7 +29,7 @@ export default function AllReservations() {
         id++;
 
         return (
-            <ReservatieBox data={box} key={id} id={id}/>
+            <ReservatieBox data={box} key={id} id={id} type={"all"}/>
         );
 
     });

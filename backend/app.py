@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request_finished, request_started, request
+from flask import Flask, jsonify, request_started
 from flask_cors import CORS
 from queries import (create_user, login, get_menu,
                      get_staff, get_gallery, staff_login, post_reservation, reservatie, my_reservations,

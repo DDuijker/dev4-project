@@ -1,10 +1,8 @@
-import json
-from time import time
-from flask import request, jsonify, make_response
+from flask import request, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
-from flask_jwt_extended import (jwt_required, get_jwt_identity)
 import jwt
+
 
 def reservatie():
     if request.method == 'GET':
@@ -13,6 +11,7 @@ def reservatie():
         return patch_reservation()
     elif request.method == 'DELETE':
         return delete_reservation()
+
 
 def my_reservations():
     token = request.headers['Authorization'].split(' ')[1]
