@@ -2,7 +2,6 @@ import React from "react";
 import '../css/reservations.css'
 
 function ReservatieItem({data}) {
-    console.log(data);
     return (
         <div className={"reservation-item-text"}>
             <h3>{data.voornaam} {data.tussenvoegsel && data.tussenvoegsel} {data.achternaam}</h3>

@@ -89,19 +89,16 @@ export function add_table(data) {
       alert("table created");
       //refresh the page
       window.location.href = "/tables";
-      console.log(res);
     }
   });
 }
 
 export function patch_table(data) {
-  console.log(data);
   apiStaff("tables", "PATCH", data).then((res) => {
     if (res.message === "success") {
       //refresh the page
       window.location.href = "/tables";
       alert("Table updated");
-      console.log(res);
     }
   });
 }

@@ -12,7 +12,6 @@ export default function AllReservations() {
                 .then((response) => response.json())
                 .then((data) => {
                     setReservatieItems(data.reservatie);
-                    console.log(data.reservatie);
                 });
         }
 

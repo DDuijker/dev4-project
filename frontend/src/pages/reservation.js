@@ -41,17 +41,14 @@ export default function Reservation({ loggedIn }) {
     }
     // get the date from datepicker without the time
     let dateString = date.toISOString().slice(0, 10);
-    console.log(dateString);
 
     // get the time from datepicker
     var hour = new Date(event.target.date.value).getHours();
     var minute = new Date(event.target.date.value).getMinutes();
     var timeStart = hour + ":" + minute;
-    console.log(timeStart);
     //add 2 hours to time
     var time2 = new Date(event.target.date.value).getHours() + 2;
     var timeEnd = time2 + ":" + minute;
-    console.log(timeEnd);
 
     //get data from the form
     let data = {
@@ -65,7 +62,6 @@ export default function Reservation({ loggedIn }) {
       voorkeur_zitting: event.target.stoelen.value,
       tijd_van_reservatie: new Date(),
     };
-    console.log(data);
 
     //send it to the backend
     reservation(data, setError, false);

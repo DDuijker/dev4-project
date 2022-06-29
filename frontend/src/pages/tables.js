@@ -11,7 +11,6 @@ export default function Tables({medewerker}) {
     if (!medewerker) {
         window.location.href = "/login";
     }
-    console.log(tables);
     useEffect(function getTables() {
         get_tables(setTables)
     }, []);
@@ -21,11 +20,8 @@ export default function Tables({medewerker}) {
     // if the table is being edited, display the form
     // if the table is not being edited, display the table
     const boxes = tables.map((table, index) => {
-
-            // console.log("Is this table being edited?", table.editing)
             // select the table that is being edited
             if (table.editing === true) {
-                console.log(table.tafel_id)
                 return (
                     <EditTable table={table} id={table.tafel_id} key={table.tafel_id}/>
                 )
@@ -40,7 +36,6 @@ export default function Tables({medewerker}) {
                         <span><button className={"button-add-table"} onClick={() => {
                             const copyTables = [...tables];
                             copyTables[index].editing = true;
-                            console.log("aangeklikte tafel:", table)
                             setTables(copyTables)
                         }
                         }>Pas gegevens aan
@@ -53,7 +48,6 @@ export default function Tables({medewerker}) {
                                 delete_table(tafel_id);
                                 const copyTables = [...tables];
                                 copyTables.splice(index, 1);
-                                console.log("nieuwe rij tafels", copyTables)
                                 setTables(copyTables);
                                 alert("Tafel verwijderd")
                             } else {

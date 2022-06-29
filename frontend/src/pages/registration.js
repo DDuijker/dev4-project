@@ -15,7 +15,6 @@ export default function Registration() {
             password: event.target.password2.value,
             confirmpassword: event.target.confirmpassword.value
         }
-        console.log(data)
         register(data)
     }
 
