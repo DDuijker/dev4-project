@@ -25,6 +25,19 @@ def my_reservations():
                 "error": "No token"}, 401
 
 
+def get_one_table():
+    args = request.json
+    print(args)
+    qry = '''SELECT * FROM `tafel` WHERE tafel_id = :id'''
+
+    table = DB.one(qry, args)
+
+    return {
+               "message": "success",
+               "table": table
+           }, 201
+
+
 def tables():
     token = request.headers['Authorization'].split(' ')[1]
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])

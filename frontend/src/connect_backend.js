@@ -108,10 +108,12 @@ export function patch_table(data) {
 
 export function delete_table(data) {
   // first do a check if there are any reservations on this table
-  apiWithoutToken("reservatie", "GET", data).then((res) => {
+
+  apiWithoutToken("get_one_table", "GET", data).then((res) => {
     if (res.message === "success") {
-      if (res.reservations.length > 0) {
+      if (res.table) {
         alert("Er zijn nog reservaties op deze tafel");
+        return;
       } else {
         apiStaff("tables", "DELETE", data).then((res) => {
           if (res.message === "success") {
