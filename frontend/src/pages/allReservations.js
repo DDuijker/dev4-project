@@ -25,7 +25,7 @@ export default function AllReservations() {
     if (reservatieItems.length === 1) {
       return (
         <div className={"center-this-one"}>
-          <ReservatieBox data={box} key={id} id={id} />;
+          <ReservatieBox data={box} key={id} id={id}/>
         </div>
       );
     }
@@ -49,7 +49,7 @@ export default function AllReservations() {
     <div>
       <h1>Alle reservaties</h1>
       <div className={"boxes"}>
-        <div>{boxes ? boxes : <h1>Er zijn geen reserveringen</h1>}</div>
+        <div>{reservatieItems.length > 0 ? boxes : <h1>Er zijn geen reserveringen</h1>}</div>
       </div>
     </div>
   );
