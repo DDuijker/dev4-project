@@ -23,13 +23,31 @@ export default function AllReservations() {
         window.location.href = "/";
     }
 
+    // make an option to filter the reservations by date
+    const [order, setOrder] = useState("asc");
 
-    let id = 1;
-    const boxes = reservatieItems.map((box) => {
-        id++;
+    const handleChange = (event) => {
+        // set the order to the value of the select
+        setOrder(event.target.value);
+    }
 
+    useEffect(function () {
+        // if the order is asc, sort the reservations by date ascending
+        if (order === "asc") {
+            setReservatieItems([...reservatieItems].sort((a, b) => {
+                return new Date(a.date) - new Date(b.date);
+            }));
+        } else if (order === "desc") {
+            // if the order is desc, sort the reservations by date descending
+            setReservatieItems([...reservatieItems].sort((a, b) => {
+                return new Date(b.date) - new Date(a.date);
+            }));
+        }
+    }, [order]);
+
+    const boxes = reservatieItems.map((box, index) => {
         return (
-            <ReservatieBox data={box} key={id} id={id} type={"all"}/>
+            <ReservatieBox data={box} key={index} id={box.id} type={"all"}/>
         );
 
     });
@@ -37,6 +55,15 @@ export default function AllReservations() {
     return (
         <div>
             <h1>Alle reservaties</h1>
+            {/* make an option to sort the reservations by date */}
+            <div className={"filter-by-container"} onChange={handleChange}>
+                <select>
+                    <option value="asc" id={"asc"}>Oplopend
+                    </option>
+                    <option value="desc" id={"desc"}>Aflopend
+                    </option>
+                </select>
+            </div>
             <div className={"all-reservations"}>
                 {reservatieItems.length > 0 ? boxes :
                     <h1>Er zijn geen reserveringen</h1>}
