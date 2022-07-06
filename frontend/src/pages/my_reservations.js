@@ -19,7 +19,6 @@ export default function Reservations() {
         return <ReservatieBox data={box} key={index} id={index} type={"my"}
                               reservations={reservations}
                               setReservations={setReservations}/>;
-
     });
 
     return (

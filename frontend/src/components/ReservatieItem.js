@@ -8,10 +8,8 @@ function ReservatieItem({data, type, id, reservations, setReservations}) {
 
     function patchReservation() {
         // set the reservation to editing
-        console.log("reservations", reservations);
         const copyReservations = [...reservations];
         copyReservations[id].editing = true;
-        console.log("copyReservations", copyReservations);
         setReservations(copyReservations)
     }
 
@@ -27,7 +25,6 @@ function ReservatieItem({data, type, id, reservations, setReservations}) {
     }
 
     if (data.editing) {
-        console.log(data)
         return <EditReservation reservation={data}/>
     }
     return (

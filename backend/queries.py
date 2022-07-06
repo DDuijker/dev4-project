@@ -21,7 +21,7 @@ def my_reservations():
     if user_id:
         # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart 
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart ASC
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
@@ -126,7 +126,7 @@ def add_tables():
 def get_reservation():
     qry = '''
     SELECT reservatie_id as id, aantal_personen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
-    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart DESC'''
+    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart ASC'''
 
     reservatie_info = DB.all(qry)
 
