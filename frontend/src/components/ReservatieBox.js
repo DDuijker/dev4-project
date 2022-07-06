@@ -1,16 +1,17 @@
 import React from "react";
-//import "../css/menu.css";
+import "../css/reservations.css";
 import ReservatieItem from "./ReservatieItem";
 
-function ReservatieBox({ data, id }) {
-  return (
-    <div className={"reservatie--box"}>
-      <ReservatieItem
-          key={id}
-          data={data}
-      />
-    </div>
-  );
+function ReservatieBox({data, id, type, reservations, setReservations}) {
+    return (
+        <ReservatieItem
+            key={id}
+            data={data}
+            type={type}
+            reservations={reservations}
+            setReservations={setReservations}
+        />
+    );
 }
 
 export default ReservatieBox;

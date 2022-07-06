@@ -4,13 +4,6 @@ import { Link } from "react-router-dom";
 import { reservation } from "../connect_backend";
 
 export default function Reservation({ loggedIn }) {
-  //TODO: if user isn't logged in you can't place a reservation
-  //TODO: check if the form is filled
-  //TODO: make sure that a customer can't select a date in the past
-  //TODO: make sure someone is first logged in
-  //TODO: insert icons at the end of the submit
-  //TODO: send it to the backend
-
   const [error, setError] = React.useState("");
   if (!loggedIn) {
     return (
@@ -48,17 +41,14 @@ export default function Reservation({ loggedIn }) {
     }
     // get the date from datepicker without the time
     let dateString = date.toISOString().slice(0, 10);
-    console.log(dateString);
 
     // get the time from datepicker
     var hour = new Date(event.target.date.value).getHours();
     var minute = new Date(event.target.date.value).getMinutes();
     var timeStart = hour + ":" + minute;
-    console.log(timeStart);
     //add 2 hours to time
     var time2 = new Date(event.target.date.value).getHours() + 2;
     var timeEnd = time2 + ":" + minute;
-    console.log(timeEnd);
 
     //get data from the form
     let data = {
@@ -72,7 +62,6 @@ export default function Reservation({ loggedIn }) {
       voorkeur_zitting: event.target.stoelen.value,
       tijd_van_reservatie: new Date(),
     };
-    console.log(data);
 
     //send it to the backend
     reservation(data, setError, false);
