@@ -67,7 +67,7 @@ export default function Reservation({ loggedIn }) {
     reservation(data, setError, false);
 
     //clear the form
-    event.target.reset();
+    //event.target.reset();
   }
 
   return (
