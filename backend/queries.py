@@ -39,9 +39,9 @@ def get_one_table():
     table = DB.one(qry, args)
 
     return {
-               "message": "success",
-               "table": table
-           }, 201
+        "message": "success",
+        "table": table
+    }, 201
 
 
 def tables():
@@ -131,10 +131,10 @@ def get_reservation():
     reservatie_info = DB.all(qry)
 
     return {
-               "message": "success",
-               "reservatie": reservatie_info
+        "message": "success",
+        "reservatie": reservatie_info
 
-           }, 201
+    }, 201
 
 
 def get_one_reservation():
@@ -186,6 +186,7 @@ def delete_reservation():
 
 
 def post_reservation():
+    print("hello")
     # Parse all arguments for validity
     args = request.json
     print(args)
@@ -332,7 +333,6 @@ def staff_login():
     else:
         return {"message": "error",
                 "response": "Staff member not found"}, 401
-
 
 
 def get_menu():
