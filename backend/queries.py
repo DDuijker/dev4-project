@@ -185,15 +185,20 @@ def post_reservation():
     qry = '''
     SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
     '''
-    # # if voorkeuren is not "geen" then add to the query
-    # if (args['voorkeur_locatie'] != "geen"):
-    #     qry += " AND voorkeur_locatie = :voorkeur_locatie"
+    # if voorkeuren is not "geen" then add to the query
+    if (args['voorkeur_locatie'] != "geen"):
+        qry += " AND locatie = :voorkeur_locatie"
 
-    # elif (args["voorkeur_verdieping"] != "geen"):
-    #     qry += " AND voorkeur_verdieping = :voorkeur_verdieping"
+    elif (args["voorkeur_verdieping"] != "geen"):
+        qry += " AND verdieping = :voorkeur_verdieping"
 
-    # elif (args["voorkeur_zitting"] != "geen"):
-    #     qry += " AND voorkeur_zitting = :voorkeur_zitting"
+    elif (args["voorkeur_zitting"] != "geen"):
+        qry += " AND type_zitting = :voorkeur_zitting"
+
+    # give error message if query returns no results
+    if DB.one(qry, args) is None:
+        return {"message": "error",
+                "error": "tafel bestaat niet"}, 404
 
     tafel_id = DB.one(qry, args)
     # change tafel_id to an integer
@@ -212,7 +217,7 @@ def post_reservation():
     if tafel_reservatie:
         return {
             "message": "error",
-            "error": "Table is not available"
+            "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
         }, 404
 
     # Make the insert query with parameters
