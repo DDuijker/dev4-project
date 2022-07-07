@@ -1,10 +1,16 @@
-import json
-import sys
-from flask import request, jsonify, make_response
+from flask import request, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
 from db import DB
-from flask_jwt_extended import (jwt_required, get_jwt_identity)
 import jwt
+
+
+def reservatie():
+    if request.method == 'GET':
+        return get_reservation()
+    elif request.method == 'PATCH':
+        return patch_reservation()
+    elif request.method == 'DELETE':
+        return delete_reservation()
 
 
 def my_reservations():
@@ -15,7 +21,7 @@ def my_reservations():
     if user_id:
         # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY datum, tijd 
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart 
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
@@ -25,7 +31,20 @@ def my_reservations():
                 "error": "No token"}, 401
 
 
-def get_or_add_tables():
+def get_one_table():
+    args = request.json
+    print(args)
+    qry = '''SELECT * FROM `tafel` WHERE tafel_id = :id'''
+
+    table = DB.one(qry, args)
+
+    return {
+        "message": "success",
+        "table": table
+    }, 201
+
+
+def tables():
     token = request.headers['Authorization'].split(' ')[1]
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
     staff_id = decoded['id']
@@ -34,6 +53,41 @@ def get_or_add_tables():
             return get_tables()
         elif request.method == 'POST':
             return add_tables()
+        elif request.method == 'PATCH':
+            return patch_tables()
+        elif request.method == 'DELETE':
+            return delete_tables()
+
+
+def delete_tables():
+    args = request.json
+    print(args)
+    qry = '''
+    DELETE FROM `tafel` WHERE tafel_id = :id
+    '''
+
+    DB.delete(qry, args)
+
+    return {"message": "success"}, 200
+
+
+def patch_tables():
+    args = request.json
+    print(args)
+    qry = '''
+    UPDATE `tafel` SET aantal_personen = :aantal_personen, locatie = :locatie, verdieping = :verdieping, type_zitting = :type_zitting WHERE tafel_id = :id
+    '''
+
+    DB.update(qry, args)
+
+    qry_updated_table = '''
+    SELECT * FROM `tafel` WHERE tafel_id = :id
+    '''
+
+    updated_table = DB.one(qry_updated_table, args)
+
+    return {"message": "success",
+            "updated_table": updated_table}, 200
 
 
 def get_tables():
@@ -69,47 +123,76 @@ def add_tables():
                 "error": "No arguments"}, 404
 
 
+def get_reservation():
+    qry = '''
+    SELECT reservatie_id as id, aantal_personen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
+    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart DESC'''
+
+    reservatie_info = DB.all(qry)
+
+    return {
+        "message": "success",
+        "reservatie": reservatie_info
+
+    }, 201
+
+
+def patch_reservation():
+    args = request.json
+    print(args)
+    qry = '''
+    UPDATE `reservatie` SET aantal_personen = :aantal_personen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting WHERE reservatie_id = :id
+    '''
+
+    DB.update(qry, args)
+
+    qry_updated_reservation = '''
+    SELECT * FROM `reservatie` WHERE reservatie_id = :id
+    '''
+
+    updated_reservation = DB.one(qry_updated_reservation, args)
+
+    return {"message": "success",
+            "updated_reservation": updated_reservation}, 200
+
+
+def delete_reservation():
+    args = request.json
+    print(args)
+    qry = '''
+    DELETE FROM `reservatie` WHERE reservatie_id = :id
+    '''
+
+    DB.delete(qry, args)
+
+    return {"message": "success"}, 200
+
+
 def post_reservation():
     print("hello")
-  
     # Parse all arguments for validity
     args = request.json
-    print("Args:", args)
+    print(args)
     token = args['token']
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    print(decoded)
     user_id = decoded['id']
+    print(user_id)
+    # add user id to args
     args['user_id'] = user_id
-    
-
-    # Link a table to the reservation
-    # check if aantal_personen in reservatie is the same as aantal_personen in tafel
-    qry1 = '''
-    SELECT * FROM `tafel` WHERE aantal_personen = 10
-    '''
-    tafel_id = DB.one(qry1, args['tafel_id'])
-    print("tafelID", tafel_id)
-    args['tafel_id'] = tafel_id
-
-
-    # if there is no table with the right amount of people, return error
-    if not tafel_id:
-        return {"message": "error",
-                "error": "No table found"}, 404
-
-    # Make a query to choose table ( denk aan voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting als een WHERE  bijvoorbeeld)
 
     # Make the insert query with parameters
-    qry2 = '''  
-    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
-    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id) 
+    qry = '''
+    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
+    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
     '''
 
     # Insert into the database
-    reservatie_id = DB.insert(qry2, args)
+    reservatie_id = DB.insert(qry, args)
 
+    print(reservatie_id)
     # Return a message and the user id
-    return {"message": "success",
-            "id": reservatie_id}, 201
+    return {"message": "success", "id": reservatie_id}, 201
 
 
 def create_user():
@@ -128,6 +211,7 @@ def create_user():
     # Insert the user into the database
     user_id = DB.insert(qry, args)
 
+    print(user_id)
     # Return a message and the user id
     return {"message": "success", "id": user_id}, 201
 
@@ -136,6 +220,7 @@ def login():
     # Parse all arguments for validity
     args = request.json
 
+    print(args)
     qry = '''
         SELECT * FROM `gebruiker` WHERE email = :email
         '''
@@ -143,6 +228,7 @@ def login():
     try:
         user = DB.one(qry, args)
 
+        print(user)
         if user:
             # if the password is correct, generate a token
             if check_password_hash(user['wachtwoord'], args['password']):
@@ -174,7 +260,7 @@ def login():
                 return {"message": "error",
                         "response": "wrong password"}, 401
     except Exception as e:
-        
+        print(e)
         return {"message": "error",
                 "error": "Er gaat iets mis"}, 404
     else:
@@ -191,7 +277,7 @@ def staff_login():
 
     try:
         staff = DB.one(qry, args)
-       
+        print(staff)
         if staff:
             # if the password is correct, generate a token
             if staff['wachtwoord'] == args['password']:
@@ -213,7 +299,7 @@ def staff_login():
                 decoded_staff = jwt.decode(
                     access_token, key='secret', algorithms=['HS256'])
 
-                
+                print(decoded_staff)
                 return {"message": "success",
                         "staff-id": staff['medewerker_id'],
                         "staff": decoded_staff,
@@ -224,25 +310,12 @@ def staff_login():
                         "response": "wrong password"}, 401
 
     except Exception as e:
-        
+        print(e)
         return {"message": "error",
                 "error": "Er gaat iets mis"}, 404
     else:
         return {"message": "error",
                 "response": "Staff member not found"}, 401
-
-
-def get_reservatie():
-    qry = '''
-    SELECT reservatie_id as id, aantal_personen, datum, tijd FROM `reservatie`'''
-
-    reservatie_info = DB.all(qry)
-
-    return {
-        "message": "success",
-        "reservatie": reservatie_info
-
-    }, 201
 
 
 def get_menu():
@@ -271,7 +344,7 @@ def get_menu():
 
 
 def get_gallery():
-    qry = '''SELECT naam FROM gallerij '''
+    qry = '''SELECT * FROM gallerij '''
 
     gallerij = DB.all(qry)
 
