@@ -72,6 +72,20 @@ export default function get_tables(setTables) {
     });
 }
 
+export function get_reservation_by_table(table_id, setReservations, setError) {
+    //get reservations by table
+    console.log("get_reservation_by_table", table_id);
+    apiStaff("reservations/table/" + table_id, "GET").then((res) => {
+            if (res.message === "success") {
+                setReservations(res.reservations);
+            } else {
+                setError("Er is iets fout gegaan");
+            }
+
+        }
+    );
+}
+
 export function add_table(data) {
     //check if form is filled
     if (

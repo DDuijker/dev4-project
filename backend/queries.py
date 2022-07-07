@@ -137,6 +137,23 @@ def get_reservation():
            }, 201
 
 
+def get_one_reservation():
+    # get argument from url
+    args = request.json
+
+    print(args)
+    if args['id']:
+        qry = '''
+        SELECT * FROM `reservatie` WHERE tafel_id = :id
+        '''
+        reservation = DB.one(qry, args)
+        return {"message": "success",
+                "reservation": reservation}, 200
+    else:
+        return {"message": "error",
+                "error": "No id"}, 404
+
+
 def patch_reservation():
     args = request.json
     print(args)
