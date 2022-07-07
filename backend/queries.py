@@ -186,22 +186,21 @@ def delete_reservation():
 
 
 def post_reservation():
-    print("hello")
     # Parse all arguments for validity
     args = request.json
-    print(args)
     token = args['token']
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
-    print(decoded)
     user_id = decoded['id']
-    print(user_id)
+
     # add user id to args
     args['user_id'] = user_id
 
     # Link a table to the reservation
-    # check if aantal_personen in reservatie is the same as aantal_personen in tafel
+
     # make args[aantal_personen] into integer
     args['aantal_personen'] = int(args['aantal_personen'])
+
+    # check if aantal_personen in reservatie is the same as aantal_personen in tafel
     qry = '''
     SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
     '''
@@ -218,42 +217,63 @@ def post_reservation():
     # give error message if query returns no results
     if DB.one(qry, args) is None:
         # do just the normal query without the voorkeuren
-        DB.one(qry, args)
-        return {"message": "success",
-                "error": "We hebben geen tafel met jouw voorkeuren, maar je hebt een andere."}, 201
+        qry2 = '''
+        SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
+        '''
+        tafel_id = DB.one(qry2, args)
+        tafel_idINT = int(tafel_id['tafel_id'])
+        args['tafel_id'] = tafel_idINT
 
-    tafel_id = DB.one(qry, args)
-    # change tafel_id to an integer
-    tafel_idINT = int(tafel_id['tafel_id'])
+        # is a table available?
+        qryAvailability2 = '''
+        SELECT * FROM `reservatie` WHERE tafel_id = :tafel_id  and date = :date and (:timeStart between timeStart and timeEnd)
+        '''
+        tafel_reservatie = DB.all(qryAvailability2, args)
+        if tafel_reservatie:
+            return {
+                "message": "error",
+                "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
+            }, 404
 
-    # add tafel_id to args
-    print(tafel_id)
-    args['tafel_id'] = tafel_idINT
+        # Make the insert query with parameters
+        qryInsert2 = '''
+        INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
+        VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
+        '''
+        # Insert into the database
+        reservatie_id = DB.insert(qryInsert2, args)
+        return {"message": "success2", "id": reservatie_id}, 201
 
-    # is a table available?
-    qryAvailability = '''
-    SELECT * FROM `reservatie` WHERE tafel_id = :tafel_id  and date = :date and (:timeStart between timeStart and timeEnd)
-    '''
-    tafel_reservatie = DB.all(qryAvailability, args)
-    print(tafel_reservatie)
-    if tafel_reservatie:
-        return {
-            "message": "error",
-            "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
-        }, 404
+    else:
+        tafel_id = DB.one(qry, args)
+        # change tafel_id to an integer
+        tafel_idINT = int(tafel_id['tafel_id'])
 
-    # Make the insert query with parameters
-    qry = '''
-    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
-    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
-    '''
+        # add tafel_id to args
+        args['tafel_id'] = tafel_idINT
 
-    # Insert into the database
-    reservatie_id = DB.insert(qry, args)
+        # is a table available?
+        qryAvailability = '''
+        SELECT * FROM `reservatie` WHERE tafel_id = :tafel_id  and date = :date and (:timeStart between timeStart and timeEnd)
+        '''
+        tafel_reservatie = DB.all(qryAvailability, args)
+        if tafel_reservatie:
+            return {
+                "message": "error",
+                "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
+            }, 404
 
-    print(reservatie_id)
-    # Return a message and the user id
-    return {"message": "success", "id": reservatie_id}, 201
+        # Make the insert query with parameters
+        qryInsert = '''
+        INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
+        VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
+        '''
+
+        # Insert into the database
+        reservatie_id = DB.insert(qryInsert, args)
+
+        # Return a message and the user id
+        return {"message": "success", "id": reservatie_id}, 201
 
 
 def create_user():

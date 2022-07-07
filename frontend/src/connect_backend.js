@@ -1,10 +1,10 @@
 export function register(data) {
   //check if form is filled
   if (
-      data.email === "" ||
-      data.password === "" ||
-      data.firstname === "" ||
-      data.lastname === ""
+    data.email === "" ||
+    data.password === "" ||
+    data.firstname === "" ||
+    data.lastname === ""
   ) {
     alert("Vul alle velden in");
     return;
@@ -85,10 +85,10 @@ export default function get_tables(setTables) {
 export function add_table(data) {
   //check if form is filled
   if (
-      data.aantal_personen === "" ||
-      data.locatie === "" ||
-      data.verdieping === "" ||
-      data.type_zitting === ""
+    data.aantal_personen === "" ||
+    data.locatie === "" ||
+    data.verdieping === "" ||
+    data.type_zitting === ""
   ) {
     alert("Vul alle velden in");
     return;
@@ -167,6 +167,10 @@ export function reservation(data) {
   apiUser("reservation", "POST", data).then((res) => {
     if (res.message === "success") {
       alert("Reservering aangemaakt");
+    } else if (res.message === "success2") {
+      alert(
+        "Reservering aangemaakt, we hebben geen tafel met jouw voorkeuren. Je hebt een andere gekregen."
+      );
     } else if (res.error) {
       alert(res.error);
     }
@@ -184,7 +188,7 @@ export function patch_reservation(data) {
 export function delete_reservation(data) {
   // give the user a warning before deleting the reservation
   if (
-      window.confirm("Weet je zeker dat je deze reservering wilt verwijderen?")
+    window.confirm("Weet je zeker dat je deze reservering wilt verwijderen?")
   ) {
     apiUser("reservatie", "DELETE", data).then((res) => {
       if (res.message === "success") {

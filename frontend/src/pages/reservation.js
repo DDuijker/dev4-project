@@ -20,7 +20,7 @@ export default function Reservation({ loggedIn }) {
     //check if the form is filled
     event.preventDefault();
     if (event.target.date.value === "") {
-      setError("Vul alle velden in");
+      alert("Vul alle velden in");
       return;
     }
 
@@ -28,7 +28,7 @@ export default function Reservation({ loggedIn }) {
     let date = new Date(event.target.date.value);
     let today = new Date();
     if (date < today) {
-      setError("Kies een datum in de toekomst");
+      alert("Kies een datum in de toekomst");
       return;
     }
 
@@ -36,7 +36,7 @@ export default function Reservation({ loggedIn }) {
     let sixMonthsFromNow = new Date();
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
     if (date > sixMonthsFromNow) {
-      setError("Kies een vroegere datum");
+      alert("Kies een vroegere datum");
       return;
     }
     // get the date from datepicker without the time
@@ -67,7 +67,7 @@ export default function Reservation({ loggedIn }) {
     reservation(data, setError, false);
 
     //clear the form
-    //event.target.reset();
+    event.target.reset();
   }
 
   return (
