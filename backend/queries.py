@@ -21,7 +21,7 @@ def my_reservations():
     if user_id:
         # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart 
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
@@ -169,28 +169,61 @@ def delete_reservation():
 
 
 def post_reservation():
-    print("hello")
     # Parse all arguments for validity
     args = request.json
-    print(args)
     token = args['token']
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
-    print(decoded)
     user_id = decoded['id']
-    print(user_id)
+
     # add user id to args
     args['user_id'] = user_id
 
-    # Make the insert query with parameters
+    # Link a table to the reservation
+    # check if aantal_personen in reservatie is the same as aantal_personen in tafel
+    # make args[aantal_personen] into integer
+    args['aantal_personen'] = int(args['aantal_personen'])
     qry = '''
-    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
-    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
+    SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
+    '''
+    # # if voorkeuren is not "geen" then add to the query
+    # if (args['voorkeur_locatie'] != "geen"):
+    #     qry += " AND voorkeur_locatie = :voorkeur_locatie"
+
+    # elif (args["voorkeur_verdieping"] != "geen"):
+    #     qry += " AND voorkeur_verdieping = :voorkeur_verdieping"
+
+    # elif (args["voorkeur_zitting"] != "geen"):
+    #     qry += " AND voorkeur_zitting = :voorkeur_zitting"
+
+    tafel_id = DB.one(qry, args)
+    # change tafel_id to an integer
+    tafel_idINT = int(tafel_id['tafel_id'])
+
+    # add tafel_id to args
+    print(tafel_id)
+    args['tafel_id'] = tafel_idINT
+
+    # is a table available?
+    qryAvailability = '''
+    SELECT * FROM `reservatie` WHERE tafel_id = :tafel_id  and date = :date and (:timeStart between timeStart and timeEnd)
+    '''
+    tafel_reservatie = DB.all(qryAvailability, args)
+    print(tafel_reservatie)
+    if tafel_reservatie:
+        return {
+            "message": "error",
+            "error": "Table is not available"
+        }, 404
+
+    # Make the insert query with parameters
+    qryInsert = '''
+    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
+    VALUES(:user_id, :aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
     '''
 
     # Insert into the database
-    reservatie_id = DB.insert(qry, args)
+    reservatie_id = DB.insert(qryInsert, args)
 
-    print(reservatie_id)
     # Return a message and the user id
     return {"message": "success", "id": reservatie_id}, 201
 
@@ -201,8 +234,8 @@ def create_user():
 
     # Make the insert query with parameters
     qry = '''
-    INSERT INTO `gebruiker`(`voornaam`,`tussenvoegsel`,`achternaam`,`email`, `wachtwoord`)
-    VALUES(:firstname, :infix, :lastname, :email, :password)
+    INSERT INTO `gebruiker`(`voornaam`, `tussenvoegsel`, `achternaam`, `email`, `wachtwoord`)
+    VALUES(: firstname, : infix, : lastname, : email, : password)
     '''
 
     # Hash the password before inserting
@@ -222,7 +255,7 @@ def login():
 
     print(args)
     qry = '''
-        SELECT * FROM `gebruiker` WHERE email = :email
+        SELECT * FROM `gebruiker` WHERE email = : email
         '''
 
     try:
@@ -272,7 +305,7 @@ def staff_login():
     args = request.json
 
     qry = '''
-    SELECT * FROM `medewerker` WHERE email = :email
+    SELECT * FROM `medewerker` WHERE email = : email
     '''
 
     try:
