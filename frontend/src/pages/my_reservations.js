@@ -15,13 +15,10 @@ export default function Reservations() {
         return null;
     }
 
-    let id = 1;
-    const boxes = reservations.map((box) => {
-        id++;
-        return <ReservatieBox data={box} key={id} id={id} type={"my"}
+    const boxes = reservations.map((box, index) => {
+        return <ReservatieBox data={box} key={index} id={index} type={"my"}
                               reservations={reservations}
                               setReservations={setReservations}/>;
-
     });
 
     return (

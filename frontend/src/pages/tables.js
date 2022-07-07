@@ -40,6 +40,7 @@ export default function Tables({medewerker}) {
                         }
                         }>Pas gegevens aan
                         </button>
+
                         <button className={"delete-button"} onClick={() => {
                             //check if the user wants to delete the table
                             if (window.confirm("Weet je zeker dat je deze tafel wilt verwijderen?")) {

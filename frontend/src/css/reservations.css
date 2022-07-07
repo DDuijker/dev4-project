@@ -28,13 +28,11 @@
 
 .reservation-item-text {
     display: grid;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    border: 1px solid #8191AA;
-    /* give under and right a shadow */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
+.reservation-box-header {
+    margin-bottom: auto;
+}
 
 .all-reservations {
     display: grid;
@@ -42,4 +40,12 @@
     justify-items: center;
     grid-column-gap: 20px;
     grid-row-gap: 10px;
+}
+
+.button {
+    border: outset;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

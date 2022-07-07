@@ -1,10 +1,10 @@
 export function register(data) {
   //check if form is filled
   if (
-    data.email === "" ||
-    data.password === "" ||
-    data.firstname === "" ||
-    data.lastname === ""
+      data.email === "" ||
+      data.password === "" ||
+      data.firstname === "" ||
+      data.lastname === ""
   ) {
     alert("Vul alle velden in");
     return;
@@ -17,6 +17,16 @@ export function register(data) {
   apiWithoutToken("register", "POST", data).then((res) => {
     if (res.message === "success") {
       alert("user created");
+    }
+  });
+}
+
+export function get_reservation_by_table(table, setReservatieItems, setError) {
+  apiStaff("reservatie/table/" + table).then((res) => {
+    if (res.message === "success") {
+      setReservatieItems(res.reservatie);
+    } else {
+      setError(res.message);
     }
   });
 }
@@ -75,10 +85,10 @@ export default function get_tables(setTables) {
 export function add_table(data) {
   //check if form is filled
   if (
-    data.aantal_personen === "" ||
-    data.locatie === "" ||
-    data.verdieping === "" ||
-    data.type_zitting === ""
+      data.aantal_personen === "" ||
+      data.locatie === "" ||
+      data.verdieping === "" ||
+      data.type_zitting === ""
   ) {
     alert("Vul alle velden in");
     return;
@@ -174,7 +184,7 @@ export function patch_reservation(data) {
 export function delete_reservation(data) {
   // give the user a warning before deleting the reservation
   if (
-    window.confirm("Weet je zeker dat je deze reservering wilt verwijderen?")
+      window.confirm("Weet je zeker dat je deze reservering wilt verwijderen?")
   ) {
     apiUser("reservatie", "DELETE", data).then((res) => {
       if (res.message === "success") {

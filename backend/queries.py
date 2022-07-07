@@ -21,7 +21,7 @@ def my_reservations():
     if user_id:
         # order by date and time
         qry = '''
-        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart
+        SELECT * FROM reservatie WHERE gebruiker_id = :id ORDER BY date, timeStart ASC
         '''
         reservations = DB.all(qry, decoded)
         return {"message": "success",
@@ -126,7 +126,7 @@ def add_tables():
 def get_reservation():
     qry = '''
     SELECT reservatie_id as id, aantal_personen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
-    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart DESC'''
+    INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart ASC'''
 
     reservatie_info = DB.all(qry)
 
@@ -135,6 +135,23 @@ def get_reservation():
         "reservatie": reservatie_info
 
     }, 201
+
+
+def get_one_reservation():
+    # get argument from url
+    args = request.json
+
+    print(args)
+    if args['id']:
+        qry = '''
+        SELECT * FROM `reservatie` WHERE tafel_id = :id
+        '''
+        reservation = DB.one(qry, args)
+        return {"message": "success",
+                "reservation": reservation}, 200
+    else:
+        return {"message": "error",
+                "error": "No id"}, 404
 
 
 def patch_reservation():
@@ -169,12 +186,15 @@ def delete_reservation():
 
 
 def post_reservation():
+    print("hello")
     # Parse all arguments for validity
     args = request.json
+    print(args)
     token = args['token']
     decoded = jwt.decode(token, key='secret', algorithms=['HS256'])
+    print(decoded)
     user_id = decoded['id']
-
+    print(user_id)
     # add user id to args
     args['user_id'] = user_id
 
@@ -223,14 +243,15 @@ def post_reservation():
         }, 404
 
     # Make the insert query with parameters
-    qryInsert = '''
-    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
-    VALUES(:user_id, :aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
+    qry = '''
+    INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`)
+    VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie)
     '''
 
     # Insert into the database
-    reservatie_id = DB.insert(qryInsert, args)
+    reservatie_id = DB.insert(qry, args)
 
+    print(reservatie_id)
     # Return a message and the user id
     return {"message": "success", "id": reservatie_id}, 201
 
