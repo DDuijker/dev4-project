@@ -157,7 +157,7 @@ export function reservation(data) {
   apiUser("reservation", "POST", data).then((res) => {
     if (res.message === "success") {
       alert("Reservering aangemaakt");
-    } else if (res.message === "error") {
+    } else if (res.error) {
       alert(res.error);
     }
   });

@@ -197,8 +197,10 @@ def post_reservation():
 
     # give error message if query returns no results
     if DB.one(qry, args) is None:
-        return {"message": "error",
-                "error": "tafel bestaat niet"}, 404
+        # do just the normal query without the voorkeuren
+        DB.one(qry, args)
+        return {"message": "success",
+                "error": "We hebben geen tafel met jouw voorkeuren, maar je hebt een andere."}, 201
 
     tafel_id = DB.one(qry, args)
     # change tafel_id to an integer
@@ -239,8 +241,8 @@ def create_user():
 
     # Make the insert query with parameters
     qry = '''
-    INSERT INTO `gebruiker`(`voornaam`, `tussenvoegsel`, `achternaam`, `email`, `wachtwoord`)
-    VALUES(: firstname, : infix, : lastname, : email, : password)
+    INSERT INTO `gebruiker`(`voornaam`,`tussenvoegsel`,`achternaam`,`email`,`wachtwoord`)
+    VALUES(:firstname, :infix, :lastname, :email, :password)
     '''
 
     # Hash the password before inserting
@@ -260,7 +262,7 @@ def login():
 
     print(args)
     qry = '''
-        SELECT * FROM `gebruiker` WHERE email = : email
+        SELECT * FROM `gebruiker` WHERE email = :email
         '''
 
     try:
@@ -310,7 +312,7 @@ def staff_login():
     args = request.json
 
     qry = '''
-    SELECT * FROM `medewerker` WHERE email = : email
+    SELECT * FROM `medewerker` WHERE email = :email
     '''
 
     try:
