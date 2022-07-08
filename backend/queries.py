@@ -1,7 +1,8 @@
+import jwt
 from flask import request, make_response
 from flask_bcrypt import generate_password_hash, check_password_hash
+
 from db import DB
-import jwt
 
 
 def reservatie():
@@ -107,14 +108,14 @@ def get_tables():
 
     if all_tables:
         return {
-            "message": "success",
-            "tables": all_tables
-        }, 200
+                   "message": "success",
+                   "tables": all_tables
+               }, 200
     else:
         return {
-            "message": "error",
-            "error": "No tables found"
-        }, 404
+                   "message": "error",
+                   "error": "No tables found"
+               }, 404
 
 
 def add_tables():
@@ -140,10 +141,10 @@ def get_reservation():
     reservatie_info = DB.all(qry)
 
     return {
-        "message": "success",
-        "reservatie": reservatie_info
+               "message": "success",
+               "reservatie": reservatie_info
 
-    }, 201
+           }, 201
 
 
 def get_one_reservation():
@@ -172,10 +173,6 @@ def get_one_reservation():
 def patch_reservation():
     args = request.json
     print(args)
-    # catch an error
-    if not args['id']:
-        return {"message": "error",
-                "error": "No id"}, 404
     qry = '''
     UPDATE `reservatie` SET aantal_personen = :aantal_personen, aantal_kinderstoelen = :aantal_kinderstoelen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting, voorkeur_vervoer = :voorkeur_vervoer WHERE reservatie_id = :id
     '''
@@ -252,9 +249,9 @@ def post_reservation():
         tafel_reservatie = DB.all(qryAvailability, args)
         if tafel_reservatie:
             return {
-                "message": "error",
-                "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
-            }, 404
+                       "message": "error",
+                       "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
+                   }, 404
 
         # Make the insert query with parameters
         qryInsert = '''
@@ -424,9 +421,9 @@ def get_gallery():
 
     return {
 
-        "message": "success",
-        "gallerij": gallerij
-    }, 201
+               "message": "success",
+               "gallerij": gallerij
+           }, 201
 
 
 def get_staff():
@@ -436,6 +433,6 @@ def get_staff():
     medewerker_info = DB.all(qry)
 
     return {
-        "message": "success",
-        "medewerkers": medewerker_info
-    }, 201
+               "message": "success",
+               "medewerkers": medewerker_info
+           }, 201

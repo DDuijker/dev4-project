@@ -50,8 +50,8 @@ export default function EditReservation({reservation}) {
         }
 
         patch_reservation(updatedData)
-        window.location.reload()
     }
+
 
     return (
         <div className={"reservation-item-text"}>

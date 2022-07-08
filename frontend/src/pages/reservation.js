@@ -33,32 +33,32 @@ export default function Reservation({ loggedIn }) {
     }
 
     //make sure that a customer can't select a date later than 6 months from now
-    let sixMonthsFromNow = new Date();
-    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
-    if (date > sixMonthsFromNow) {
-      alert("Kies een vroegere datum");
-      return;
-    }
-    // get the date from datepicker without the time
-    let dateString = date.toISOString().slice(0, 10);
+      let sixMonthsFromNow = new Date();
+      sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+      if (date > sixMonthsFromNow) {
+          alert("Kies een vroegere datum");
+          return;
+      }
+      // get the date from datepicker without the time
+      let dateString = date.toISOString().slice(0, 10);
 
-    // get the time from datepicker
-    var hour = new Date(event.target.date.value).getHours();
-    var minute = new Date(event.target.date.value).getMinutes();
-    var timeStart = hour + ":" + minute;
-    //add 2 hours to time
-    var time2 = new Date(event.target.date.value).getHours() + 2;
-    var timeEnd = time2 + ":" + minute;
+      // get the time from datepicker
+      let hour = new Date(event.target.date.value).getHours();
+      let minute = new Date(event.target.date.value).getMinutes();
+      let timeStart = hour + ":" + minute;
+      //add 2 hours to time
+      let time2 = new Date(event.target.date.value).getHours() + 2;
+      let timeEnd = time2 + ":" + minute;
 
-    //get data from the form
-    let data = {
-      aantal_personen: event.target.personen.value,
-      aantal_kinderstoelen: event.target.kinderstoelen.value,
-      date: dateString,
-      timeStart: timeStart,
-      timeEnd: timeEnd,
-      text: event.target.text.value,
-      voorkeur_locatie: event.target.locaties.value,
+      //get data from the form
+      let data = {
+          aantal_personen: event.target.personen.value,
+          aantal_kinderstoelen: event.target.kinderstoelen.value,
+          date: dateString,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
+          text: event.target.text.value,
+          voorkeur_locatie: event.target.locaties.value,
       voorkeur_verdieping: event.target.verdiepingen.value,
       voorkeur_zitting: event.target.stoelen.value,
       voorkeur_vervoer: event.target.vervoer.value,

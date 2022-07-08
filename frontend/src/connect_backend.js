@@ -98,8 +98,8 @@ export function patch_table(data) {
     apiStaff("tables", "PATCH", data).then((res) => {
         if (res.message === "success") {
             //refresh the page
-            window.location.href = "/tables";
             alert("Table updated");
+            window.location.href = "/tables";
         }
     });
 }
@@ -164,6 +164,7 @@ export function patch_reservation(data) {
     apiUser("reservatie", "PATCH", data).then((res) => {
         if (res.message === "success") {
             alert("Reservering aangepast");
+            window.location.reload();
         } else if (res.error) {
             alert(res.error);
         }

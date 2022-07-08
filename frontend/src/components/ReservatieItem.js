@@ -38,7 +38,7 @@ function ReservatieItem({data, type, id, reservations, setReservations}) {
             {data.aantal_kinderstoelen ? <h5>Aantal kinderstoelen: {data.aantal_kinderstoelen}</h5> : null}
             <p>op: {data.date}</p>
             <p>van {data.timeStart} tot {data.timeEnd}</p>
-            <h5>Tafelnummer: {data.tafel_id ? data.tafel_id : "Nog geen tafel toegewezen"}</h5>
+            <h3>Tafelnummer: {data.tafel_id ? data.tafel_id : "Nog geen tafel toegewezen"}</h3>
             {data.bericht ? (
                 <p>Bericht: {data.bericht}</p>
             ) : null}
