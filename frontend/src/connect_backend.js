@@ -191,7 +191,6 @@ export function delete_reservation(data) {
     apiUser("reservatie", "DELETE", data).then((res) => {
       if (res.message === "success") {
         alert("Reservering verwijderd");
-        alert("Reservering verwijderd");
         //refresh the page
         window.location.href = "/my_reservations";
       }

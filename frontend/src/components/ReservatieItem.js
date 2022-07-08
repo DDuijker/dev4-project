@@ -16,8 +16,10 @@ function ReservatieItem({data, type, id, reservations, setReservations}) {
 
     function deleteReservation() {
         // if the type is "my" then the user can delete the reservation
-        let reservatie_id = data.reservatie_id;
-        delete_reservation(reservatie_id);
+        let queryData = {
+            "id": data.reservatie_id
+        }
+        delete_reservation(queryData);
         // get the reservations and set the data again
         const copyReservations = [...reservations];
         copyReservations.splice(data.reservatie_id, 1);
