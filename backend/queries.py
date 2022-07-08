@@ -34,7 +34,6 @@ def my_reservations():
 
 def get_one_table():
     args = request.json
-    print(args)
     if args['id']:
         qry = '''SELECT * FROM `tafel` WHERE tafel_id = :id'''
 
@@ -83,7 +82,6 @@ def delete_tables():
 
 def patch_tables():
     args = request.json
-    print(args)
     qry = '''
     UPDATE `tafel` SET aantal_personen = :aantal_personen, locatie = :locatie, verdieping = :verdieping, type_zitting = :type_zitting WHERE tafel_id = :id
     '''
@@ -149,11 +147,8 @@ def get_reservation():
 
 def get_one_reservation():
     # get argument from url
-    print(request.args)
-    print(request.method)
     args = request.json
 
-    print(args)
     if args['id']:
         qry = '''
         SELECT * FROM `reservatie` WHERE tafel_id = :id
@@ -172,7 +167,6 @@ def get_one_reservation():
 
 def patch_reservation():
     args = request.json
-    print(args)
     qry = '''
     UPDATE `reservatie` SET aantal_personen = :aantal_personen, aantal_kinderstoelen = :aantal_kinderstoelen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting, voorkeur_vervoer = :voorkeur_vervoer WHERE reservatie_id = :id
     '''
@@ -191,7 +185,6 @@ def patch_reservation():
 
 def delete_reservation():
     args = request.json
-    print(args)
 
     qry = '''
     DELETE FROM `reservatie` WHERE reservatie_id = :id
@@ -282,7 +275,6 @@ def create_user():
     # Insert the user into the database
     user_id = DB.insert(qry, args)
 
-    print(user_id)
     # Return a message and the user id
     return {"message": "success", "id": user_id}, 201
 
@@ -291,7 +283,6 @@ def login():
     # Parse all arguments for validity
     args = request.json
 
-    print(args)
     qry = '''
         SELECT * FROM `gebruiker` WHERE email = :email
         '''
@@ -299,7 +290,6 @@ def login():
     try:
         user = DB.one(qry, args)
 
-        print(user)
         if user:
             # if the password is correct, generate a token
             if check_password_hash(user['wachtwoord'], args['password']):
@@ -348,7 +338,6 @@ def staff_login():
 
     try:
         staff = DB.one(qry, args)
-        print(staff)
         if staff:
             # if the password is correct, generate a token
             if staff['wachtwoord'] == args['password']:
@@ -370,7 +359,6 @@ def staff_login():
                 decoded_staff = jwt.decode(
                     access_token, key='secret', algorithms=['HS256'])
 
-                print(decoded_staff)
                 return {"message": "success",
                         "staff-id": staff['medewerker_id'],
                         "staff": decoded_staff,

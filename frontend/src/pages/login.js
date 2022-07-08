@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 import "../css/login.css";
 import {login} from "../connect_backend";
-import StaffLogin from "../components/StaffLogin";
 
 export default function Login() {
     const [error, setError] = React.useState("");

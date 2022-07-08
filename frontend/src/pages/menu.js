@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "../css/menu.css";
 import MenuBox from "../components/MenuBox";
 
@@ -13,6 +13,7 @@ export default function Menu() {
                     setMenuItems(data.menu)
                 })
         }
+
         getData();
     }, [])
 

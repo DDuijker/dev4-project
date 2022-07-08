@@ -1,18 +1,18 @@
 import React from "react";
 import "../css/reservation.css";
-import { Link } from "react-router-dom";
-import { reservation } from "../connect_backend";
+import {Link} from "react-router-dom";
+import {reservation} from "../connect_backend";
 
-export default function Reservation({ loggedIn }) {
+export default function Reservation({loggedIn}) {
   const [error, setError] = React.useState("");
   if (!loggedIn) {
     return (
-      <div className={"not-loggedin"}>
-        <h2>U moet ingelogd zijn om te kunnen reserveren</h2>
-        <Link to={"/login"}>
-          <button>Klik hier om in te loggen</button>
-        </Link>
-      </div>
+        <div className={"not-loggedin"}>
+          <h2>U moet ingelogd zijn om te kunnen reserveren</h2>
+          <Link to={"/login"}>
+            <button>Klik hier om in te loggen</button>
+          </Link>
+        </div>
     );
   }
 
@@ -33,32 +33,32 @@ export default function Reservation({ loggedIn }) {
     }
 
     //make sure that a customer can't select a date later than 6 months from now
-      let sixMonthsFromNow = new Date();
-      sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
-      if (date > sixMonthsFromNow) {
-          alert("Kies een vroegere datum");
-          return;
-      }
-      // get the date from datepicker without the time
-      let dateString = date.toISOString().slice(0, 10);
+    let sixMonthsFromNow = new Date();
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+    if (date > sixMonthsFromNow) {
+      alert("Kies een vroegere datum");
+      return;
+    }
+    // get the date from datepicker without the time
+    let dateString = date.toISOString().slice(0, 10);
 
-      // get the time from datepicker
-      let hour = new Date(event.target.date.value).getHours();
-      let minute = new Date(event.target.date.value).getMinutes();
-      let timeStart = hour + ":" + minute;
-      //add 2 hours to time
-      let time2 = new Date(event.target.date.value).getHours() + 2;
-      let timeEnd = time2 + ":" + minute;
+    // get the time from datepicker
+    let hour = new Date(event.target.date.value).getHours();
+    let minute = new Date(event.target.date.value).getMinutes();
+    let timeStart = hour + ":" + minute;
+    //add 2 hours to time
+    let time2 = new Date(event.target.date.value).getHours() + 2;
+    let timeEnd = time2 + ":" + minute;
 
-      //get data from the form
-      let data = {
-          aantal_personen: event.target.personen.value,
-          aantal_kinderstoelen: event.target.kinderstoelen.value,
-          date: dateString,
-          timeStart: timeStart,
-          timeEnd: timeEnd,
-          text: event.target.text.value,
-          voorkeur_locatie: event.target.locaties.value,
+    //get data from the form
+    let data = {
+      aantal_personen: event.target.personen.value,
+      aantal_kinderstoelen: event.target.kinderstoelen.value,
+      date: dateString,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
+      text: event.target.text.value,
+      voorkeur_locatie: event.target.locaties.value,
       voorkeur_verdieping: event.target.verdiepingen.value,
       voorkeur_zitting: event.target.stoelen.value,
       voorkeur_vervoer: event.target.vervoer.value,
@@ -73,63 +73,63 @@ export default function Reservation({ loggedIn }) {
   }
 
   return (
-    <div>
-      <div className={"reservation-text"}>
-        <h1 className={"text--header"}>Reserveren</h1>
-        <p className={"text--description"}>Reserveer nu een tafel!</p>
+      <div>
+        <div className={"reservation-text"}>
+          <h1 className={"text--header"}>Reserveren</h1>
+          <p className={"text--description"}>Reserveer nu een tafel!</p>
+        </div>
+        <form className={"form"} onSubmit={submit}>
+          <div className={"form--upper"}>
+            <select id={"personen"} className={"dropdown"}>
+              <option value={1}>1 persoon</option>
+              <option value={2}>2 personen</option>
+              <option value={4}>4 personen</option>
+              <option value={6}>6 personen</option>
+              <option value={8}>8 personen</option>
+              <option value={10}>10 personen</option>
+            </select>
+            <select id={"kinderstoelen"} className={"dropdown"}>
+              <option value={0}>Geen kinderstoelen</option>
+              <option value={1}>1 stoel</option>
+              <option value={2}>2 stoelen</option>
+              <option value={3}>3 stoelen</option>
+              <option value={4}>4 stoelen</option>
+              <option value={5}>5 stoelen</option>
+            </select>
+            <input id="datePicker" type="datetime-local" name="date"/>
+            <input type="text-area" name="text" placeholder="bericht"/>
+          </div>
+          <h3>Voorkeuren</h3>
+          <div className={"form--lower"}>
+            <label>Locatie:</label>
+            <select id={"locaties"} className={"dropdown"}>
+              <option value={"geen"}>Geen</option>
+              <option value={"binnen"}>Binnen</option>
+              <option value={"buiten"}>Buiten</option>
+            </select>
+            <label>Verdieping:</label>
+            <select id={"verdiepingen"} className={"dropdown"}>
+              <option value={"geen"}>Geen</option>
+              <option value={"1"}>1e verdieping</option>
+              <option value={"2"}>2e verdieping</option>
+            </select>
+            <label>Type stoel:</label>
+            <select id={"stoelen"} className={"dropdown"}>
+              <option value={"geen"}>Geen</option>
+              <option value={"stoel"}>Stoel</option>
+              <option value={"bank"}>Bank</option>
+            </select>
+            <label>Vervoer:</label>
+            <select id={"vervoer"} className={"dropdown"}>
+              <option value={"nee"}>nee</option>
+              <option value={"ja"}>ja</option>
+            </select>
+          </div>
+          <div className={"error-text"}>{error}</div>
+          <div className={"form--submit"}>
+            <input type="submit" value=" Plaats reservering"/>
+          </div>
+        </form>
       </div>
-      <form className={"form"} onSubmit={submit}>
-        <div className={"form--upper"}>
-          <select id={"personen"} className={"dropdown"}>
-            <option value={1}>1 persoon</option>
-            <option value={2}>2 personen</option>
-            <option value={4}>4 personen</option>
-            <option value={6}>6 personen</option>
-            <option value={8}>8 personen</option>
-            <option value={10}>10 personen</option>
-          </select>
-          <select id={"kinderstoelen"} className={"dropdown"}>
-            <option value={0}>Geen kinderstoelen</option>
-            <option value={1}>1 stoel</option>
-            <option value={2}>2 stoelen</option>
-            <option value={3}>3 stoelen</option>
-            <option value={4}>4 stoelen</option>
-            <option value={5}>5 stoelen</option>
-          </select>
-          <input id="datePicker" type="datetime-local" name="date" />
-          <input type="text-area" name="text" placeholder="bericht" />
-        </div>
-        <h3>Voorkeuren</h3>
-        <div className={"form--lower"}>
-          <label>Locatie:</label>
-          <select id={"locaties"} className={"dropdown"}>
-            <option value={"geen"}>Geen</option>
-            <option value={"binnen"}>Binnen</option>
-            <option value={"buiten"}>Buiten</option>
-          </select>
-          <label>Verdieping:</label>
-          <select id={"verdiepingen"} className={"dropdown"}>
-            <option value={"geen"}>Geen</option>
-            <option value={"1"}>1e verdieping</option>
-            <option value={"2"}>2e verdieping</option>
-          </select>
-          <label>Type stoel:</label>
-          <select id={"stoelen"} className={"dropdown"}>
-            <option value={"geen"}>Geen</option>
-            <option value={"stoel"}>Stoel</option>
-            <option value={"bank"}>Bank</option>
-          </select>
-          <label>Vervoer:</label>
-          <select id={"vervoer"} className={"dropdown"}>
-            <option value={"nee"}>nee</option>
-            <option value={"ja"}>ja</option>
-          </select>
-        </div>
-        <div className={"error-text"}>{error}</div>
-        <div className={"form--submit"}>
-          <input type="submit" value=" Plaats reservering" />
-        </div>
-      </form>
-    </div>
   );
 }

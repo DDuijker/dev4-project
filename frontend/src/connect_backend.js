@@ -184,7 +184,7 @@ export function delete_reservation(data) {
             }
         });
     } else {
-        return;
+
     }
 }
 

@@ -6,13 +6,14 @@
     flex-direction: column;
     padding: 20px;
     background-color: white;
-  width: 33.33%;
-  margin-bottom: 10pt;
+    width: 33.33%;
+    margin-bottom: 10pt;
     margin-top: 2%;
-   position: relative;
-   float: left;
+    position: relative;
+    float: left;
 
 }
+
 .gallerij-card > h4 {
     margin-bottom: 10pt;
     margin-top: 2%;

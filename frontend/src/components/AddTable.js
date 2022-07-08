@@ -1,12 +1,9 @@
 //make React component with a form to add a table
 import React from "react";
 import "../css/tables.css";
-import {useState} from "react";
 import {add_table} from "../connect_backend";
 
 export default function AddTable() {
-    const [table, setTable] = useState([]);
-
     //add a table to the database
     //when the form is submitted, send the data to the backend
     //when the backend responds, reload the page
@@ -24,6 +21,7 @@ export default function AddTable() {
         console.log(data);
         add_table(data);
     }
+
     //make a form to add a table
     return (<div>
         <h3>Voeg een tafel toe</h3>

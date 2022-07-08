@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "../css/tables.css"
-import get_tables from "../connect_backend";
+import get_tables, {delete_table} from "../connect_backend";
 import AddTable from "../components/AddTable";
 import EditTable from "../components/EditTable"
-import {delete_table} from "../connect_backend";
 
 export default function Tables({medewerker}) {
     const [tables, setTables] = useState([]);
@@ -52,7 +51,7 @@ export default function Tables({medewerker}) {
                                 setTables(copyTables);
                                 alert("Tafel verwijderd")
                             } else {
-                                return;
+
                             }
                         }}>✖</button>
                         </span>

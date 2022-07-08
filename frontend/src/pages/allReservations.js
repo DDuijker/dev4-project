@@ -44,7 +44,6 @@ export default function AllReservations() {
     }
 
 
-
     const boxes = reservatieItems.map((box, index) => {
         // if the filter is all, show all reservations
         return (
