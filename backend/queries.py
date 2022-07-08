@@ -125,7 +125,7 @@ def add_tables():
 
 def get_reservation():
     qry = '''
-    SELECT reservatie_id as id, aantal_personen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
+    SELECT reservatie_id as id, aantal_personen, aantal_kinderstoelen, tafel_id, date, timeStart, timeEnd, bericht , voorkeur_locatie, voorkeur_verdieping, voorkeur_zitting, voorkeur_vervoer, gebruiker.voornaam, gebruiker.tussenvoegsel, gebruiker.achternaam FROM `reservatie`
     INNER JOIN gebruiker ON gebruiker.gebruiker_id = reservatie.gebruiker_id ORDER BY date, timeStart ASC'''
 
     reservatie_info = DB.all(qry)
@@ -158,7 +158,7 @@ def patch_reservation():
     args = request.json
     print(args)
     qry = '''
-    UPDATE `reservatie` SET aantal_personen = :aantal_personen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting WHERE reservatie_id = :id
+    UPDATE `reservatie` SET aantal_personen = :aantal_personen, aantal_kinderstoelen = :aantal_kinderstoelen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting, voorkeur_vervoer = :voorkeur_vervoer WHERE reservatie_id = :id
     '''
 
     DB.update(qry, args)
@@ -205,44 +205,17 @@ def post_reservation():
     SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
     '''
     # if voorkeuren is not "geen" then add to the query
-    if (args['voorkeur_locatie'] != "geen"):
-        qry += " AND locatie = :voorkeur_locatie"
-
-    elif (args["voorkeur_verdieping"] != "geen"):
-        qry += " AND verdieping = :voorkeur_verdieping"
-
-    elif (args["voorkeur_zitting"] != "geen"):
-        qry += " AND type_zitting = :voorkeur_zitting"
+    if args["voorkeur_locatie"] != "geen":
+        qry += ''' AND tafel.locatie = :voorkeur_locatie'''
+    if args["voorkeur_verdieping"] != "geen":
+        qry += ''' AND tafel.verdieping = :voorkeur_verdieping'''
+    if args["voorkeur_zitting"] != "geen":
+        qry += ''' AND tafel.type_zitting = :voorkeur_zitting'''
 
     # give error message if query returns no results
     if DB.one(qry, args) is None:
-        # do just the normal query without the voorkeuren
-        qry2 = '''
-        SELECT tafel_id FROM `tafel` WHERE tafel.aantal_personen = :aantal_personen
-        '''
-        tafel_id = DB.one(qry2, args)
-        tafel_idINT = int(tafel_id['tafel_id'])
-        args['tafel_id'] = tafel_idINT
-
-        # is a table available?
-        qryAvailability2 = '''
-        SELECT * FROM `reservatie` WHERE tafel_id = :tafel_id  and date = :date and (:timeStart between timeStart and timeEnd)
-        '''
-        tafel_reservatie = DB.all(qryAvailability2, args)
-        if tafel_reservatie:
-            return {
-                "message": "error",
-                "error": "Tafel is niet beschikbaar, kies een andere tijd of datum"
-            }, 404
-
-        # Make the insert query with parameters
-        qryInsert2 = '''
-        INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
-        VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
-        '''
-        # Insert into the database
-        reservatie_id = DB.insert(qryInsert2, args)
-        return {"message": "success2", "id": reservatie_id}, 201
+        return {"message": "error",
+                "error": "Tafel met jouw voorkeuren is niet beschikbaar"}, 404
 
     else:
         tafel_id = DB.one(qry, args)
@@ -265,8 +238,8 @@ def post_reservation():
 
         # Make the insert query with parameters
         qryInsert = '''
-        INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `tijd_van_reservatie`, `tafel_id`)
-        VALUES(:user_id ,:aantal_personen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :tijd_van_reservatie, :tafel_id)
+        INSERT INTO `reservatie`(`gebruiker_id`, `aantal_personen`, `aantal_kinderstoelen`, `date`, `timeStart`, `timeEnd`, `bericht`, `voorkeur_locatie`, `voorkeur_verdieping`, `voorkeur_zitting`, `voorkeur_vervoer`, `tijd_van_reservatie`, `tafel_id`)
+        VALUES(:user_id ,:aantal_personen, :aantal_kinderstoelen, :date, :timeStart, :timeEnd, :text, :voorkeur_locatie, :voorkeur_verdieping, :voorkeur_zitting, :voorkeur_vervoer, :tijd_van_reservatie, :tafel_id)
         '''
 
         # Insert into the database
