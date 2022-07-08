@@ -177,6 +177,8 @@ export function patch_reservation(data) {
   apiUser("reservation", "PATCH", data).then((res) => {
     if (res.message === "success") {
       alert("Reservering aangepast");
+    } else if (res.error) {
+      alert(res.error);
     }
   });
 }
@@ -188,6 +190,7 @@ export function delete_reservation(data) {
   ) {
     apiUser("reservatie", "DELETE", data).then((res) => {
       if (res.message === "success") {
+        alert("Reservering verwijderd");
         alert("Reservering verwijderd");
         //refresh the page
         window.location.href = "/my_reservations";
@@ -257,7 +260,6 @@ function apiUser(endpoint, method = "GET", data = {}) {
 
 function apiStaff(endpoint, method = "GET", data = {}) {
   const API = "http://localhost:5000/";
-  console.log("API:" + API + endpoint);
   return fetch(API + endpoint, {
     method: method,
     mode: "cors",

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import ReservatieBox from "../components/ReservatieBox";
 import "../css/reservations.css";
-import get_tables, {get_reservation_by_table, getCookie} from "../connect_backend";
+import {getCookie} from "../connect_backend";
 
 export default function AllReservations() {
     const [reservatieItems, setReservatieItems] = useState([]);
-    const [tables, setTables] = useState([]);
     const [order, setOrder] = useState("asc");
-    const [tableFilter, setTableFilter] = useState("all");
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState("");
 
     useEffect(function () {
@@ -20,7 +19,6 @@ export default function AllReservations() {
         }
 
         getData();
-        get_tables(setTables);
     }, []);
 
     // if the token is not a staff token, redirect to home
@@ -30,9 +28,7 @@ export default function AllReservations() {
 
 
     // make an option to filter the reservations by date
-    //TODO: sort doesn't work the first time you click on it
     async function sort(event) {
-        console.log(event.target.value);
         setOrder(event.target.value);
         // if the order is asc, sort the reservations by date ascending
         if (order === "asc") {
@@ -47,23 +43,6 @@ export default function AllReservations() {
         }
     }
 
-    //TODO: filter gets an error
-    // moet het in een use effect?
-    function filter(event) {
-        console.log(event.target.value);
-        setTableFilter(event.target.value);
-        // if the table filter is all, show all reservations
-        if (tableFilter === "all") {
-            setReservatieItems([...reservatieItems]);
-        } else if (tableFilter) {
-            console.log("filter", tableFilter);
-            //show only reservations with the selected table
-            get_reservation_by_table(tableFilter, setReservatieItems, setError);
-
-        } else {
-            return null;
-        }
-    }
 
 
     const boxes = reservatieItems.map((box, index) => {
@@ -74,11 +53,6 @@ export default function AllReservations() {
 
     });
 
-    const tables_options = tables.map((box, index) => {
-        return (
-            <option key={index} value={box.tafel_id}>{box.tafel_id}</option>
-        )
-    });
 
     return (
         <div>
@@ -94,17 +68,6 @@ export default function AllReservations() {
                         </option>
                     </select>
                 </div>
-
-                <div onChange={filter}>
-                  <span>
-                    Filter op tafel:
-                </span>
-                    <select id={"tafel"} className={"filter-by-container"} onChange={filter}>
-                        <option value="all">Alle</option>
-                        {tables_options}
-                    </select>
-                </div>
-
             </div>
             <div className={"all-reservations"}>
                 {reservatieItems.length > 0 ? boxes :

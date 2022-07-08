@@ -157,6 +157,10 @@ def get_one_reservation():
 def patch_reservation():
     args = request.json
     print(args)
+    # catch an error
+    if not args['id']:
+        return {"message": "error",
+                "error": "No id"}, 404
     qry = '''
     UPDATE `reservatie` SET aantal_personen = :aantal_personen, aantal_kinderstoelen = :aantal_kinderstoelen, tafel_id = :tafel_id, date = :date, timeStart = :timeStart, timeEnd = :timeEnd, bericht = :bericht, voorkeur_locatie = :voorkeur_locatie, voorkeur_verdieping = :voorkeur_verdieping, voorkeur_zitting = :voorkeur_zitting, voorkeur_vervoer = :voorkeur_vervoer WHERE reservatie_id = :id
     '''
