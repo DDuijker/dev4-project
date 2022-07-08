@@ -20,7 +20,7 @@ export default function Reservation({ loggedIn }) {
     //check if the form is filled
     event.preventDefault();
     if (event.target.date.value === "") {
-      alert("Vul alle velden in");
+      alert("Vul een datum in");
       return;
     }
 
@@ -53,6 +53,7 @@ export default function Reservation({ loggedIn }) {
     //get data from the form
     let data = {
       aantal_personen: event.target.personen.value,
+      aantal_kinderstoelen: event.target.kinderstoelen.value,
       date: dateString,
       timeStart: timeStart,
       timeEnd: timeEnd,
@@ -60,6 +61,7 @@ export default function Reservation({ loggedIn }) {
       voorkeur_locatie: event.target.locaties.value,
       voorkeur_verdieping: event.target.verdiepingen.value,
       voorkeur_zitting: event.target.stoelen.value,
+      voorkeur_vervoer: event.target.vervoer.value,
       tijd_van_reservatie: new Date(),
     };
 
@@ -86,6 +88,14 @@ export default function Reservation({ loggedIn }) {
             <option value={8}>8 personen</option>
             <option value={10}>10 personen</option>
           </select>
+          <select id={"kinderstoelen"} className={"dropdown"}>
+            <option value={0}>Geen kinderstoelen</option>
+            <option value={1}>1 stoel</option>
+            <option value={2}>2 stoelen</option>
+            <option value={3}>3 stoelen</option>
+            <option value={4}>4 stoelen</option>
+            <option value={5}>5 stoelen</option>
+          </select>
           <input id="datePicker" type="datetime-local" name="date" />
           <input type="text-area" name="text" placeholder="bericht" />
         </div>
@@ -108,6 +118,11 @@ export default function Reservation({ loggedIn }) {
             <option value={"geen"}>Geen</option>
             <option value={"stoel"}>Stoel</option>
             <option value={"bank"}>Bank</option>
+          </select>
+          <label>Vervoer:</label>
+          <select id={"vervoer"} className={"dropdown"}>
+            <option value={"nee"}>nee</option>
+            <option value={"ja"}>ja</option>
           </select>
         </div>
         <div className={"error-text"}>{error}</div>
