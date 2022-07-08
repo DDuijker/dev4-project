@@ -34,14 +34,15 @@ def my_reservations():
 def get_one_table():
     args = request.json
     print(args)
-    qry = '''SELECT * FROM `tafel` WHERE tafel_id = :id'''
+    if args['id']:
+        qry = '''SELECT * FROM `tafel` WHERE tafel_id = :id'''
 
-    table = DB.one(qry, args)
+        table = DB.all(qry, args)
 
     return {
-        "message": "success",
-        "table": table
-    }, 201
+               "message": "success",
+               "table": table
+           }, 201
 
 
 def tables():
@@ -61,14 +62,22 @@ def tables():
 
 def delete_tables():
     args = request.json
-    print(args)
+
+    # check if the table has any reservations
     qry = '''
-    DELETE FROM `tafel` WHERE tafel_id = :id
+    SELECT * FROM `reservatie` WHERE tafel_id = :id
     '''
 
-    DB.delete(qry, args)
-
-    return {"message": "success"}, 200
+    reservation = DB.all(qry, args)
+    if reservation:
+        return {"message": "error",
+                "error": "Table has reservations"}, 404
+    else:
+        qry = '''
+        DELETE FROM `tafel` WHERE tafel_id = :id
+        '''
+        DB.delete(qry, args)
+        return {"message": "success"}, 200
 
 
 def patch_tables():
@@ -139,6 +148,8 @@ def get_reservation():
 
 def get_one_reservation():
     # get argument from url
+    print(request.args)
+    print(request.method)
     args = request.json
 
     print(args)
@@ -147,8 +158,12 @@ def get_one_reservation():
         SELECT * FROM `reservatie` WHERE tafel_id = :id
         '''
         reservation = DB.one(qry, args)
-        return {"message": "success",
-                "reservation": reservation}, 200
+        if reservation:
+            return {"message": "success",
+                    "reservation": reservation}, 200
+        else:
+            return {"message": "error",
+                    "error": "No reservation found"}, 404
     else:
         return {"message": "error",
                 "error": "No id"}, 404
@@ -180,6 +195,7 @@ def patch_reservation():
 def delete_reservation():
     args = request.json
     print(args)
+
     qry = '''
     DELETE FROM `reservatie` WHERE reservatie_id = :id
     '''

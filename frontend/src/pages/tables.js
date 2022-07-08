@@ -45,7 +45,7 @@ export default function Tables({medewerker}) {
                             //check if the user wants to delete the table
                             if (window.confirm("Weet je zeker dat je deze tafel wilt verwijderen?")) {
                                 //make tafel_id a string
-                                const tafel_id = table.tafel_id.toString();
+                                const tafel_id = table.tafel_id
                                 delete_table(tafel_id);
                                 const copyTables = [...tables];
                                 copyTables.splice(index, 1);

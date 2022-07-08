@@ -26,6 +26,7 @@ app.add_url_rule('/reservatie', None, reservatie, methods=["GET", "PATCH", "DELE
 app.add_url_rule('/tables', None, tables, methods=["GET", "POST", "PATCH", "DELETE"])
 app.add_url_rule('/reservations/table/:id', None, get_one_reservation, methods=["GET"])
 app.add_url_rule('/get_one_table', None, get_one_table, methods=["GET"])
+app.add_url_rule('/get_one_reservation', None, get_one_reservation, methods=["GET"])
 
 
 @app.before_request
