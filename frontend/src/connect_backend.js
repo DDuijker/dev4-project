@@ -167,10 +167,6 @@ export function reservation(data) {
   apiUser("reservation", "POST", data).then((res) => {
     if (res.message === "success") {
       alert("Reservering aangemaakt");
-    } else if (res.message === "success2") {
-      alert(
-        "Reservering aangemaakt, we hebben geen tafel met jouw voorkeuren. Je hebt een andere gekregen."
-      );
     } else if (res.error) {
       alert(res.error);
     }
