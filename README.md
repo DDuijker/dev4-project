@@ -1,4 +1,4 @@
-dev4-project
+GitPub
 
 In dit project is een fullstack applicatie voor Development 4, eerste jaar HBO-ICT.
 Dit project is gemaakt met Python en Flask als backend. Voor de frontend is React gebruikt.
